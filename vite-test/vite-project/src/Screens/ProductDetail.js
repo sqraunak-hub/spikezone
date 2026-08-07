@@ -204,7 +204,7 @@ const ProductDetail = () => {
         {product.image1 && (
           <meta property="og:image" content={product.image1} />
         )}
-        <link rel="canonical" href={`https://birdspikes.in/products/${slug}`} />
+        <link rel="canonical" href={`https://spikezone.in/products/${slug}`} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={product.title} />
         <meta name="twitter:description" content={product.short_desc} />

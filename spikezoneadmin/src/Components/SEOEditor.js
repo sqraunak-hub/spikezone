@@ -195,7 +195,7 @@ const SEOEditor = () => {
                   name="canonical_url"
                   value={formData.canonical_url}
                   onChange={handleInputChange}
-                  placeholder="https://birdspikes.in/products"
+                  placeholder="https://spikezone.in/products"
                 />
                 <div className="seo-help">
                   <FaInfoCircle /> {FIELD_HELP.canonical_url}
@@ -209,7 +209,7 @@ const SEOEditor = () => {
                   name="og_image"
                   value={formData.og_image}
                   onChange={handleInputChange}
-                  placeholder="https://birdspikes.in/media/share-banner.jpg"
+                  placeholder="https://spikezone.in/media/share-banner.jpg"
                 />
                 <div className="seo-help">
                   <FaInfoCircle /> {FIELD_HELP.og_image}
@@ -264,7 +264,7 @@ const SEOEditor = () => {
 
             <div className="google-preview">
               <div className="gp-url">
-                {formData.canonical_url || "https://birdspikes.in/…"}
+                {formData.canonical_url || "https://spikezone.in/…"}
               </div>
               <div className="gp-title">
                 {formData.title || "Page title will appear here"}

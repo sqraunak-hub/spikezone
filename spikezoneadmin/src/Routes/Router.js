@@ -50,7 +50,7 @@ export default function Router() {
   };
 
   return (
-    <BrowserRouter basename="/admin.spikezone.in">
+    <BrowserRouter basename={process.env.REACT_APP_BASENAME || "/"}>
       {isLoggedIn && <Header onLogout={handleLogout} />}{" "}
       {/* Show Header if logged in */}
       <Routes>

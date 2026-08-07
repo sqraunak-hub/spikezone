@@ -3,7 +3,7 @@
 
 const stripTrailingSlash = (url) => (url || "").replace(/\/+$/, "");
 
-// Base host of the Django API, e.g. http://127.0.0.1:8001 or https://birdspikes.in
+// Base host of the Django API, e.g. http://127.0.0.1:8001 or https://api.spikezone.in
 export const API_HOST = stripTrailingSlash(
   process.env.REACT_APP_API_HOST || "http://127.0.0.1:8001"
 );
