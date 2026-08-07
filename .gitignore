@@ -1,0 +1,27 @@
+# dependencies
+node_modules/
+venv/
+env/
+
+# python
+__pycache__/
+*.pyc
+*.pyo
+db.sqlite3
+
+# builds
+build/
+dist/
+.vite/
+
+# env & secrets
+.env
+.env.local
+
+# misc
+.DS_Store
+Thumbs.db
+npm-debug.log*
+
+# old nested git backup
+.git-old-szapi-backup/

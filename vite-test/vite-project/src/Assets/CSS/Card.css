@@ -1,0 +1,141 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+.sz-pcard {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #ffffff;
+  border: 1px solid #e7eef2;
+  border-radius: 16px;
+  overflow: hidden;
+  text-decoration: none !important;
+  font-family: "Poppins", sans-serif;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.sz-pcard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 14px 34px rgba(4, 49, 65, 0.13);
+  border-color: transparent;
+}
+
+.sz-pcard-imgwrap {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  background: #f6fafc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.sz-pcard-imgwrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 0.9rem;
+  transition: transform 0.35s ease;
+}
+.sz-pcard:hover .sz-pcard-imgwrap img {
+  transform: scale(1.06);
+}
+
+.sz-pcard-badge,
+.sz-pcard-best {
+  position: absolute;
+  top: 10px;
+  z-index: 2;
+  font-size: 0.72rem;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 3px 10px;
+  color: #fff;
+}
+.sz-pcard-badge {
+  left: 10px;
+  background: #1a9e5c;
+}
+.sz-pcard-best {
+  right: 10px;
+  background: #ff8a00;
+}
+
+.sz-pcard-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 0.9rem 1rem 1rem 1rem;
+  gap: 0.3rem;
+}
+.sz-pcard-cat {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: #1e9dcd;
+}
+.sz-pcard-title {
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: #043141;
+  margin: 0;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 2.7em;
+}
+.sz-pcard-rating {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.sz-pcard-rating span {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #5b6b73;
+}
+.sz-pcard-desc {
+  font-size: 0.79rem;
+  color: #6b7c85;
+  line-height: 1.45;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.sz-pcard-pricerow {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 0.5rem;
+}
+.sz-pcard-price {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #043141;
+}
+.sz-pcard-mrp {
+  font-size: 0.85rem;
+  color: #98a6ad;
+  text-decoration: line-through;
+}
+.sz-pcard-btn {
+  margin-top: 0.55rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #1e9dcd;
+  color: #ffffff;
+  font-size: 0.88rem;
+  font-weight: 600;
+  border-radius: 10px;
+  padding: 0.6rem 1rem;
+  transition: background 0.2s ease, gap 0.2s ease;
+}
+.sz-pcard:hover .sz-pcard-btn {
+  background: #157ba3;
+  gap: 12px;
+}

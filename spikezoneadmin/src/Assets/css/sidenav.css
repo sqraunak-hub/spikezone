@@ -1,0 +1,84 @@
+/* dark sidebar theme */
+.adm-sidebar {
+  border-right: none !important;
+}
+.ps-sidebar-container {
+  background-color: #043141 !important;
+  box-shadow: 4px 0 18px rgba(4, 49, 65, 0.18) !important;
+}
+
+.adm-side-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px 10px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 8px;
+}
+.adm-side-title {
+  color: #ffffff;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.sidebar-collapse {
+  background: transparent;
+  border: none;
+  font-size: 26px;
+  line-height: 1;
+  padding: 0;
+}
+.sidebar-collapse svg {
+  color: #1e9dcd;
+}
+
+.sidebar-menu-head {
+  margin: 14px 0 4px 18px;
+  color: #6f93a3;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 1.6px;
+  font-weight: 700;
+}
+
+.ps-menu-icon {
+  font-size: 1.15em !important;
+}
+.ps-menu-icon svg {
+  color: #7fc6e4;
+}
+
+.ps-menu-label {
+  color: #c9dde7;
+  font-weight: 500;
+  font-size: 0.88rem;
+}
+
+.ps-menu-button {
+  height: 42px !important;
+}
+.ps-menu-button:hover {
+  background-color: rgba(30, 157, 205, 0.16) !important;
+}
+
+/* active item */
+.ps-menu-button.ps-active {
+  background: linear-gradient(90deg, rgba(30, 157, 205, 0.35), rgba(30, 157, 205, 0.08)) !important;
+  border-left: 3px solid #1e9dcd;
+}
+.ps-menu-button.ps-active .ps-menu-label {
+  color: #ffffff;
+  font-weight: 600;
+}
+.ps-menu-button.ps-active .ps-menu-icon svg {
+  color: #ffffff;
+}
+
+/* submenu panel */
+.ps-submenu-content {
+  background-color: #032836 !important;
+}
+
+.main-content {
+  width: 100%;
+}

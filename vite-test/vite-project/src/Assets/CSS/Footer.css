@@ -1,0 +1,384 @@
+/* ================= SpikeZone animated footer ================= */
+.sz-footer {
+  position: relative;
+  overflow: hidden;
+  color: #dcedf5;
+  background: linear-gradient(135deg, #032836 0%, #06506e 55%, #1181ad 100%);
+  font-family: "Poppins", sans-serif;
+}
+
+/* ---------- top wave ---------- */
+.sz-footer-wave {
+  line-height: 0;
+}
+.sz-footer-wave svg {
+  display: block;
+  width: 100%;
+  height: 70px;
+}
+
+/* ---------- animated background layer ---------- */
+.sz-footer-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* soft gradient blobs */
+.sz-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.5;
+}
+.sz-blob-1 {
+  width: 340px;
+  height: 340px;
+  left: -90px;
+  top: 30%;
+  background: radial-gradient(circle, #1e9dcd 0%, transparent 70%);
+  animation: sz-float 9s ease-in-out infinite;
+}
+.sz-blob-2 {
+  width: 300px;
+  height: 300px;
+  right: -60px;
+  top: 10%;
+  background: radial-gradient(circle, #ff8a00 0%, transparent 70%);
+  opacity: 0.32;
+  animation: sz-float 12s ease-in-out infinite reverse;
+}
+.sz-blob-3 {
+  width: 260px;
+  height: 260px;
+  left: 42%;
+  bottom: -80px;
+  background: radial-gradient(circle, #22c1e8 0%, transparent 70%);
+  opacity: 0.35;
+  animation: sz-float 10s 2s ease-in-out infinite;
+}
+
+/* outline rings */
+.sz-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.14);
+}
+.sz-ring-1 {
+  width: 150px;
+  height: 150px;
+  right: 12%;
+  bottom: 18%;
+  animation: sz-spin-drift 18s linear infinite;
+}
+.sz-ring-2 {
+  width: 70px;
+  height: 70px;
+  left: 24%;
+  top: 22%;
+  border-color: rgba(255, 138, 0, 0.28);
+  animation: sz-float 7s ease-in-out infinite;
+}
+
+/* small glowing dots */
+.sz-dot {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #7fd4f2;
+  box-shadow: 0 0 12px 2px rgba(127, 212, 242, 0.7);
+  animation: sz-pulse 3.5s ease-in-out infinite;
+}
+.sz-dot-1 {
+  left: 12%;
+  bottom: 30%;
+}
+.sz-dot-2 {
+  right: 28%;
+  top: 30%;
+  background: #ffb257;
+  box-shadow: 0 0 12px 2px rgba(255, 178, 87, 0.7);
+  animation-delay: 1.2s;
+}
+.sz-dot-3 {
+  left: 55%;
+  top: 16%;
+  width: 7px;
+  height: 7px;
+  animation-delay: 2.1s;
+}
+
+/* flying birds */
+.sz-bird {
+  position: absolute;
+  width: 46px;
+  height: 24px;
+  color: rgba(255, 255, 255, 0.35);
+  animation: sz-fly 22s linear infinite, sz-flap 0.9s ease-in-out infinite alternate;
+}
+.sz-bird-1 {
+  top: 14%;
+}
+.sz-bird-2 {
+  top: 26%;
+  width: 30px;
+  animation-duration: 30s, 0.8s;
+  animation-delay: 6s, 0s;
+  color: rgba(255, 255, 255, 0.22);
+}
+.sz-bird-3 {
+  top: 8%;
+  width: 22px;
+  animation-duration: 26s, 0.7s;
+  animation-delay: 14s, 0.2s;
+  color: rgba(255, 255, 255, 0.18);
+}
+
+/* spike silhouette at the very bottom */
+.sz-spikes {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 26px;
+  color: rgba(3, 30, 41, 0.55);
+}
+
+/* ---------- keyframes ---------- */
+@keyframes sz-float {
+  0%,
+  100% {
+    transform: translateY(0) translateX(0);
+  }
+  50% {
+    transform: translateY(-26px) translateX(14px);
+  }
+}
+@keyframes sz-spin-drift {
+  0% {
+    transform: rotate(0deg) translateY(0);
+  }
+  50% {
+    transform: rotate(180deg) translateY(-18px);
+  }
+  100% {
+    transform: rotate(360deg) translateY(0);
+  }
+}
+@keyframes sz-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.7);
+    opacity: 0.35;
+  }
+}
+@keyframes sz-fly {
+  0% {
+    left: -6%;
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateY(-14px);
+  }
+  50% {
+    transform: translateY(4px);
+  }
+  75% {
+    transform: translateY(-10px);
+  }
+  100% {
+    left: 106%;
+    transform: translateY(0);
+  }
+}
+@keyframes sz-flap {
+  from {
+    scale: 1 1;
+  }
+  to {
+    scale: 1 0.68;
+  }
+}
+
+/* respect reduced-motion users */
+@media (prefers-reduced-motion: reduce) {
+  .sz-blob,
+  .sz-ring,
+  .sz-dot,
+  .sz-bird {
+    animation: none;
+  }
+}
+
+/* ---------- content ---------- */
+.sz-footer-content {
+  position: relative;
+  z-index: 1;
+  padding-bottom: 1rem;
+  text-align: left;
+}
+
+.footer-logo {
+  display: block;
+  background: #ffffff;
+  border-radius: 12px;
+  max-width: 150px;
+  height: auto;
+  padding: 6px 10px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+
+.sz-footer-head {
+  color: #ffffff;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+  position: relative;
+  display: inline-block;
+  padding-bottom: 6px;
+}
+.sz-footer-head::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 34px;
+  height: 3px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #ff8a00, #1e9dcd);
+}
+
+.sz-footer-about {
+  font-size: 0.85rem;
+  line-height: 1.7;
+  color: #b9d8e6;
+  max-width: 340px;
+}
+
+/* social buttons */
+.sz-socials {
+  display: flex;
+  gap: 10px;
+  margin-top: 1rem;
+}
+.sz-social-btn {
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+  font-size: 0.9rem;
+  transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+}
+.sz-social-btn:hover {
+  background: #ff8a00;
+  color: #ffffff;
+  transform: translateY(-4px) scale(1.06);
+  box-shadow: 0 8px 18px rgba(255, 138, 0, 0.4);
+}
+
+/* link lists */
+.sz-footer-links,
+.sz-footer-contact {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.sz-footer-links li {
+  margin-bottom: 0.65rem;
+}
+.sz-footer-links a {
+  color: #b9d8e6;
+  text-decoration: none;
+  font-size: 0.88rem;
+  position: relative;
+  transition: color 0.2s ease, padding-left 0.25s ease;
+}
+.sz-footer-links a::before {
+  content: "›";
+  position: absolute;
+  left: -2px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  color: #ff8a00;
+}
+.sz-footer-links a:hover {
+  color: #ffffff;
+  padding-left: 14px;
+}
+.sz-footer-links a:hover::before {
+  opacity: 1;
+}
+.sz-footer-more {
+  font-weight: 600;
+  color: #7fd4f2 !important;
+}
+
+/* contact list */
+.sz-footer-contact li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 0.8rem;
+  font-size: 0.88rem;
+  color: #b9d8e6;
+}
+.sz-footer-contact svg {
+  margin-top: 3px;
+  color: #ffb257;
+  flex-shrink: 0;
+}
+.sz-footer-contact a {
+  color: #b9d8e6;
+  text-decoration: none;
+}
+.sz-footer-contact a:hover {
+  color: #ffffff;
+}
+
+/* bottom bar */
+.sz-footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  margin-top: 1.5rem;
+  padding: 1.1rem 0 1.6rem 0;
+}
+.sz-rzp {
+  max-height: 38px;
+  border-radius: 6px;
+}
+.sz-copy {
+  font-size: 0.85rem;
+  color: #9cc4d6;
+}
+.sz-copy a {
+  color: #ffffff;
+  font-weight: 600;
+  text-decoration: none;
+}
+.sz-copy a:hover {
+  color: #ffb257;
+}
+
+@media (max-width: 576px) {
+  .sz-footer-bottom {
+    justify-content: center;
+    text-align: center;
+  }
+}

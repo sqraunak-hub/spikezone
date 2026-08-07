@@ -1,0 +1,165 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap");
+
+:root {
+  --adm-primary: #1e9dcd;
+  --adm-primary-dark: #157ba3;
+  --adm-dark: #043141;
+  --adm-bg: #f4f7f9;
+  --adm-card: #ffffff;
+  --adm-border: #e5edf1;
+  --adm-text: #2e3f48;
+  --adm-muted: #7b8c96;
+  --adm-green: #1a9e5c;
+  --adm-orange: #ff8a00;
+  --adm-red: #e11d48;
+  --adm-radius: 14px;
+}
+
+body {
+  background: var(--adm-bg) !important;
+  font-family: "Poppins", sans-serif !important;
+  color: var(--adm-text);
+}
+
+/* main content area next to the sidebar */
+.main-content {
+  flex: 1;
+  min-height: 100vh;
+  padding: 1.2rem 1.6rem 2.5rem 1.6rem;
+  background: var(--adm-bg);
+  overflow-x: auto;
+}
+
+/* ---------- generic card container used by screens ---------- */
+.cat-container,
+.adm-card {
+  background: var(--adm-card) !important;
+  border: 1px solid var(--adm-border);
+  border-radius: var(--adm-radius) !important;
+  padding: 1.4rem !important;
+  box-shadow: 0 4px 18px rgba(4, 49, 65, 0.05) !important;
+}
+.cat-container h3,
+.adm-card h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--adm-dark);
+}
+
+/* ---------- tables ---------- */
+.table {
+  border-radius: 10px;
+  overflow: hidden;
+  font-size: 0.88rem;
+  vertical-align: middle;
+}
+.table thead th {
+  background: var(--adm-dark) !important;
+  color: #fff !important;
+  font-weight: 600;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  border: none !important;
+  padding: 0.8rem 0.75rem;
+}
+.table tbody td {
+  vertical-align: middle;
+  color: var(--adm-text);
+}
+.table tbody img {
+  border-radius: 8px;
+  object-fit: contain;
+  background: #f6fafc;
+}
+
+/* ---------- buttons ---------- */
+.btn {
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+  font-size: 0.85rem !important;
+}
+.btn-primary {
+  background: var(--adm-primary) !important;
+  border-color: var(--adm-primary) !important;
+}
+.btn-primary:hover {
+  background: var(--adm-primary-dark) !important;
+}
+
+/* ---------- forms ---------- */
+.form-control,
+.form-select {
+  border-radius: 8px !important;
+  border-color: #d8e4ea !important;
+  font-size: 0.9rem !important;
+}
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--adm-primary) !important;
+  box-shadow: 0 0 0 3px rgba(30, 157, 205, 0.15) !important;
+}
+.form-label {
+  font-weight: 500;
+  font-size: 0.85rem;
+  color: var(--adm-dark);
+}
+
+/* ---------- modals ---------- */
+.modal-content {
+  border-radius: 14px !important;
+  border: none !important;
+}
+.modal-header {
+  background: var(--adm-dark);
+  color: #fff;
+  border-radius: 14px 14px 0 0 !important;
+}
+.modal-header .btn-close {
+  filter: invert(1);
+}
+
+/* ---------- status badges ---------- */
+.adm-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 4px 12px;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+.adm-badge.pending {
+  background: #fff4e5;
+  color: #b46900;
+}
+.adm-badge.shipped {
+  background: #e5f2ff;
+  color: #0b66c2;
+}
+.adm-badge.delivered,
+.adm-badge.completed {
+  background: #e7f8ef;
+  color: var(--adm-green);
+}
+.adm-badge.cancelled,
+.adm-badge.failed {
+  background: #fdecec;
+  color: var(--adm-red);
+}
+.adm-badge.refunded {
+  background: #f1e9fd;
+  color: #7c3aed;
+}
+
+/* small icon action buttons in tables */
+.adm-action-btn {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px !important;
+  padding: 0 !important;
+  margin-right: 6px;
+}

@@ -1,0 +1,154 @@
+.modern-gallery-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.modern-gallery-title {
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #333;
+}
+
+.modern-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.modern-gallery-item {
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 5px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: #fff;
+}
+
+.modern-gallery-item:hover {
+  transform: scale(1.03);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.modern-gallery-img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+  border-bottom: 1px solid #eee;
+}
+
+.modern-gallery-caption {
+  padding: 0.75rem;
+  text-align: center;
+  background-color: #f9f9f9;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.lightbox-caption {
+  padding: 16px;
+  text-align: center;
+  max-width: 90%;
+  margin: 0 auto;
+  color: #fff;
+  word-wrap: break-word;
+}
+
+.lightbox-caption h3 {
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.lightbox-caption p {
+  font-size: 1rem;
+  line-height: 1.4;
+  color: #ddd;
+}
+
+/* Ensure the lightbox image is fully responsive */
+.yarl__slide_image {
+  max-width: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+  margin: 0 auto;
+}
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+  .lightbox-caption {
+    padding: 12px;
+  }
+
+  .lightbox-caption h3 {
+    font-size: 1.2rem;
+  }
+
+  .lightbox-caption p {
+    font-size: 0.9rem;
+  }
+
+  .yarl__slide_image {
+    max-height: 60vh;
+  }
+}
+
+.yarl__slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Custom Lightbox Slide */
+.custom-slide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  color: white;
+  text-align: center;
+}
+
+.custom-slide-img {
+  max-width: 100%;
+  max-height: 60vh;
+  object-fit: contain;
+  margin-bottom: 20px;
+}
+
+.custom-slide-caption h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.custom-slide-caption p {
+  font-size: 1rem;
+  color: #ccc;
+  line-height: 1.4;
+}
+
+/* Mobile Optimization */
+@media (max-width: 600px) {
+  .custom-slide {
+    padding: 10px;
+  }
+
+  .custom-slide-img {
+    max-height: 50vh;
+  }
+
+  .custom-slide-caption h3 {
+    font-size: 1.2rem;
+  }
+
+  .custom-slide-caption p {
+    font-size: 0.95rem;
+  }
+}

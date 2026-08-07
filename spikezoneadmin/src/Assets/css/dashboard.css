@@ -1,0 +1,223 @@
+.dash-wrap {
+  font-family: "Poppins", sans-serif;
+}
+
+.dash-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.2rem;
+}
+.dash-title {
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: #043141;
+  margin: 0;
+}
+.dash-sub {
+  margin: 2px 0 0 0;
+  font-size: 0.85rem;
+  color: #7b8c96;
+}
+
+/* ---------- stat cards ---------- */
+.dash-stats {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+}
+.dash-stat {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #ffffff;
+  border: 1px solid #e5edf1;
+  border-radius: 14px;
+  padding: 1rem 1.1rem;
+  text-decoration: none !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
+}
+.dash-stat:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 26px rgba(4, 49, 65, 0.12);
+}
+.dash-stat-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  flex-shrink: 0;
+  color: #fff;
+}
+.dash-stat.blue .dash-stat-icon {
+  background: linear-gradient(135deg, #1e9dcd, #157ba3);
+}
+.dash-stat.green .dash-stat-icon {
+  background: linear-gradient(135deg, #22c383, #14855a);
+}
+.dash-stat.purple .dash-stat-icon {
+  background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+}
+.dash-stat.orange .dash-stat-icon {
+  background: linear-gradient(135deg, #ffa733, #f07c00);
+}
+.dash-stat.red .dash-stat-icon {
+  background: linear-gradient(135deg, #fb6f8e, #dc2650);
+}
+.dash-stat p {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #7b8c96;
+}
+.dash-stat h4 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #043141;
+  white-space: nowrap;
+}
+.dash-stat-arrow {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  font-size: 0.8rem;
+  color: #c3d4dc;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+.dash-stat:hover .dash-stat-arrow {
+  color: #1e9dcd;
+  transform: translateX(4px);
+}
+
+@media (max-width: 1200px) {
+  .dash-stats {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 768px) {
+  .dash-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 480px) {
+  .dash-stats {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- cards ---------- */
+.dash-card {
+  background: #ffffff;
+  border: 1px solid #e5edf1;
+  border-radius: 14px;
+  padding: 1.2rem 1.3rem;
+  box-shadow: 0 4px 18px rgba(4, 49, 65, 0.05);
+  height: 100%;
+}
+.dash-card h6 {
+  font-weight: 700;
+  color: #043141;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+.dash-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+.dash-card-head h6 {
+  margin-bottom: 0;
+}
+.dash-link {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #1e9dcd;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.dash-link:hover {
+  color: #157ba3;
+}
+
+.dash-empty {
+  padding: 2.5rem 1rem;
+  text-align: center;
+  color: #9db0ba;
+  font-size: 0.88rem;
+  background: #f8fbfc;
+  border-radius: 10px;
+}
+
+/* ---------- recent orders table ---------- */
+.dash-table {
+  font-size: 0.85rem;
+}
+.dash-table thead th {
+  background: #f4f8fa !important;
+  color: #5b6b73 !important;
+  font-size: 0.72rem !important;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  border: none !important;
+}
+
+/* ---------- messages ---------- */
+.dash-msgs {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.9rem;
+}
+.dash-msg {
+  display: flex;
+  gap: 12px;
+  background: #f8fbfc;
+  border: 1px solid #eef3f6;
+  border-radius: 12px;
+  padding: 0.85rem 1rem;
+}
+.dash-msg-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #1e9dcd;
+  color: #fff;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.dash-msg strong {
+  font-size: 0.88rem;
+  color: #043141;
+  margin-right: 8px;
+}
+.dash-msg-mail {
+  font-size: 0.75rem;
+  color: #7b8c96;
+}
+.dash-msg p {
+  margin: 4px 0 0 0;
+  font-size: 0.82rem;
+  color: #5b6b73;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+@media (max-width: 768px) {
+  .dash-msgs {
+    grid-template-columns: 1fr;
+  }
+}

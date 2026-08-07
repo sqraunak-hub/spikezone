@@ -1,0 +1,100 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap");
+
+.items-center {
+  /* align-items: center; */
+}
+
+ul {
+  list-style: none;
+}
+
+.nav-wrapper {
+  gap: 1.9em;
+  font-weight: 500;
+  font-size: 1.15em;
+}
+.item-container {
+  padding-left: 5em;
+  padding-right: 5em;
+}
+.cat-and-drop {
+  gap: 10em;
+  justify-content: space-between;
+}
+body {
+  align-items: center;
+}
+.cat-bar-full {
+  height: 60px;
+  align-items: center;
+  display: flex;
+  background: #1e9dcd;
+  color: white;
+  text-align: center;
+  align-content: center;
+  padding-top: 1em;
+}
+
+.drop-btn {
+  background: white;
+  border: none;
+  padding: 10px 25px 10px 25px;
+  font-size: 18px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.dropdown-menu {
+  display: none;
+  opacity: 0;
+  transform: scaleY(0);
+  transition: transform 0.3s;
+  animation: fadeInDown 0.3s ease-in-out;
+  width: 100%;
+  border-radius: 0;
+  border: 1px solid #ededed;
+  font-size: 15px;
+}
+
+@keyframes fadeInDown {
+  0% {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.dropdown:hover .dropdown-menu {
+  opacity: 1;
+  transform: scaleY(1);
+  display: block;
+}
+.seller-btn {
+  background-color: black;
+  color: white;
+  font-weight: 500;
+  border: none;
+  font-size: 17px;
+  transition: ease 0.1s;
+  font-family: "Poppins", sans-serif;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-right: 10px;
+  padding-left: 10px;
+  border-radius: 3px;
+}
+.seller-btn:hover {
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+}
+.cat-bar-link {
+  color: white;
+  text-decoration: none;
+  transition: 0.2s;
+}
+.cat-bar-link:hover {
+  opacity: 0.5;
+}

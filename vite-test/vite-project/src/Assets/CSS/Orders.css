@@ -1,0 +1,94 @@
+.custom-order-card {
+  border: 0.2px solid #cfcfcfe7 !important;
+  border-radius: 1rem;
+  transition: box-shadow 0.3s ease;
+  overflow: hidden;
+  padding: 1em;
+}
+
+.custom-order-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.custom-order-card .order-img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+}
+
+.custom-order-card .order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.custom-order-card .order-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 0.25rem;
+}
+
+.custom-order-card .order-id {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+.custom-order-card .order-price {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #111827;
+  text-align: right;
+}
+
+.custom-order-card .order-qty {
+  font-size: 0.85rem;
+  color: #6b7280;
+  text-align: right;
+}
+
+.custom-order-card .order-date {
+  font-size: 0.875rem;
+  color: #4b5563;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-top: 0.5rem;
+}
+
+.custom-order-card .order-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  border-radius: 999px;
+  margin-top: 0.75rem;
+  border: 1px solid;
+}
+
+.status-pending {
+  background-color: #fff7ed;
+  color: #c2410c;
+  border-color: #fcd34d;
+}
+
+.status-delivered {
+  background-color: #ecfdf5;
+  color: #065f46;
+  border-color: #a7f3d0;
+}
+
+.status-payment-pending {
+  background-color: #fef2f2;
+  color: #991b1b;
+  border-color: #fecaca;
+}
+
+.custom-order-card .order-actions {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.5rem;
+}

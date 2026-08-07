@@ -1,0 +1,80 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+.main-container {
+  font-family: "Poppins", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+.order-details-container,
+.review-form-container {
+  border: 0.2px solid #e5e7eb !important;
+  border-radius: 13px;
+  padding: 3em;
+}
+
+.submit-review-btn {
+  background-color: #000000;
+  color: white;
+  border-radius: 8px;
+  padding: 0.5em 1.5em;
+  font-size: 1.2em;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.submit-review-btn:hover {
+  background-color: #333333;
+  color: white;
+  transform: scale(1.05);
+}
+
+.submit-review-btn:disabled {
+  opacity: 0.5;
+}
+
+.space-y-4 > * + * {
+  margin-top: 1rem;
+}
+
+.text-xl {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+.font-semibold {
+  font-weight: 600;
+}
+.font-medium {
+  font-weight: 500;
+}
+.mt-1 {
+  margin-top: 0.25rem;
+}
+
+.flex {
+  display: flex;
+}
+.flex-col {
+  flex-direction: column;
+}
+.items-center {
+  align-items: center;
+}
+.gap-2 {
+  gap: 0.5rem;
+}
+.text-sm {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.h-4 {
+  height: 1rem;
+}
+.w-4 {
+  width: 1rem;
+}
+
+.text-muted-foreground {
+  color: #6b7280; /* Example muted gray */
+}

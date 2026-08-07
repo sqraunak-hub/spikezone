@@ -1,0 +1,71 @@
+body{
+    background-color: #f5f5f5;
+}
+
+.plus-icon{
+    color: #fff!important;
+}
+
+.cat-input, input[type="text"], select{
+    width: 100%;
+    border: none;
+    background: #f5f5f5;
+    padding: 8px 8px 8px 8px;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: 600;
+}
+.cat-input:focus{
+    outline: none;
+}
+.cat-label, .product-label{
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #808080;
+}
+.cat-submit{
+    background: #fff;
+    font-size: 1.2em;
+    color: #1e9dcd;
+    border: 2px solid #1e9dcd;
+    padding: 10px 10px 10px 10px;
+    font-weight: 600;
+    border-radius: 7px;
+}
+
+.cat-submit:hover{
+    color: #fff;
+    background-color: #1e9dcd;
+    transition: 0.3s;
+}
+
+.cat-form-container, .cat-container{
+    padding: 25px 25px 25px 25px;
+    border-radius: 10px;
+    background-color: #fff;
+}
+.image-label{
+    width: 100%;
+    border: none;
+    background: #ececed;
+    padding: 8px 8px 8px 8px;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: 600;
+}
+.img-input{
+    /* display: none; */
+}
+.product-label{
+    width: 100%;
+}
+
+.cat-form-container{
+    animation-name: myanimation;
+    animation-duration: 10s;
+}
+
+@keyframes myanimation{
+    from{height: 0;}
+    to{height: 100%;}
+}

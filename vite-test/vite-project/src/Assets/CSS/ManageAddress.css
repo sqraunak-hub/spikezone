@@ -1,0 +1,86 @@
+.hover-shadow {
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.hover-shadow:hover {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+.card {
+  border-radius: 10px;
+  border: none;
+}
+
+.add-dlt-btn {
+  background-color: rgb(200, 43, 43);
+  color: #fff;
+  border-radius: 5px;
+  border: none;
+  font-size: 1.2em;
+  font-weight: 500;
+  padding: 5px 20px;
+  margin: 5px;
+}
+
+.add-dlt-btn:hover,
+.add-dlt-btn:focus {
+  background-color: #fff;
+  color: rgb(200, 43, 43);
+  box-shadow: none;
+  border: 0.5px solid rgb(200, 43, 43);
+}
+
+.add-dlt-btn-cn:hover,
+.add-dlt-btn-cn:focus {
+  background-color: #fff;
+  color: #0e7094;
+  box-shadow: none;
+  border: 0.5px solid #0e7094;
+}
+
+.add-dlt-btn-cn {
+  background-color: #0e7094;
+  color: #fff;
+  border-radius: 5px;
+  border: none;
+  font-size: 1.2em;
+  font-weight: 500;
+  padding: 5px 20px;
+  margin: 5px;
+}
+
+.add-address-btn {
+  background-color: #000;
+  color: #fff;
+  border-radius: 5px;
+  border: none;
+  font-size: 1.2em;
+  font-weight: 500;
+  padding: 5px 20px;
+  margin: 5px;
+  transition: all 0.3s ease-in-out;
+}
+
+.add-address-btn:hover,
+.add-address-btn:focus {
+  background-color: #fff;
+  color: #000;
+  border: 0.5px solid #000;
+}
+
+.save-address-btn {
+  background-color: #1e9dcd;
+  color: #fff;
+  border-radius: 5px;
+  border: none;
+  font-size: 1.2em;
+  font-weight: 500;
+}
+
+.save-address-btn:hover,
+.save-address-btn:focus {
+  background-color: #fff;
+  color: #1e9dcd;
+  box-shadow: none;
+  border: 0.5px solid #1e9dcd;
+}

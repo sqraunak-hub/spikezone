@@ -1,0 +1,26 @@
+@import url("https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap");
+
+.main-wrapper {
+  height: 170px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e0ffff;
+  color: black;
+  font-weight: 500;
+}
+
+.title-main {
+  font-size: 35px;
+  font-family: "Fira Sans", sans-serif;
+}
+
+@media (max-width: 768px) {
+  .main-wrapper {
+    height: 100px;
+  }
+
+  .title-main {
+    font-size: 25px;
+  }
+}
