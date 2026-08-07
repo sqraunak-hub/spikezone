@@ -244,7 +244,9 @@ export default function SignUp() {
       {loading ? (
         <Loader />
       ) : (
-        <div>
+        <div className="auth-page">
+          <span className="auth-blob one" aria-hidden="true"></span>
+          <span className="auth-blob two" aria-hidden="true"></span>
           <ToastContainer
             position="top-center"
             autoClose={5000}

@@ -139,3 +139,62 @@
   background: #157ba3;
   gap: 12px;
 }
+
+/* ---------- compact cards on phones ---------- */
+@media (max-width: 576px) {
+  .sz-pcard {
+    border-radius: 12px;
+  }
+  .sz-pcard-imgwrap img {
+    padding: 0.5rem;
+  }
+  .sz-pcard-body {
+    padding: 0.6rem 0.65rem 0.7rem 0.65rem;
+    gap: 0.2rem;
+  }
+  .sz-pcard-cat {
+    font-size: 0.6rem;
+    letter-spacing: 0.8px;
+  }
+  .sz-pcard-title {
+    font-size: 0.8rem;
+    min-height: 2.6em;
+    line-height: 1.3;
+  }
+  .sz-pcard-rating {
+    gap: 4px;
+  }
+  .sz-pcard-rating .MuiRating-root {
+    font-size: 0.9rem;
+  }
+  .sz-pcard-rating span {
+    font-size: 0.68rem;
+  }
+  .sz-pcard-desc {
+    display: none;
+  }
+  .sz-pcard-price {
+    font-size: 0.95rem;
+  }
+  .sz-pcard-mrp {
+    font-size: 0.72rem;
+  }
+  .sz-pcard-btn {
+    font-size: 0.74rem;
+    padding: 0.45rem 0.5rem;
+    border-radius: 8px;
+    margin-top: 0.35rem;
+  }
+  .sz-pcard-badge,
+  .sz-pcard-best {
+    font-size: 0.6rem;
+    padding: 2px 8px;
+    top: 7px;
+  }
+  .sz-pcard-badge {
+    left: 7px;
+  }
+  .sz-pcard-best {
+    right: 7px;
+  }
+}

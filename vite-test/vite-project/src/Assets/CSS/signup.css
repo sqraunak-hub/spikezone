@@ -1,190 +1,269 @@
-.form-container-user {
-  width: 85%;
+/* ============ Auth (login / signup) page ============ */
+.auth-page {
+  min-height: calc(100vh - 120px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #032836 0%, #06506e 60%, #1181ad 100%);
+  padding: 2.5rem 1rem;
+  position: relative;
+  overflow: hidden;
+  font-family: "Poppins", sans-serif;
+}
+.auth-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  pointer-events: none;
+}
+.auth-blob.one {
+  width: 380px;
+  height: 380px;
+  left: -100px;
+  top: -60px;
+  background: radial-gradient(circle, #1e9dcd 0%, transparent 70%);
+  opacity: 0.45;
+}
+.auth-blob.two {
+  width: 340px;
+  height: 340px;
+  right: -90px;
+  bottom: -80px;
+  background: radial-gradient(circle, #ff8a00 0%, transparent 70%);
+  opacity: 0.3;
+}
+
+/* flip container sizing */
+.auth-page .react-card-flip {
+  width: 100%;
+  max-width: 460px;
+  position: relative;
+  z-index: 1;
+}
+
+/* the two faces */
+.auth-page .front,
+.auth-page .back {
+  width: 100% !important;
+  margin: 0 !important;
+  background: #ffffff !important;
+  border: none !important;
+  border-radius: 20px !important;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+  padding: 2rem 1.8rem !important;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.form-im {
+  text-align: center;
+  padding: 0;
+}
+.form-img {
+  width: 10em !important;
+  max-width: 60%;
 }
 
 .form-head {
-  font-size: 2em;
-  font-family: "Pacifico", cursive;
+  text-align: center;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #043141;
+  margin-top: 0.8rem;
 }
 
-.front,
-.back {
-  width: 30%;
-  backdrop-filter: blur(4px) saturate(200%);
-  -webkit-backdrop-filter: blur(4px) saturate(200%);
-  background-color: rgba(255, 255, 255, 0.35); /* keep only this */
-  border-radius: 8px;
-  border: 2px solid #1e9dcd !important;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden; /* Safari fix */
+.form-container-user {
+  width: 100%;
+  padding: 0;
 }
 
-.form-img {
-  width: 15em !important;
-}
-input[type="email"],
-input[type="password"],
-input[type="text"] {
-  border: 2px solid #1e9dcd;
-  color: #1e9dcd;
-  font-weight: bold;
-  font-size: 1.2em;
-}
-input[type="email"]:focus,
-input[type="password"]:focus {
-  outline: none;
-  border: none;
-}
-.register-btn,
-.forgot-pass-btn {
-  background-color: white;
-  border: none;
-}
-.register-btn:hover,
-.forgot-pass-btn {
-  color: #1e9dcd;
-  outline: 1px;
-}
-a {
-  cursor: pointer;
-}
-.otp-verify-btn {
-  background-color: #fff;
-  color: #1e9dcd;
-  border: none;
-  border: #1e9dcd 2px solid;
-  padding: 10px 20px;
-  font-size: 1.2rem;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
-}
-.otp-verify-btn:hover {
-  background-color: #1e9dcd;
-  color: white;
-  border: #1e9dcd 2px solid;
-}
-
+/* floating-style login inputs */
 .login-body {
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
-  gap: 30px;
+  gap: 1.1rem;
+  margin-top: 0.4rem;
 }
-
 .login-input {
   position: relative;
 }
-.login-input input {
+.email-login-input,
+.password-login-input {
   width: 100%;
-  padding: 10px;
-  border: 2px solid #7f8fa6;
-  border-radius: 5px;
-  outline: none;
-  font-size: 1.4rem;
-  transition: 0.6s;
+  border: 1.5px solid #dbe7ee !important;
+  border-radius: 12px !important;
+  padding: 0.9rem 1rem 0.55rem 1rem !important;
+  font-size: 0.95rem !important;
+  font-weight: 500 !important;
+  color: #043141 !important;
+  background: #f8fbfd !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
-
-.login-input span {
+.email-login-input:focus,
+.password-login-input:focus {
+  outline: none !important;
+  border-color: #1e9dcd !important;
+  box-shadow: 0 0 0 3px rgba(30, 157, 205, 0.15) !important;
+  background: #ffffff !important;
+}
+.password-login-span {
   position: absolute;
-  left: 0;
-  padding: 10px;
-  font-size: 1.1rem;
-  color: #7f8fa6;
-  text-transform: uppercase;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #8aa0ac;
+  font-size: 0.9rem;
   pointer-events: none;
-  transition: 0.2s;
-  transform: translate(6px, -53px);
+  transition: all 0.18s ease;
+  background: transparent;
+  padding: 0 4px;
 }
-.login-input input:valid ~ span,
-.login-input input:focus ~ span {
+.login-input input:focus + .password-login-span,
+.login-input input:valid + .password-login-span {
+  top: 0;
+  transform: translateY(-50%) scale(0.8);
+  background: #ffffff;
   color: #1e9dcd;
-  transform: translateX(16px) translateY(-60px);
-  font-size: 0.65rem;
   font-weight: 600;
-  padding: 0 10px;
-  background: #fff;
-  letter-spacing: 0.1rem;
+  border-radius: 4px;
 }
 
-.login-input input:valid,
-.login-input input:focus {
-  color: #1e9dcd;
-  border: 2px solid #1e9dcd;
+/* register (bootstrap floating labels) */
+.auth-page .back .form-control {
+  border: 1.5px solid #dbe7ee;
+  border-radius: 12px;
+  background: #f8fbfd;
+  font-weight: 500;
+  color: #043141;
 }
+.auth-page .back .form-control:focus {
+  border-color: #1e9dcd;
+  box-shadow: 0 0 0 3px rgba(30, 157, 205, 0.15);
+  background: #ffffff;
+}
+.auth-page .back .form-floating > label {
+  color: #8aa0ac;
+  font-size: 0.9rem;
+}
+
+/* submit button */
 .form-submit {
-  border-radius: 10px;
+  width: 100%;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(120deg, #1e9dcd, #157ba3);
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.8rem 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+.form-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(30, 157, 205, 0.45);
+}
+.form-submit:disabled {
+  opacity: 0.75;
+  transform: none;
+}
+.form-submit .spinner-border {
+  width: 1.3rem;
+  height: 1.3rem;
 }
 
-/* Extra Small Devices (Phones, less than 576px) */
-@media (max-width: 575.98px) {
-  .front {
-    width: 95%;
-  }
-  .back {
-    width: 95%;
-  }
+/* bottom links */
+.register-btn-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.register-btn-container h5 {
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin: 0;
+}
+.forgot-pass-btn,
+.register-btn {
+  color: #5b6b73 !important;
+  text-decoration: none !important;
+}
+.forgot-pass-btn:hover {
+  color: #043141 !important;
+}
+.register-btn {
+  color: #1e9dcd !important;
+  font-weight: 600;
+}
+.register-btn:hover {
+  color: #157ba3 !important;
+  text-decoration: underline !important;
 }
 
-/* Small Devices (Tablets, 576px and up) */
-@media (min-width: 576px) and (max-width: 767.98px) {
-  /* Your styles here */
-  .front {
-    width: 95%;
-  }
-  .back {
-    width: 95%;
-  }
-}
-
-/* Medium Devices (Desktops, 768px and up) */
-@media (min-width: 768px) and (max-width: 991.98px) {
-  /* Your styles here */
-  .front {
-    width: 95%;
-  }
-  .back {
-    width: 95%;
-  }
-}
-
-/* Large Devices (Laptops, 992px and up) */
-@media (min-width: 992px) and (max-width: 1199.98px) {
-  /* Your styles here */
-}
-
-/* Extra Large Devices (Large Desktops, 1200px and up) */
-@media (min-width: 1200px) {
-  /* Your styles here */
-}
+/* ---------- OTP modal ---------- */
 .otp-modal {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6);
+  inset: 0;
+  background: rgba(3, 40, 54, 0.75);
+  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 999;
+  z-index: 1100;
+  padding: 1rem;
 }
-
 .otp-box {
   position: relative;
-  background: white;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-  max-width: 400px;
-  margin: auto;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 2rem 1.6rem;
+  width: 100%;
+  max-width: 420px;
   text-align: center;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+  font-family: "Poppins", sans-serif;
+}
+.otp-box h4 {
+  font-weight: 700;
+  color: #043141;
+}
+.otp-box p {
+  font-size: 0.85rem;
+  color: #5b6b73;
+}
+.otp-verify-btn {
+  width: 100%;
+  border-radius: 12px !important;
+  background: #1e9dcd !important;
+  border: none !important;
+  font-weight: 600 !important;
+  padding: 0.7rem !important;
 }
 
-.otp-input {
-  margin: 15px 0;
-  padding: 10px;
-  font-size: 18px;
-  width: 100%;
-  text-align: center;
+/* ---------- mobile ---------- */
+@media (max-width: 576px) {
+  .auth-page {
+    padding: 1.5rem 0.9rem;
+    align-items: flex-start;
+  }
+  .auth-page .front,
+  .auth-page .back {
+    padding: 1.5rem 1.2rem !important;
+  }
+  .form-img {
+    width: 8em !important;
+  }
+  .form-head {
+    font-size: 1.15rem;
+  }
+  .otp-box input {
+    width: 2.4rem !important;
+    height: 2.4rem !important;
+    margin: 0 0.25rem !important;
+    font-size: 1.2rem !important;
+  }
 }

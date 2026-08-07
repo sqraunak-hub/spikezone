@@ -194,7 +194,7 @@ function Header() {
                   <h4 className="list-head">More Links</h4>
 
                   <Nav.Link className="sidebar-link">
-                    <NavLink to="/faqs" className="nav-link" onClick={hideMenu}>
+                    <NavLink to="/about" className="nav-link" onClick={hideMenu}>
                       <i className="fas fa-question-circle"></i> FAQs
                     </NavLink>
                   </Nav.Link>
@@ -227,7 +227,7 @@ function Header() {
                   </Nav.Link>
                   <Nav.Link className="sidebar-link">
                     <NavLink
-                      to="/offers"
+                      to="/products"
                       className="nav-link"
                       onClick={hideMenu}
                     >

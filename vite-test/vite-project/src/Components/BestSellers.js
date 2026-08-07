@@ -54,7 +54,7 @@ export default function BestSellers() {
           pagination={{ clickable: true }}
           autoplay={{ delay: 3500, pauseOnMouseEnter: true }}
           breakpoints={{
-            0: { slidesPerView: 1, spaceBetween: 16 },
+            0: { slidesPerView: 2, spaceBetween: 10 },
             576: { slidesPerView: 2, spaceBetween: 16 },
             992: { slidesPerView: 3, spaceBetween: 20 },
             1280: { slidesPerView: 4, spaceBetween: 20 },
