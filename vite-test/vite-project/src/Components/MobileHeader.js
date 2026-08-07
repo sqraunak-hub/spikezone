@@ -154,12 +154,13 @@ function MobileHeader() {
                             <Nav.Link className="sidebar-link">
                               <NavLink
                                 onClick={hideMenu}
-                                className="dropdown-item"
+                                className="nav-link"
                                 to={`/category/${category.category_name.replace(
                                   /\s+/g,
                                   ""
                                 )}`}
                               >
+                                <i className="fas fa-tag"></i>{" "}
                                 {category.category_name}
                               </NavLink>
                             </Nav.Link>
@@ -188,7 +189,7 @@ function MobileHeader() {
                         </Nav.Link>
                         <Nav.Link className="sidebar-link">
                           <NavLink
-                            to="/order-history"
+                            to="/orders"
                             className="nav-link"
                             onClick={hideMenu}
                           >
@@ -197,7 +198,7 @@ function MobileHeader() {
                         </Nav.Link>
                         <Nav.Link className="sidebar-link">
                           <NavLink
-                            to="/"
+                            to="/my-reviews"
                             className="nav-link"
                             onClick={hideMenu}
                           >
@@ -384,7 +385,7 @@ function MobileHeader() {
                   >
                     <path
                       d="M12 20L4.3314 12.0474C3.47892 11.1633 3 9.96429 3 8.71405C3 6.11055 5.03517 4 7.54569 4C8.75128 4 9.90749 4.49666 10.76 5.38071L12 6.66667L13.24 5.38071C14.0925 4.49666 15.2487 4 16.4543 4C18.9648 4 21 6.11055 21 8.71405C21 9.96429 20.5211 11.1633 19.6686 12.0474L15.8343 16.0237"
-                      stroke="#1e9dcd"
+                      stroke="#e11d48"
                       stroke-width="2.0"
                       stroke-linecap="round"
                       stroke-linejoin="round"
@@ -403,7 +404,7 @@ function MobileHeader() {
                   >
                     <path
                       d="M17.8264 20C18.9965 20 19.9167 18.9999 19.8195 17.8339L19.1528 9.83391C19.0664 8.79732 18.1999 8 17.1597 8H16M16 8H12M16 8L16 7C16 5.93913 15.5786 4.92172 14.8284 4.17157C14.0783 3.42143 13.0609 3 12 3C10.9391 3 9.92172 3.42143 9.17157 4.17157C8.42143 4.92172 8 5.93913 8 7L8 8M16 8L16 12M8 8H6.84027C5.80009 8 4.93356 8.79732 4.84718 9.83391L4.18051 17.8339C4.08334 18.9999 5.00352 20 6.1736 20H13M8 8L8 12"
-                      stroke="#1e9dcd"
+                      stroke="#ff8a00"
                       stroke-width="2.0"
                       stroke-linecap="round"
                       stroke-linejoin="round"

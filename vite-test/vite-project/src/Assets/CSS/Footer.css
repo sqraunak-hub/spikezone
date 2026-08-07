@@ -1,9 +1,9 @@
-/* ================= SpikeZone animated footer ================= */
+/* ================= SpikeZone animated footer (light theme) ================= */
 .sz-footer {
   position: relative;
   overflow: hidden;
-  color: #dcedf5;
-  background: linear-gradient(135deg, #032836 0%, #06506e 55%, #1181ad 100%);
+  color: #43555f;
+  background: linear-gradient(160deg, #f2fafd 0%, #ddf0fa 55%, #c9e7f6 100%);
   font-family: "Poppins", sans-serif;
 }
 
@@ -17,7 +17,7 @@
   height: 70px;
 }
 
-/* ---------- animated background layer ---------- */
+/* ---------- animated background layer (dark accents on light bg) ---------- */
 .sz-footer-bg {
   position: absolute;
   inset: 0;
@@ -25,19 +25,19 @@
   z-index: 0;
 }
 
-/* soft gradient blobs */
+/* soft blobs */
 .sz-blob {
   position: absolute;
   border-radius: 50%;
   filter: blur(60px);
-  opacity: 0.5;
+  opacity: 0.25;
 }
 .sz-blob-1 {
   width: 340px;
   height: 340px;
   left: -90px;
   top: 30%;
-  background: radial-gradient(circle, #1e9dcd 0%, transparent 70%);
+  background: radial-gradient(circle, #043141 0%, transparent 70%);
   animation: sz-float 9s ease-in-out infinite;
 }
 .sz-blob-2 {
@@ -46,7 +46,7 @@
   right: -60px;
   top: 10%;
   background: radial-gradient(circle, #ff8a00 0%, transparent 70%);
-  opacity: 0.32;
+  opacity: 0.2;
   animation: sz-float 12s ease-in-out infinite reverse;
 }
 .sz-blob-3 {
@@ -54,16 +54,16 @@
   height: 260px;
   left: 42%;
   bottom: -80px;
-  background: radial-gradient(circle, #22c1e8 0%, transparent 70%);
-  opacity: 0.35;
+  background: radial-gradient(circle, #1e9dcd 0%, transparent 70%);
+  opacity: 0.25;
   animation: sz-float 10s 2s ease-in-out infinite;
 }
 
-/* outline rings */
+/* dark outline rings */
 .sz-ring {
   position: absolute;
   border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.14);
+  border: 2px solid rgba(4, 49, 65, 0.16);
 }
 .sz-ring-1 {
   width: 150px;
@@ -77,18 +77,18 @@
   height: 70px;
   left: 24%;
   top: 22%;
-  border-color: rgba(255, 138, 0, 0.28);
+  border-color: rgba(255, 138, 0, 0.3);
   animation: sz-float 7s ease-in-out infinite;
 }
 
-/* small glowing dots */
+/* small dots */
 .sz-dot {
   position: absolute;
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: #7fd4f2;
-  box-shadow: 0 0 12px 2px rgba(127, 212, 242, 0.7);
+  background: #0a5f80;
+  box-shadow: 0 0 12px 2px rgba(10, 95, 128, 0.4);
   animation: sz-pulse 3.5s ease-in-out infinite;
 }
 .sz-dot-1 {
@@ -98,8 +98,8 @@
 .sz-dot-2 {
   right: 28%;
   top: 30%;
-  background: #ffb257;
-  box-shadow: 0 0 12px 2px rgba(255, 178, 87, 0.7);
+  background: #ff8a00;
+  box-shadow: 0 0 12px 2px rgba(255, 138, 0, 0.45);
   animation-delay: 1.2s;
 }
 .sz-dot-3 {
@@ -110,12 +110,12 @@
   animation-delay: 2.1s;
 }
 
-/* flying birds */
+/* flying birds — dark silhouettes */
 .sz-bird {
   position: absolute;
   width: 46px;
   height: 24px;
-  color: rgba(255, 255, 255, 0.35);
+  color: rgba(4, 49, 65, 0.3);
   animation: sz-fly 22s linear infinite, sz-flap 0.9s ease-in-out infinite alternate;
 }
 .sz-bird-1 {
@@ -126,24 +126,24 @@
   width: 30px;
   animation-duration: 30s, 0.8s;
   animation-delay: 6s, 0s;
-  color: rgba(255, 255, 255, 0.22);
+  color: rgba(4, 49, 65, 0.22);
 }
 .sz-bird-3 {
   top: 8%;
   width: 22px;
   animation-duration: 26s, 0.7s;
   animation-delay: 14s, 0.2s;
-  color: rgba(255, 255, 255, 0.18);
+  color: rgba(4, 49, 65, 0.16);
 }
 
-/* spike silhouette at the very bottom */
+/* dark spike silhouette at the very bottom */
 .sz-spikes {
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
   height: 26px;
-  color: rgba(3, 30, 41, 0.55);
+  color: rgba(4, 49, 65, 0.4);
 }
 
 /* ---------- keyframes ---------- */
@@ -206,7 +206,6 @@
   }
 }
 
-/* respect reduced-motion users */
 @media (prefers-reduced-motion: reduce) {
   .sz-blob,
   .sz-ring,
@@ -231,11 +230,11 @@
   max-width: 150px;
   height: auto;
   padding: 6px 10px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 6px 18px rgba(4, 49, 65, 0.12);
 }
 
 .sz-footer-head {
-  color: #ffffff;
+  color: #043141;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1.5px;
@@ -259,7 +258,7 @@
 .sz-footer-about {
   font-size: 0.85rem;
   line-height: 1.7;
-  color: #b9d8e6;
+  color: #5b6b73;
   max-width: 340px;
 }
 
@@ -276,11 +275,13 @@
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  color: #ffffff;
+  background: #ffffff;
+  border: 1px solid rgba(4, 49, 65, 0.12);
+  color: #043141;
   font-size: 0.9rem;
-  transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: 0 3px 10px rgba(4, 49, 65, 0.08);
+  transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease,
+    color 0.25s ease;
 }
 .sz-social-btn:hover {
   background: #ff8a00;
@@ -300,7 +301,7 @@
   margin-bottom: 0.65rem;
 }
 .sz-footer-links a {
-  color: #b9d8e6;
+  color: #5b6b73;
   text-decoration: none;
   font-size: 0.88rem;
   position: relative;
@@ -315,7 +316,7 @@
   color: #ff8a00;
 }
 .sz-footer-links a:hover {
-  color: #ffffff;
+  color: #043141;
   padding-left: 14px;
 }
 .sz-footer-links a:hover::before {
@@ -323,7 +324,7 @@
 }
 .sz-footer-more {
   font-weight: 600;
-  color: #7fd4f2 !important;
+  color: #157ba3 !important;
 }
 
 /* contact list */
@@ -333,19 +334,19 @@
   gap: 12px;
   margin-bottom: 0.8rem;
   font-size: 0.88rem;
-  color: #b9d8e6;
+  color: #5b6b73;
 }
 .sz-footer-contact svg {
   margin-top: 3px;
-  color: #ffb257;
+  color: #ff8a00;
   flex-shrink: 0;
 }
 .sz-footer-contact a {
-  color: #b9d8e6;
+  color: #5b6b73;
   text-decoration: none;
 }
 .sz-footer-contact a:hover {
-  color: #ffffff;
+  color: #043141;
 }
 
 /* bottom bar */
@@ -355,9 +356,9 @@
   justify-content: space-between;
   gap: 1rem;
   flex-wrap: wrap;
-  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  border-top: 1px solid rgba(4, 49, 65, 0.14);
   margin-top: 1.5rem;
-  padding: 1.1rem 0 1.6rem 0;
+  padding: 1.1rem 0 1.9rem 0;
 }
 .sz-rzp {
   max-height: 38px;
@@ -365,18 +366,38 @@
 }
 .sz-copy {
   font-size: 0.85rem;
-  color: #9cc4d6;
+  color: #5b6b73;
 }
 .sz-copy a {
-  color: #ffffff;
+  color: #043141;
   font-weight: 600;
   text-decoration: none;
 }
 .sz-copy a:hover {
-  color: #ffb257;
+  color: #ff8a00;
 }
 
 @media (max-width: 576px) {
+  .sz-footer-content {
+    text-align: center;
+  }
+  .footer-logo {
+    margin: 0 auto;
+  }
+  .sz-footer-about {
+    margin: 0 auto;
+  }
+  .sz-socials {
+    justify-content: center;
+  }
+  .sz-footer-head::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .sz-footer-contact li {
+    justify-content: center;
+    text-align: left;
+  }
   .sz-footer-bottom {
     justify-content: center;
     text-align: center;
