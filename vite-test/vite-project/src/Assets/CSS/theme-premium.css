@@ -1,0 +1,463 @@
+/* SpikeZone theme — global design tokens + base typography.
+   Imported once from App.css so every screen inherits it.
+
+   Two themes. Light is the default (plain :root); dark is opted into with
+   data-theme="dark" on <html>, set by the header toggle and re-applied before
+   first paint by the inline script in index.html.
+
+   Token roles — these names are used by ~28 stylesheets:
+     --szc-ink       primary TEXT colour
+     --szc-deep      the always-dark band fill (CTA strips, footer) — stays
+                     dark in BOTH themes, so white text on it is always right
+     --szc-surface   card / panel fill
+     --szc-cream     the tinted section fill */
+
+
+:root {
+  /* ---------- accent: sampled from the logo (dominant #00A0D0) ---------- */
+  --szc-accent: #00a0d0;
+  --szc-accent-dark: #0b7fa6;
+  /* the pale logo cyan. Only legible on a dark backdrop, so it is reserved for
+     the always-dark bands and re-pointed at the solid accent in light mode. */
+  --szc-accent-on-dark: #4fd9f7;
+  --szc-accent-soft: var(--szc-accent-dark);
+  /* the brand blue as TEXT. #00a0d0 on white is only 3.03:1, so light mode
+     uses a darker mix (5.2:1); on the dark theme the logo blue itself is
+     already 6.4:1, so it stays. Backgrounds keep the bright brand blue. */
+  --szc-accent-text: #0a7699;
+  --szc-gold: #c9a227;
+  /* the amber as TEXT. #e0b243 on the warn tint is 1.98:1, so light mode goes
+     much darker; on the dark theme the bright amber is the legible one. */
+  --szc-warn-text: #8a6410;
+
+  /* ---------- LIGHT (default) ---------- */
+  --szc-deep: #06222e; /* dark band, both themes */
+  --szc-bg: #ffffff;
+  --szc-surface: #ffffff;
+  --szc-surface-2: #f4f8fa;
+  --szc-cream: #f2f8fb;
+  --szc-line: #e2e9ee;
+  --szc-line-strong: #cbd6dd;
+
+  --szc-ink: #0d2430;
+  --szc-ink-2: #16323f;
+  --szc-ink-soft: #46606c;
+  --szc-muted: #5e747f; /* #7b8f99 was 3.37:1 on white — too low for body text */
+
+  --szc-on-accent: #06222e; /* text that sits ON the accent */
+  --szc-shadow: 0 18px 44px -18px rgba(6, 34, 46, 0.28);
+  --szc-shadow-sm: 0 8px 22px -12px rgba(6, 34, 46, 0.2);
+
+  /* ---------- shared ---------- */
+  --szc-ok: #1a9e5c;
+  --szc-ok-tint: rgba(26, 158, 92, 0.12); /* "delivered", "in stock" panels */
+  --szc-accent-tint: rgba(0, 160, 208, 0.1);
+  --szc-danger: #c2453c;
+  --szc-blue: var(--szc-accent);
+
+  /* ---------- accent palette ----------
+     Five hues for the home page's stat cards, feature icons and surface
+     tiles. Each --szc-cN is dark enough to clear 4.5:1 on its own tint in
+     light mode (and light enough to do the same on the dark surfaces), so a
+     hue can carry text, not just an icon. --szc-cN-on is the glyph colour for
+     a chip filled with the solid hue. */
+  --szc-c1: #0a7699;
+  --szc-c1-tint: rgba(0, 160, 208, 0.12);
+  --szc-c2: #0b7a5e;
+  --szc-c2-tint: rgba(16, 163, 127, 0.13);
+  --szc-c3: #9a5b06;
+  --szc-c3-tint: rgba(217, 131, 36, 0.15);
+  --szc-c4: #5b4bd1;
+  --szc-c4-tint: rgba(107, 92, 231, 0.13);
+  --szc-c5: #b83c2b;
+  --szc-c5-tint: rgba(228, 87, 46, 0.13);
+  --szc-c-on: #ffffff;
+
+  --szc-r: 6px;
+  --szc-r-lg: 12px;
+  --szc-ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* legacy aliases still referenced across the sheets */
+  --szc-green: var(--szc-accent);
+  --szc-green-dark: var(--szc-accent-dark);
+  --szc-green-soft: var(--szc-accent-soft);
+  --szc-brass: var(--szc-accent);
+  --szc-brass-dark: var(--szc-accent-dark);
+  --szc-brass-soft: var(--szc-accent-soft);
+  --sz-primary: var(--szc-accent);
+  --sz-primary-dark: var(--szc-accent-dark);
+  --sz-dark: var(--szc-deep);
+  --sz-soft: var(--szc-cream);
+  --sz-accent: var(--szc-accent);
+  --sz-green: var(--szc-ok);
+  --sz-radius: var(--szc-r);
+
+  --szc-display: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --szc-sans: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* ---------- DARK ---------- */
+:root[data-theme="dark"] {
+  /* neutrals carry a faint blue tint so they sit under the logo accent
+     (they were green-tinted while the accent was green) */
+  --szc-deep: #04090c;
+  --szc-bg: #0a1015;
+  --szc-surface: #121a20;
+  --szc-surface-2: #18222a;
+  --szc-cream: #131c22;
+  --szc-line: rgba(255, 255, 255, 0.09);
+  --szc-line-strong: rgba(255, 255, 255, 0.16);
+
+  --szc-ink: #ffffff;
+  --szc-ink-2: #e6eef2;
+  --szc-ink-soft: #a9bcc6;
+  --szc-muted: #7b8d97;
+
+  --szc-on-accent: #04090c;
+  --szc-accent-soft: var(--szc-accent-on-dark);
+  --szc-accent-text: var(--szc-accent);
+  --szc-warn-text: #e0b243;
+  --szc-shadow: 0 18px 44px -18px rgba(0, 0, 0, 0.7);
+  --szc-shadow-sm: 0 8px 22px -12px rgba(0, 0, 0, 0.6);
+
+  --szc-ok: #43c07a;
+  --szc-ok-tint: rgba(67, 192, 122, 0.14);
+  --szc-accent-tint: rgba(0, 160, 208, 0.16);
+  --szc-danger: #e2574c;
+
+  /* the palette inverts: the hue now has to be light enough to read on the
+     dark surfaces, so a chip filled with it takes a dark glyph */
+  --szc-c1: #38c4ea;
+  --szc-c1-tint: rgba(56, 196, 234, 0.16);
+  --szc-c2: #3fd6a8;
+  --szc-c2-tint: rgba(63, 214, 168, 0.15);
+  --szc-c3: #f0b356;
+  --szc-c3-tint: rgba(240, 179, 86, 0.15);
+  --szc-c4: #9d90f5;
+  --szc-c4-tint: rgba(157, 144, 245, 0.16);
+  --szc-c5: #ff8a6b;
+  --szc-c5-tint: rgba(255, 138, 107, 0.15);
+  --szc-c-on: #04090c;
+}
+
+/* Bootstrap is imported by several components, so its own :root lands after
+   this sheet and wins on equal specificity. :root:root outranks it. */
+:root:root {
+  --bs-body-bg: var(--szc-bg);
+  --bs-body-color: var(--szc-ink-soft);
+  --bs-border-color: var(--szc-line);
+  --bs-emphasis-color: var(--szc-ink);
+  --bs-secondary-color: var(--szc-muted);
+  --bs-heading-color: var(--szc-ink);
+  --bs-tertiary-bg: var(--szc-surface-2);
+  --bs-secondary-bg: var(--szc-surface);
+
+  /* Bootstrap's navbar/nav links default to rgba(0,0,0,.65), which all but
+     disappears on the dark navbar. Its own `.navbar-nav .nav-link` selector
+     outranks our `.nav-link`, so drive it through its variables instead. */
+  --bs-navbar-color: var(--szc-ink-soft);
+  --bs-navbar-hover-color: var(--szc-accent-text);
+  --bs-navbar-active-color: var(--szc-ink);
+  --bs-navbar-disabled-color: var(--szc-muted);
+  --bs-nav-link-color: var(--szc-ink-soft);
+  --bs-nav-link-hover-color: var(--szc-accent-text);
+}
+
+/* ---------- Base ---------- */
+html,
+body {
+  background: var(--szc-bg) !important;
+  color: var(--szc-ink-soft);
+}
+
+body {
+  font-family: var(--szc-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root,
+.App {
+  background: var(--szc-bg);
+  min-height: 100vh;
+}
+
+h1,
+h2,
+h3,
+.szc-display {
+  font-family: var(--szc-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--szc-ink);
+}
+
+h4,
+h5,
+h6 {
+  font-family: var(--szc-sans);
+  font-weight: 600;
+  color: var(--szc-ink);
+}
+
+p {
+  font-weight: 300;
+  line-height: 1.8;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* White on the brand blue is only ~3:1, so anything sitting ON the accent
+   takes the deep colour instead. */
+.btn-primary,
+.btn-success,
+.nav-pills .nav-link.active,
+.nav-tabs .nav-link.active,
+.badge.bg-primary,
+.badge.bg-success {
+  background-color: var(--szc-accent) !important;
+  border-color: var(--szc-accent) !important;
+  color: var(--szc-on-accent) !important;
+}
+.btn-primary:hover,
+.btn-success:hover {
+  background-color: var(--szc-accent-dark) !important;
+  border-color: var(--szc-accent-dark) !important;
+  color: #fff !important;
+}
+
+.sz-review-card {
+  background: var(--szc-surface);
+  border-color: var(--szc-line) !important;
+}
+
+.bg-white,
+.bg-light {
+  background-color: var(--szc-surface) !important;
+}
+.text-dark {
+  color: var(--szc-ink) !important;
+}
+.text-muted {
+  color: var(--szc-muted) !important;
+}
+.border {
+  border-color: var(--szc-line) !important;
+}
+
+.nav-tabs {
+  border-bottom-color: var(--szc-line);
+}
+.nav-tabs .nav-link {
+  color: var(--szc-ink-soft);
+  border-color: transparent;
+}
+.nav-tabs .nav-link:hover {
+  color: var(--szc-accent-text);
+  border-color: var(--szc-line);
+}
+.nav-tabs .nav-link.active {
+  background-color: var(--szc-accent) !important;
+  border-color: var(--szc-accent) !important;
+  color: var(--szc-on-accent) !important;
+}
+
+/* Bootstrap surfaces that would otherwise stay light in dark mode. */
+.card,
+.modal-content,
+.accordion-item,
+.accordion-button,
+.offcanvas,
+.dropdown-menu {
+  background-color: var(--szc-surface);
+  color: var(--szc-ink-soft);
+  border-color: var(--szc-line);
+}
+.dropdown-item {
+  color: var(--szc-ink-soft);
+}
+.dropdown-item:hover,
+.dropdown-item:focus {
+  background-color: var(--szc-surface-2);
+  color: var(--szc-accent-text);
+}
+.table {
+  --bs-table-color: var(--szc-ink-soft);
+  --bs-table-bg: transparent;
+  --bs-table-border-color: var(--szc-line);
+}
+.form-control,
+.form-select {
+  background-color: var(--szc-surface);
+  border-color: var(--szc-line-strong);
+  color: var(--szc-ink);
+}
+.form-control::placeholder {
+  color: var(--szc-muted);
+}
+.form-control:focus,
+.form-select:focus {
+  background-color: var(--szc-surface);
+  border-color: var(--szc-accent);
+  color: var(--szc-ink);
+  box-shadow: 0 0 0 0.15rem rgba(0, 160, 208, 0.2);
+}
+/* dark mode needs the accordion chevron inverted to stay visible */
+:root[data-theme="dark"] .accordion-button::after {
+  filter: invert(1) grayscale(1) brightness(1.6);
+}
+
+/* ---------- Shared primitives ---------- */
+.szc-eyebrow {
+  display: inline-block;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-family: var(--szc-sans);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--szc-accent-text);
+  margin-bottom: 0.9rem;
+  position: relative;
+  padding-left: 2.4rem;
+}
+.szc-eyebrow::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 1.7rem;
+  height: 1px;
+  background: currentColor;
+}
+.szc-eyebrow-plain {
+  padding-left: 0;
+}
+.szc-eyebrow-plain::before {
+  display: none;
+}
+/* used on the always-dark bands, so it takes the pale cyan in BOTH themes -
+   --szc-accent-soft would go dark-on-dark here in light mode */
+.szc-eyebrow-light {
+  color: var(--szc-accent-on-dark);
+}
+
+.szc-h2 {
+  font-family: var(--szc-display);
+  font-size: clamp(1.7rem, 3.2vw, 2.5rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: var(--szc-ink);
+  margin: 0;
+}
+.szc-h2-light {
+  color: #ffffff;
+}
+
+.szc-sub {
+  color: var(--szc-ink-soft);
+  margin-top: 0.85rem;
+  max-width: 520px;
+  font-size: 0.96rem;
+  line-height: 1.75;
+  font-weight: 300;
+}
+.szc-sub-light {
+  color: #a9c2cc;
+}
+
+.szc-section {
+  padding: 5.5rem 0 0;
+  font-family: var(--szc-sans);
+}
+
+.szc-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 2.75rem;
+}
+.szc-head-center {
+  justify-content: center;
+  text-align: center;
+  max-width: 640px;
+  margin-inline: auto;
+}
+.szc-head-center .szc-eyebrow {
+  padding-left: 0;
+}
+.szc-head-center .szc-eyebrow::before {
+  display: none;
+}
+.szc-head-center .szc-sub {
+  margin-inline: auto;
+}
+
+.szc-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  background: var(--szc-accent);
+  color: var(--szc-on-accent);
+  font-family: var(--szc-sans);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.95rem 2.1rem;
+  border-radius: var(--szc-r);
+  border: none;
+  transition: background 0.3s ease, gap 0.3s ease, transform 0.3s ease;
+}
+.szc-btn:hover {
+  background: var(--szc-accent-dark);
+  color: #ffffff;
+  gap: 1rem;
+  transform: translateY(-2px);
+}
+
+.szc-btn-outline {
+  background: transparent;
+  color: var(--szc-ink);
+  border: 1px solid var(--szc-line-strong);
+}
+.szc-btn-outline:hover {
+  background: var(--szc-surface-2);
+  border-color: var(--szc-accent);
+  color: var(--szc-accent-text);
+}
+
+.szc-viewall {
+  white-space: nowrap;
+  font-family: var(--szc-sans);
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--szc-accent-text);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid transparent;
+  transition: gap 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+.szc-viewall:hover {
+  gap: 1rem;
+  color: var(--szc-accent-dark);
+  border-color: var(--szc-accent-dark);
+}
+
+@media (max-width: 768px) {
+  .szc-section {
+    padding-top: 3.5rem;
+  }
+  .szc-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+}

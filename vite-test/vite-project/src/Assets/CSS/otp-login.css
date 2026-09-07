@@ -1,0 +1,218 @@
+/* Passwordless OTP login. Uses the same --szc-* tokens as the rest of the
+   auth screen so it follows the light/dark theme toggle without its own
+   palette. */
+
+.otp-login {
+  width: 100%;
+}
+
+/* ---------- Mobile / Email tabs ---------- */
+
+.otp-tabs {
+  display: flex;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  margin-bottom: 1.5rem;
+  border-radius: 999px;
+  background: var(--szc-surface-2);
+}
+
+.otp-tab {
+  flex: 1;
+  padding: 0.55rem 0.75rem;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--szc-muted);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.otp-tab.active {
+  background: var(--szc-surface);
+  color: var(--szc-ink);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+/* ---------- Fields ---------- */
+
+.otp-field {
+  display: block;
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.otp-field-label {
+  display: block;
+  margin-bottom: 0.4rem;
+  color: var(--szc-muted);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.otp-optional {
+  font-weight: 400;
+  text-transform: none;
+}
+
+.otp-field input {
+  width: 100%;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid var(--szc-border, rgba(128, 128, 128, 0.3));
+  border-radius: 10px;
+  background: var(--szc-surface-2);
+  color: var(--szc-ink);
+  font-size: 1rem;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.otp-field input:focus {
+  outline: none;
+  border-color: var(--szc-brass);
+  background: var(--szc-surface);
+}
+
+/* Country code sits inside the same box as the number so the field reads as
+   one control rather than two. */
+.otp-phone-input {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--szc-border, rgba(128, 128, 128, 0.3));
+  border-radius: 10px;
+  background: var(--szc-surface-2);
+  overflow: hidden;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.otp-phone-input:focus-within {
+  border-color: var(--szc-brass);
+  background: var(--szc-surface);
+}
+
+.otp-cc {
+  padding: 0.75rem 0.5rem 0.75rem 0.9rem;
+  color: var(--szc-muted);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.otp-phone-input input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.75rem 0.9rem 0.75rem 0.25rem;
+  border: none;
+  background: transparent;
+  color: var(--szc-ink);
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+}
+
+.otp-phone-input input:focus {
+  outline: none;
+}
+
+/* ---------- OTP boxes ---------- */
+
+.otp-boxes > div {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 1.25rem 0 0.5rem;
+}
+
+.otp-boxes input {
+  /* The library sets a width inline, so this needs to win. Height is left to
+     padding + font-size to keep the box square on small screens. */
+  width: 2.75rem !important;
+  padding: 0.6rem 0;
+  border: 1px solid var(--szc-border, rgba(128, 128, 128, 0.35));
+  border-radius: 10px;
+  background: var(--szc-surface-2);
+  color: var(--szc-ink);
+  font-size: 1.35rem;
+  font-weight: 600;
+  text-align: center;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.otp-boxes input:focus {
+  outline: none;
+  border-color: var(--szc-brass);
+  background: var(--szc-surface);
+}
+
+@media (max-width: 400px) {
+  .otp-boxes > div {
+    gap: 0.3rem;
+  }
+
+  .otp-boxes input {
+    width: 2.25rem !important;
+    font-size: 1.15rem;
+  }
+}
+
+/* ---------- Supporting text and links ---------- */
+
+.otp-sent-to {
+  margin: 0;
+  color: var(--szc-muted);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.otp-sent-to strong {
+  color: var(--szc-ink);
+}
+
+.otp-hint {
+  margin: 1rem 0 0;
+  color: var(--szc-muted);
+  font-size: 0.82rem;
+  text-align: center;
+}
+
+.otp-profile-head {
+  margin: 0 0 0.25rem;
+  color: var(--szc-ink);
+  text-align: center;
+}
+
+.otp-resend {
+  margin-top: 1rem;
+  color: var(--szc-muted);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.otp-link {
+  display: block;
+  width: 100%;
+  margin-top: 0.75rem;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--szc-accent-text);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.otp-link.inline {
+  display: inline;
+  width: auto;
+  margin: 0 0 0 0.4rem;
+}
+
+.otp-link:hover {
+  color: var(--szc-brass-dark);
+}
+
+.otp-link:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

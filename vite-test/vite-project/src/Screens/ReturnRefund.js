@@ -1,6 +1,16 @@
 import React from "react";
 import "../Assets/CSS/legal-pages.css";
+import useSeo from "../Utils/useSeo";
+import { SITE_URL } from "../Utils/appConstant";
+
 export default function ReturnRefundPolicy() {
+  useSeo({
+    title: "Returns & Refund Policy | SpikeZone",
+    description:
+      "SpikeZone's returns, replacement and refund policy for bird spike orders.",
+    canonical: `${SITE_URL}/return-policy`,
+  });
+
   return (
     <div className="container py-5 legal-page">
       <h2 className="mb-4">Returns & Refund Policy</h2>

@@ -76,5 +76,5 @@
 }
 
 .text-muted-foreground {
-  color: #6b7280; /* Example muted gray */
+  color: var(--szc-muted); /* Example muted gray */
 }

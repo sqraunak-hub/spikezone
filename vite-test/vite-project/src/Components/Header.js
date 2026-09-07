@@ -1,51 +1,23 @@
 import React, { useState, useEffect } from "react";
+import { FaArrowRotateLeft, FaBox, FaCartShopping, FaCircleQuestion, FaClockRotateLeft, FaHeadset, FaHeart, FaNewspaper, FaPen, FaPhone, FaTags, FaUser } from "react-icons/fa6";
 import "../Assets/CSS/header.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
-import NavDropdown from "react-bootstrap/NavDropdown";
 import logo from "../Assets/IMG/logo.png";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { Button, Form, Dropdown } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import useUserStore from "../store/userStore";
-
-function UserSvg() {
-  return (
-    <>
-      <svg
-        className="header-svg"
-        width="30px"
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M17.5 21.0001H6.5C5.11929 21.0001 4 19.8808 4 18.5001C4 14.4194 10 14.5001 12 14.5001C14 14.5001 20 14.4194 20 18.5001C20 19.8808 18.8807 21.0001 17.5 21.0001Z"
-          stroke="#1e9dcd"
-          stroke-width="2.0"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
-        <path
-          d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z"
-          stroke="#1e9dcd"
-          stroke-width="2.0"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
-      </svg>
-    </>
-  );
-}
+import ThemeToggle from "./ThemeToggle";
+import ProfileMenu from "./ProfileMenu";
 
 function Header() {
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [isInput, setIsInput] = useState(false);
-  const [IsLogin, setIsLogin] = useState(false);
   const [value, setValue] = React.useState("one");
   const fetchUserProfile = useUserStore((state) => state.fetchUserProfile);
   const user = useUserStore((state) => state.user);
@@ -70,18 +42,7 @@ function Header() {
   const showInput = () => {
     setIsInput(!isInput);
   };
-  const checkLogin = () => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      setIsLogin(true);
-    }
-  };
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/signup");
-  };
   useEffect(() => {
-    checkLogin();
     const mediaQuery = window.matchMedia("(max-width: 600px)");
     setIsSmallScreen(mediaQuery.matches);
 
@@ -107,7 +68,7 @@ function Header() {
               onClick={() => setShowMenu(true)}
               aria-controls={`offcanvasNavbar-expand-${expand}`}
             />
-            <Navbar.Brand className="nav-logo" href="#">
+            <Navbar.Brand className="nav-logo" as="div">
               <Link to="/">
                 <img src={logo} alt="logo" width="120" />
               </Link>
@@ -131,107 +92,107 @@ function Header() {
                 <Nav className="m-auto">
                   <h4 className="list-head">Quick Links</h4>
 
-                  <Nav.Link className="sidebar-link">
+                  <Nav.Link as="div" className="sidebar-link">
                     <NavLink to="/cart" className="nav-link" onClick={hideMenu}>
-                      <i className="fas fa-shopping-cart"></i> Cart
+                      <FaCartShopping /> Cart
                     </NavLink>
                   </Nav.Link>
-                  <Nav.Link className="sidebar-link">
+                  <Nav.Link as="div" className="sidebar-link">
                     <NavLink
                       to="/wishlist"
                       className="nav-link"
                       onClick={hideMenu}
                     >
-                      <i className="fas fa-heart"></i> Wishlist
+                      <FaHeart /> Wishlist
                     </NavLink>
                   </Nav.Link>
-                  <Nav.Link className="sidebar-link">
+                  <Nav.Link as="div" className="sidebar-link">
                     <NavLink
                       to="/orders"
                       className="nav-link"
                       onClick={hideMenu}
                     >
-                      <i className="fas fa-history"></i> Order History
+                      <FaClockRotateLeft /> Order History
                     </NavLink>
                   </Nav.Link>
-                  <Nav.Link className="sidebar-link">
+                  <Nav.Link as="div" className="sidebar-link">
                     <NavLink
                       to="/my-reviews"
                       className="nav-link"
                       onClick={hideMenu}
                     >
-                      <i className="fas fa-pen"></i> My Reviews
+                      <FaPen /> My Reviews
                     </NavLink>
                   </Nav.Link>
-                  <Nav.Link className="sidebar-link">
+                  <Nav.Link as="div" className="sidebar-link">
                     <NavLink
                       to="/account"
                       className="nav-link"
                       onClick={hideMenu}
                     >
-                      <i className="fas fa-user"></i> Profile / Account Settings
+                      <FaUser /> Profile / Account Settings
                     </NavLink>
                   </Nav.Link>
-                  <Nav.Link className="sidebar-link">
+                  <Nav.Link as="div" className="sidebar-link">
                     <NavLink
                       to="/contact"
                       className="nav-link"
                       onClick={hideMenu}
                     >
-                      <i className="fas fa-headset"></i> Customer Support
+                      <FaHeadset /> Customer Support
                     </NavLink>
                   </Nav.Link>
-                  <Nav.Link className="sidebar-link">
+                  <Nav.Link as="div" className="sidebar-link">
                     <NavLink
                       to="/blogs"
                       className="nav-link"
                       onClick={hideMenu}
                     >
-                      <i className="fas fa-pager"></i> Our Blogs
+                      <FaNewspaper /> Our Blogs
                     </NavLink>
                   </Nav.Link>
 
                   <h4 className="list-head">More Links</h4>
 
-                  <Nav.Link className="sidebar-link">
+                  <Nav.Link as="div" className="sidebar-link">
                     <NavLink to="/about" className="nav-link" onClick={hideMenu}>
-                      <i className="fas fa-question-circle"></i> FAQs
+                      <FaCircleQuestion /> FAQs
                     </NavLink>
                   </Nav.Link>
-                  <Nav.Link className="sidebar-link">
+                  <Nav.Link as="div" className="sidebar-link">
                     <NavLink
                       to="/contact"
                       className="nav-link"
                       onClick={hideMenu}
                     >
-                      <i className="fas fa-phone"></i> Contact Us
+                      <FaPhone /> Contact Us
                     </NavLink>
                   </Nav.Link>
-                  <Nav.Link className="sidebar-link">
+                  <Nav.Link as="div" className="sidebar-link">
                     <NavLink
                       to="/orders"
                       className="nav-link"
                       onClick={hideMenu}
                     >
-                      <i className="fas fa-box"></i> Track Order
+                      <FaBox /> Track Order
                     </NavLink>
                   </Nav.Link>
-                  <Nav.Link className="sidebar-link">
+                  <Nav.Link as="div" className="sidebar-link">
                     <NavLink
                       to="/return-policy"
                       className="nav-link"
                       onClick={hideMenu}
                     >
-                      <i className="fas fa-undo"></i> Return & Refund Policy
+                      <FaArrowRotateLeft /> Return & Refund Policy
                     </NavLink>
                   </Nav.Link>
-                  <Nav.Link className="sidebar-link">
+                  <Nav.Link as="div" className="sidebar-link">
                     <NavLink
                       to="/products"
                       className="nav-link"
                       onClick={hideMenu}
                     >
-                      <i className="fas fa-tags"></i> Offers & Promotions
+                      <FaTags /> Offers & Promotions
                     </NavLink>
                   </Nav.Link>
                 </Nav>
@@ -275,60 +236,22 @@ function Header() {
               className="mr-5 nav-ex-link"
               style={{ display: "inline-block" }}
             >
-              {IsLogin ? (
-                <Nav.Link className="d-inline-block">
-                  <NavDropdown
-                    title={<UserSvg />}
-                    id="basic-nav-dropdown"
-                    trigger="hover"
-                  >
-                    <NavDropdown.Item className="disabled">
-                      Welcome Back
-                    </NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.1">
-                      <Link to="/account">Manage Account</Link>
-                    </NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.2">
-                      <Link to="/orders">Your Orders</Link>
-                    </NavDropdown.Item>
-                    <NavDropdown.Item className="logout-btn" href="#action/3.3">
-                      <Button className="btn-danger" onClick={handleLogout}>
-                        Logout
-                      </Button>
-                    </NavDropdown.Item>
-                  </NavDropdown>
-                </Nav.Link>
-              ) : (
-                <Nav.Link className="d-inline-block">
-                  <Link to="/signup">
-                    <svg
-                      className="header-svg"
-                      width="30px"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M17.5 21.0001H6.5C5.11929 21.0001 4 19.8808 4 18.5001C4 14.4194 10 14.5001 12 14.5001C14 14.5001 20 14.4194 20 18.5001C20 19.8808 18.8807 21.0001 17.5 21.0001Z"
-                        stroke="#1e9dcd"
-                        stroke-width="2.0"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                      <path
-                        d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z"
-                        stroke="#1e9dcd"
-                        stroke-width="2.0"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </Link>
-                </Nav.Link>
-              )}
+              <Nav.Link
+                as="span"
+                className="d-inline-block sz-theme-toggle-wrap"
+              >
+                <ThemeToggle />
+              </Nav.Link>
 
-              <Nav.Link className="d-inline-block">
-                <Link to="/wishlist">
+              {/* Signed-in vs signed-out is decided inside ProfileMenu off the
+                  user store, so the header updates the moment someone logs in
+                  or out instead of only after a reload. */}
+              <Nav.Link as="span" className="d-inline-block">
+                <ProfileMenu />
+              </Nav.Link>
+
+              <Nav.Link as="span" className="d-inline-block">
+                <Link to="/wishlist" aria-label="Wishlist">
                   <svg
                     className="header-svg"
                     width="30px"
@@ -346,8 +269,8 @@ function Header() {
                   </svg>
                 </Link>
               </Nav.Link>
-              <Nav.Link className="d-inline-block">
-                <Link to="/cart">
+              <Nav.Link as="span" className="d-inline-block">
+                <Link to="/cart" aria-label="Cart">
                   <svg
                     className="header-svg"
                     width="30px"

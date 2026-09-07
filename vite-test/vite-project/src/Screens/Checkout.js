@@ -23,6 +23,31 @@ import Cookies from "js-cookie";
 import SEOHelmet from "../Components/SEOHelmet";
 import { API_BASE_URL } from "../Utils/appConstant";
 
+const RAZORPAY_SRC = "https://checkout.razorpay.com/v1/checkout.js";
+
+/** Load Razorpay's checkout script once, on demand. */
+function loadRazorpay() {
+  if (window.Razorpay) return Promise.resolve();
+  const existing = document.querySelector(`script[src="${RAZORPAY_SRC}"]`);
+  if (existing) {
+    return new Promise((resolve, reject) => {
+      existing.addEventListener("load", resolve);
+      existing.addEventListener("error", () =>
+        reject(new Error("Could not load the payment window."))
+      );
+    });
+  }
+  return new Promise((resolve, reject) => {
+    const s = document.createElement("script");
+    s.src = RAZORPAY_SRC;
+    s.async = true;
+    s.onload = resolve;
+    s.onerror = () => reject(new Error("Could not load the payment window."));
+    document.body.appendChild(s);
+  });
+}
+
+
 export default function Checkout() {
   const { cartItems, totalAmount, clearCart } = useCartStore();
   const cartCookiesItems = Cookies.get("cartItems") || [];
@@ -171,6 +196,11 @@ export default function Checkout() {
           ondismiss: function () {},
         },
       };
+
+      // Razorpay's script used to load in index.html on every page, which cost
+      // every visitor a third-party request for a checkout they may never
+      // reach. It is fetched here instead, the first time someone pays.
+      await loadRazorpay();
 
       const rzp = new window.Razorpay(options);
       rzp.open();

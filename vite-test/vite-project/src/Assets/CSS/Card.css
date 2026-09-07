@@ -1,27 +1,29 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+/* Product card — premium treatment.
+   Tokens come from theme-premium.css (imported globally via App.css). */
 
 .sz-pcard {
   display: flex;
   flex-direction: column;
   height: 100%;
-  background: #ffffff;
-  border: 1px solid #e7eef2;
-  border-radius: 16px;
+  background: var(--szc-surface);
+  border: 1px solid var(--szc-line);
+  border-radius: var(--szc-r);
   overflow: hidden;
   text-decoration: none !important;
-  font-family: "Poppins", sans-serif;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  font-family: var(--szc-sans);
+  transition: transform 0.45s var(--szc-ease),
+    box-shadow 0.45s var(--szc-ease), border-color 0.35s ease;
 }
 .sz-pcard:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 14px 34px rgba(4, 49, 65, 0.13);
-  border-color: transparent;
+  transform: translateY(-6px);
+  box-shadow: var(--szc-shadow);
+  border-color: var(--szc-brass-soft);
 }
 
 .sz-pcard-imgwrap {
   position: relative;
   aspect-ratio: 1 / 1;
-  background: #f6fafc;
+  background: var(--szc-cream);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -31,58 +33,66 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
-  padding: 0.9rem;
-  transition: transform 0.35s ease;
+  padding: 1.1rem;
+  transition: transform 0.9s var(--szc-ease);
 }
 .sz-pcard:hover .sz-pcard-imgwrap img {
-  transform: scale(1.06);
+  transform: scale(1.07);
 }
 
 .sz-pcard-badge,
 .sz-pcard-best {
   position: absolute;
-  top: 10px;
+  top: 12px;
   z-index: 2;
-  font-size: 0.72rem;
-  font-weight: 600;
-  border-radius: 999px;
-  padding: 3px 10px;
-  color: #fff;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  padding: 4px 9px;
 }
 .sz-pcard-badge {
-  left: 10px;
-  background: #1a9e5c;
+  left: 12px;
+  /* the chip is dark in both themes, so it needs the pale cyan */
+  background: var(--szc-deep);
+  color: var(--szc-accent-on-dark);
+  border: 1px solid var(--szc-green);
 }
+/* the accent green is light, so this badge takes dark text rather than white */
 .sz-pcard-best {
-  right: 10px;
-  background: #ff8a00;
+  right: 12px;
+  background: var(--szc-green);
+  color: var(--szc-deep);
 }
 
 .sz-pcard-body {
   display: flex;
   flex-direction: column;
   flex: 1;
-  padding: 0.9rem 1rem 1rem 1rem;
-  gap: 0.3rem;
+  padding: 1.25rem 1.25rem 1.35rem;
+  gap: 0.45rem;
 }
 .sz-pcard-cat {
-  font-size: 0.7rem;
+  font-size: 0.63rem;
   font-weight: 600;
-  letter-spacing: 1.2px;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #1e9dcd;
+  color: var(--szc-accent-text);
 }
 .sz-pcard-title {
-  font-size: 0.98rem;
+  font-family: var(--szc-display);
+  font-size: 1.05rem;
   font-weight: 600;
-  color: #043141;
+  letter-spacing: -0.01em;
+  color: var(--szc-ink);
   margin: 0;
-  line-height: 1.35;
+  line-height: 1.3;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  min-height: 2.7em;
+  min-height: 2.6em;
 }
 .sz-pcard-rating {
   display: flex;
@@ -90,14 +100,15 @@
   gap: 6px;
 }
 .sz-pcard-rating span {
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: #5b6b73;
+  font-size: 0.76rem;
+  font-weight: 500;
+  color: var(--szc-muted);
 }
 .sz-pcard-desc {
-  font-size: 0.79rem;
-  color: #6b7c85;
-  line-height: 1.45;
+  font-size: 0.82rem;
+  color: var(--szc-ink-soft);
+  font-weight: 300;
+  line-height: 1.6;
   margin: 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -107,59 +118,64 @@
 .sz-pcard-pricerow {
   display: flex;
   align-items: baseline;
-  gap: 8px;
+  gap: 10px;
   margin-top: auto;
-  padding-top: 0.5rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--szc-line);
 }
 .sz-pcard-price {
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: #043141;
+  font-family: var(--szc-display);
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--szc-ink);
 }
 .sz-pcard-mrp {
-  font-size: 0.85rem;
-  color: #98a6ad;
+  font-size: 0.82rem;
+  color: var(--szc-muted);
   text-decoration: line-through;
 }
 .sz-pcard-btn {
-  margin-top: 0.55rem;
+  margin-top: 0.9rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background: #1e9dcd;
-  color: #ffffff;
-  font-size: 0.88rem;
+  background: transparent;
+  color: var(--szc-ink);
+  border: 1px solid var(--szc-ink);
+  font-size: 0.74rem;
   font-weight: 600;
-  border-radius: 10px;
-  padding: 0.6rem 1rem;
-  transition: background 0.2s ease, gap 0.2s ease;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: var(--szc-r);
+  padding: 0.75rem 1rem;
+  transition: background 0.3s ease, color 0.3s ease, gap 0.3s ease,
+    border-color 0.3s ease;
 }
 .sz-pcard:hover .sz-pcard-btn {
-  background: #157ba3;
+  background: var(--szc-brass);
+  border-color: var(--szc-brass);
+  color: #ffffff;
   gap: 12px;
 }
 
 /* ---------- compact cards on phones ---------- */
 @media (max-width: 576px) {
-  .sz-pcard {
-    border-radius: 12px;
-  }
   .sz-pcard-imgwrap img {
-    padding: 0.5rem;
+    padding: 0.6rem;
   }
   .sz-pcard-body {
-    padding: 0.6rem 0.65rem 0.7rem 0.65rem;
-    gap: 0.2rem;
+    padding: 0.85rem 0.8rem 0.9rem;
+    gap: 0.3rem;
   }
   .sz-pcard-cat {
-    font-size: 0.6rem;
-    letter-spacing: 0.8px;
+    font-size: 0.55rem;
+    letter-spacing: 0.12em;
   }
   .sz-pcard-title {
-    font-size: 0.8rem;
+    font-size: 0.88rem;
     min-height: 2.6em;
-    line-height: 1.3;
+    line-height: 1.28;
   }
   .sz-pcard-rating {
     gap: 4px;
@@ -168,33 +184,36 @@
     font-size: 0.9rem;
   }
   .sz-pcard-rating span {
-    font-size: 0.68rem;
+    font-size: 0.66rem;
   }
   .sz-pcard-desc {
     display: none;
   }
+  .sz-pcard-pricerow {
+    padding-top: 0.6rem;
+  }
   .sz-pcard-price {
-    font-size: 0.95rem;
+    font-size: 1.02rem;
   }
   .sz-pcard-mrp {
-    font-size: 0.72rem;
+    font-size: 0.7rem;
   }
   .sz-pcard-btn {
-    font-size: 0.74rem;
-    padding: 0.45rem 0.5rem;
-    border-radius: 8px;
-    margin-top: 0.35rem;
+    font-size: 0.62rem;
+    padding: 0.55rem 0.5rem;
+    margin-top: 0.6rem;
+    letter-spacing: 0.06em;
   }
   .sz-pcard-badge,
   .sz-pcard-best {
-    font-size: 0.6rem;
-    padding: 2px 8px;
-    top: 7px;
+    font-size: 0.55rem;
+    padding: 3px 7px;
+    top: 8px;
   }
   .sz-pcard-badge {
-    left: 7px;
+    left: 8px;
   }
   .sz-pcard-best {
-    right: 7px;
+    right: 8px;
   }
 }

@@ -1,6 +1,16 @@
 import React from "react";
 import "../Assets/CSS/legal-pages.css";
+import useSeo from "../Utils/useSeo";
+import { SITE_URL } from "../Utils/appConstant";
+
 export default function PrivacyPolicy() {
+  useSeo({
+    title: "Privacy Policy | SpikeZone",
+    description:
+      "How SpikeZone collects, uses and protects your personal data when you shop with us.",
+    canonical: `${SITE_URL}/privacy-policy`,
+  });
+
   return (
     <div className="container py-5 legal-page">
       <h2 className="mb-4">Privacy Policy</h2>

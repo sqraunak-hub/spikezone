@@ -24,7 +24,7 @@
 
 .add-dlt-btn:hover,
 .add-dlt-btn:focus {
-  background-color: #fff;
+  background-color: var(--szc-surface);
   color: rgb(200, 43, 43);
   box-shadow: none;
   border: 0.5px solid rgb(200, 43, 43);
@@ -32,8 +32,8 @@
 
 .add-dlt-btn-cn:hover,
 .add-dlt-btn-cn:focus {
-  background-color: #fff;
-  color: #0e7094;
+  background-color: var(--szc-surface);
+  color: var(--szc-blue);
   box-shadow: none;
   border: 0.5px solid #0e7094;
 }
@@ -63,13 +63,13 @@
 
 .add-address-btn:hover,
 .add-address-btn:focus {
-  background-color: #fff;
-  color: #000;
+  background-color: var(--szc-surface);
+  color: var(--szc-ink);
   border: 0.5px solid #000;
 }
 
 .save-address-btn {
-  background-color: #1e9dcd;
+  background-color: var(--szc-brass);
   color: #fff;
   border-radius: 5px;
   border: none;
@@ -79,8 +79,8 @@
 
 .save-address-btn:hover,
 .save-address-btn:focus {
-  background-color: #fff;
-  color: #1e9dcd;
+  background-color: var(--szc-surface);
+  color: var(--szc-accent-text);
   box-shadow: none;
-  border: 0.5px solid #1e9dcd;
+  border: 0.5px solid var(--szc-brass);
 }

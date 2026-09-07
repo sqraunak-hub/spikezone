@@ -5,12 +5,16 @@ import "ckeditor5/ckeditor5.css";
 import "../Assets/CSS/blog-detail.css";
 import { Row, Col } from "react-bootstrap";
 
-import { API_BASE_URL } from "../Utils/appConstant";
+import { API_BASE_URL, SITE_URL } from "../Utils/appConstant";
+import useSeo from "../Utils/useSeo";
 
 export default function BlogDetail() {
   const { slug } = useParams();
   const [blog, setBlog] = useState(null);
   const [recentPosts, setRecentPosts] = useState([]);
+  // Without this, a slug that matches nothing left the page on "Loading..."
+  // for ever, which reads as a broken site rather than a missing post.
+  const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
     // Fetch blog by slug
@@ -19,12 +23,15 @@ export default function BlogDetail() {
       .then((res) => {
         if (res.data.length > 0) {
           setBlog(res.data[0]);
+          setNotFound(false);
         } else {
           setBlog(null);
+          setNotFound(true);
         }
       })
       .catch((err) => {
         setBlog(null);
+        setNotFound(true);
         console.error("Blog not found:", err);
       });
 
@@ -40,6 +47,16 @@ export default function BlogDetail() {
       .catch((err) => console.error("Recent blogs fetch failed:", err));
   }, [slug]);
 
+  useSeo({
+    title: blog ? `${blog.title} | SpikeZone Blog` : undefined,
+    // written in the admin, or derived from the post by the API
+    description: blog ? blog.display_meta_description : undefined,
+    canonical: blog ? `${SITE_URL}/blogs/${blog.slug}` : undefined,
+    url: blog ? `${SITE_URL}/blogs/${blog.slug}` : undefined,
+    image: blog && blog.featured_image ? blog.featured_image : undefined,
+    type: "article",
+  });
+
   const extractFirstH1 = (html) => {
     const doc = new DOMParser().parseFromString(html, "text/html");
     const h1 = doc.querySelector("h1");
@@ -51,7 +68,20 @@ export default function BlogDetail() {
     return new Date(dateStr).toLocaleDateString("en-US", options);
   };
 
-  if (!blog) return <p>Loading...</p>;
+  if (!blog) {
+    if (!notFound) return <p className="blog-loading">Loading...</p>;
+    return (
+      <div className="blog-missing">
+        <h1>This article is not available</h1>
+        <p>
+          It may have been removed, or the link may be wrong.
+        </p>
+        <Link to="/blogs" className="read-full-btn">
+          See all articles
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className="blog-detail-page">
@@ -62,7 +92,15 @@ export default function BlogDetail() {
             <hr />
             <p className="blog-date">
               Published on: {formatDate(blog.created_at)}
+              {blog.author_name ? ` · by ${blog.author_name}` : ""}
             </p>
+            {blog.featured_image && (
+              <img
+                src={blog.featured_image}
+                alt={blog.title}
+                className="blog-featured-image"
+              />
+            )}
             <div
               className="ck-content blog-content"
               dangerouslySetInnerHTML={{
@@ -79,9 +117,10 @@ export default function BlogDetail() {
                 <Link to={`/blogs/${post.slug}`} className="recent-post-link">
                   <div className="recent-post-item">
                     <img
-                      src={extractFirstImage(post.content)}
-                      alt="thumb"
+                      src={postThumb(post)}
+                      alt=""
                       className="recent-post-img"
+                      loading="lazy"
                     />
                     <div className="recent-post-details">
                       <p className="recent-title">
@@ -106,10 +145,13 @@ export default function BlogDetail() {
   );
 }
 
-// Utility to extract image from HTML string
-function extractFirstImage(html) {
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(html, "text/html");
+// Thumbnail for a post: its featured image, else the first image in the body,
+// else the site's own cover. The old fallback was a via.placeholder.com URL -
+// an external service the page should not depend on, and a broken image when
+// it does not answer.
+function postThumb(post) {
+  if (post.featured_image) return post.featured_image;
+  const doc = new DOMParser().parseFromString(post.content || "", "text/html");
   const img = doc.querySelector("img");
-  return img ? img.src : "https://via.placeholder.com/80x50";
+  return img ? img.src : "/og-cover.jpg";
 }

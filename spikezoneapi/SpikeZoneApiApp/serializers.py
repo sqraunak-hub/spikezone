@@ -7,7 +7,17 @@ from django.db import transaction
 class UserRegistrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = "__all__"
+        # Listed explicitly rather than "__all__". Registration is an open,
+        # unauthenticated endpoint, and "__all__" put `is_admin`, `is_active`
+        # and `phone` on it. `is_admin` only failed to grant admin because
+        # create_user happens to drop the kwarg - one refactor away from being
+        # a real privilege escalation. `phone` must never be settable here
+        # either: it is the verified-number field, and OTP verification is the
+        # only thing allowed to write it.
+        fields = [
+            'id', 'email', 'name', 'contact', 'password',
+            'address', 'state', 'city', 'postalcode',
+        ]
         extra_kwargs = {
             'password': {'write_only': True},
             'name': {'required': True},
@@ -37,8 +47,55 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id', 'name', 'contact', 'email',
+        fields = ['id', 'name', 'contact', 'email', 'phone',
                   'address', 'state', 'city', 'postalcode', 'is_admin']
+        # Read-only: `phone` means "OTP-verified number". Letting a profile
+        # PATCH write it would hand anyone a way to claim any number without
+        # ever receiving an SMS.
+        read_only_fields = ['phone', 'is_admin']
+
+
+class AdminUserListSerializer(serializers.ModelSerializer):
+    """
+    The customer list behind the admin panel's Users screen.
+
+    Read-only by design: this is a directory, not an editing surface, and the
+    fields it exposes (a whole customer base with phone numbers and addresses)
+    are exactly the ones that must not be writable from a list endpoint.
+
+    `orders_count` and `last_order_date` are annotated on the queryset rather
+    than computed per row - with a few thousand customers, a property here
+    would fire two queries each.
+    """
+
+    orders_count = serializers.IntegerField(read_only=True)
+    last_order_date = serializers.DateTimeField(read_only=True)
+    signup_method = serializers.SerializerMethodField()
+    has_usable_password = serializers.SerializerMethodField()
+
+    class Meta:
+        model = User
+        fields = [
+            'id', 'name', 'email', 'phone', 'contact',
+            'address', 'city', 'state', 'postalcode',
+            'is_active', 'is_admin', 'created_at', 'last_login',
+            'orders_count', 'last_order_date',
+            'signup_method', 'has_usable_password',
+        ]
+        read_only_fields = fields
+
+    def get_signup_method(self, obj):
+        # How this account came into being, inferred from what it has. Useful
+        # in the panel for telling a real signup from an OTP-only account that
+        # never finished its profile.
+        if obj.phone:
+            return 'mobile-otp'
+        if obj.has_usable_password():
+            return 'password'
+        return 'email-otp'
+
+    def get_has_usable_password(self, obj):
+        return obj.has_usable_password()
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -189,16 +246,80 @@ class GallerySerializer(serializers.ModelSerializer):
         fields = ['id', 'image', 'image_title', 'image_description', 'created_at']
 
 class BlogSerializer(serializers.ModelSerializer):
+    """Blog payload for both the admin editor and the storefront.
+
+    The raw `excerpt` / `meta_description` are kept writable so the editor can
+    show exactly what was typed, while the `display_*` fields carry the value
+    the storefront should actually render - a post written before these fields
+    existed has neither, and falling back in the API keeps that fallback out of
+    two separate React apps.
+    """
+
+    author_name = serializers.SerializerMethodField(read_only=True)
+    display_excerpt = serializers.CharField(read_only=True)
+    display_meta_description = serializers.CharField(read_only=True)
+
     class Meta:
         model = Blog
-        fields = '__all__'
+        fields = ['id', 'title', 'slug', 'content', 'featured_image',
+                  'excerpt', 'meta_description', 'status',
+                  'author', 'author_name',
+                  'display_excerpt', 'display_meta_description',
+                  'created_at', 'updated_at']
+        # Set from request.user in the view; an editor must not be able to
+        # post under someone else's name.
+        read_only_fields = ['author', 'created_at', 'updated_at']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Blog.save() derives the slug from the title when it is blank, so
+        # requiring it here only makes the editor send something it already
+        # computes. Keep it accepted but optional.
+        self.fields["slug"].required = False
+
+    def get_author_name(self, obj):
+        return obj.author.name if obj.author else "SpikeZone"
 
 class EmailSerializer(serializers.Serializer):
     email = serializers.EmailField()
 
 class OTPVerifySerializer(serializers.Serializer):
     email = serializers.EmailField()
-    otp = serializers.CharField(max_length=6)                        
+    otp = serializers.CharField(max_length=6)
+
+
+class PhoneOTPRequestSerializer(serializers.Serializer):
+    """Input to /phone/request-otp/ - just the number the user typed."""
+
+    phone = serializers.CharField(max_length=20)
+
+
+class PhoneLoginSerializer(serializers.Serializer):
+    """
+    Input to /phone/verify/.
+
+    `id_token` is what the Firebase browser SDK returns once the SMS code has
+    been confirmed. `name` and `email` are only read when this number has
+    never been seen before, so a first-time OTP user can be created complete
+    instead of having to finish a profile afterwards; both are optional
+    because the storefront also supports filling them in later.
+
+    Deliberately absent: any `phone` field. The number is taken from the
+    signed token and nowhere else - accepting one from the request body would
+    let a caller present a valid token for their own number while claiming
+    somebody else's.
+    """
+
+    id_token = serializers.CharField()
+    name = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    email = serializers.EmailField(required=False, allow_blank=True)
+
+
+class EmailOTPLoginSerializer(serializers.Serializer):
+    """Input to /email/verify-login/ - the free, no-SMS login path."""
+
+    email = serializers.EmailField()
+    otp = serializers.CharField(max_length=6)
 
 class WishlistSerializer(serializers.ModelSerializer):
     product_details = ProductSerializer(source='product', read_only=True)

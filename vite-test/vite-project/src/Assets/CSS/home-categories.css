@@ -1,0 +1,601 @@
+/* Three product-family cards under the hero.
+   A card is a compact summary; clicking it opens that family's link panel
+   below the row. All three panels are in the DOM — the closed ones are
+   collapsed with CSS so the ~90 internal links stay crawlable. */
+
+.szcat {
+  padding: 1.4rem 0 0;
+  font-family: var(--szc-sans);
+  /* App.css sets `.App { text-align: center }` for the whole app; this block
+     is a list of links and reads as scattered when it inherits that. */
+  text-align: left;
+}
+
+.szcat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+/* ------------------------------------------------------- card --- */
+.szcat-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--szc-surface);
+  border: 1px solid var(--szc-line);
+  border-radius: var(--szc-r-lg);
+  transition: border-color 0.3s ease, box-shadow 0.35s var(--szc-ease),
+    transform 0.35s var(--szc-ease);
+}
+.szcat-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--szcat-c);
+  box-shadow: var(--szc-shadow);
+}
+.szcat-card.is-open {
+  border-color: var(--szcat-c);
+  box-shadow: var(--szc-shadow);
+  transform: none;
+}
+
+/* One hue per product family, from the palette in theme-premium.css. The
+   class is set from the data rather than by position: nth-of-type counts
+   every sibling <div>, so it would land on .szcat-grid, not the panels. */
+/* --szcat-deep / --szcat-deep2 are literals rather than theme tokens on
+   purpose: the card and banner headers are dark bands in BOTH themes, so
+   white has to stay legible on them. --szcat-deep2 is the same value as the
+   light-theme hue, which was picked to clear 4.5:1 against white. */
+.szcat-h1 {
+  --szcat-c: var(--szc-c1);
+  --szcat-tint: var(--szc-c1-tint);
+  --szcat-deep: #072d3d;
+  --szcat-deep2: #0a7699;
+}
+.szcat-h2 {
+  --szcat-c: var(--szc-c2);
+  --szcat-tint: var(--szc-c2-tint);
+  --szcat-deep: #052e22;
+  --szcat-deep2: #0b7a5e;
+}
+.szcat-h3 {
+  --szcat-c: var(--szc-c3);
+  --szcat-tint: var(--szc-c3-tint);
+  --szcat-deep: #3a2204;
+  --szcat-deep2: #9a5b06;
+}
+
+/* a coloured rule across the top edge, drawn on hover and while open */
+.szcat-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: var(--szcat-c);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s var(--szc-ease);
+  z-index: 2;
+}
+.szcat-card:hover::before,
+.szcat-card.is-open::before {
+  transform: scaleX(1);
+}
+
+/* -- the whole card is one control -- */
+.szcat-toggle {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-areas:
+    "icon copy"
+    "cta  cta";
+  align-items: start;
+  gap: 0 0.8rem;
+  width: 100%;
+  padding: 0.9rem 1.05rem;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+}
+.szcat-toggle:focus-visible {
+  outline: 2px solid var(--szcat-c);
+  outline-offset: -3px;
+}
+
+.szcat-icon {
+  grid-area: icon;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--szcat-c);
+  color: var(--szc-c-on);
+  font-size: 1.1rem;
+  transition: transform 0.35s var(--szc-ease);
+}
+.szcat-card:hover .szcat-icon,
+.szcat-card.is-open .szcat-icon {
+  transform: scale(1.07) rotate(-4deg);
+}
+
+.szcat-copy {
+  grid-area: copy;
+  display: block;
+  max-width: 15rem;
+}
+.szcat-name {
+  display: inline-block;
+  font-family: var(--szc-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--szc-ink);
+  padding-bottom: 0.4rem;
+  margin-bottom: 0.45rem;
+  /* a short accent rule under the name, rather than a plain gap */
+  border-bottom: 2px solid var(--szcat-c);
+}
+.szcat-blurb {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 300;
+  line-height: 1.5;
+  color: var(--szc-ink-soft);
+}
+
+/* the photo is decorative, so it fades in behind the copy */
+.szcat-media {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 46%;
+  height: 100%;
+  overflow: hidden;
+  opacity: 0.5;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 65%);
+  mask-image: linear-gradient(to right, transparent, #000 65%);
+  pointer-events: none;
+}
+.szcat-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s var(--szc-ease);
+}
+.szcat-card:hover .szcat-media img {
+  transform: scale(1.06);
+}
+
+/* The "Explore …" pill is the affordance for opening the panel. It sits
+   inside the card button, so it is a span, not a control of its own. */
+.szcat-cta {
+  grid-area: cta;
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  width: 100%;
+  margin-top: 0.75rem;
+  padding: 0.45rem 0.8rem;
+  border: 1px solid var(--szc-line-strong);
+  border-radius: var(--szc-r);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--szc-ink);
+  background: var(--szc-surface);
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+.szcat-cta svg {
+  flex-shrink: 0;
+  font-size: 0.62rem;
+  transition: transform 0.3s var(--szc-ease);
+}
+.szcat-card:hover .szcat-cta {
+  background: var(--szcat-c);
+  border-color: var(--szcat-c);
+  color: var(--szc-c-on);
+}
+.szcat-card.is-open .szcat-cta {
+  background: var(--szcat-c);
+  border-color: var(--szcat-c);
+  color: var(--szc-c-on);
+}
+.szcat-card.is-open .szcat-cta svg {
+  transform: rotate(180deg);
+}
+
+/* ------------------------------------------------------ panel --- */
+/* A plain display toggle, deliberately: animating max-height needs a magic
+   number tall enough for the tallest panel, and anything short of it silently
+   clips links — which is exactly what this panel must never do. The links
+   stay in the DOM either way, so crawlers still see them. */
+.szcat-panel {
+  display: none;
+  margin-top: 0.85rem;
+  border: 1px solid var(--szcat-c);
+  border-radius: var(--szc-r-lg);
+  background: var(--szc-surface);
+  box-shadow: var(--szc-shadow);
+  overflow: hidden;
+}
+.szcat-panel.is-open {
+  display: block;
+}
+
+/* ---- banner strip across the top of the open panel ---- */
+.szcat-banner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.62rem 1.1rem;
+  overflow: hidden;
+  /* --szcat-deep / --szcat-deep2 are fixed literals, not theme tokens: this
+     strip is dark in both themes, so white sits on it either way. */
+  background: linear-gradient(
+    100deg,
+    var(--szcat-deep) 0%,
+    var(--szcat-deep2) 100%
+  );
+}
+.szcat-banner > * {
+  position: relative;
+  z-index: 1;
+}
+.szcat-banner-shield {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--szcat-deep);
+  font-size: 1.15rem;
+}
+.szcat-banner-id {
+  display: block;
+  flex-shrink: 0;
+  padding-right: 1rem;
+  border-right: 1px solid rgba(255, 255, 255, 0.28);
+}
+.szcat-banner-name {
+  display: block;
+  font-family: var(--szc-display);
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #fff;
+  line-height: 1.1;
+}
+.szcat-banner-eyebrow {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.56rem;
+  font-weight: 600;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.92);
+}
+.szcat-banner-copy {
+  display: block;
+  min-width: 0;
+}
+.szcat-banner-tag {
+  display: block;
+  font-size: 0.86rem;
+  font-weight: 400;
+  line-height: 1.25;
+  color: rgba(255, 255, 255, 0.94);
+}
+.szcat-banner-tag strong {
+  display: block;
+  font-weight: 800;
+  color: #fff;
+}
+.szcat-banner-trust {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.3rem;
+  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.92);
+}
+.szcat-banner-trust span + span::before {
+  content: "|";
+  margin-right: 0.5rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+.szcat-banner-link {
+  margin-left: auto;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 99px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #fff;
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+.szcat-banner-link svg {
+  font-size: 0.6rem;
+}
+.szcat-banner-link:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: #fff;
+  color: #fff;
+}
+/* the family photo, faded into the right edge behind the copy */
+.szcat-banner-art {
+  position: absolute;
+  inset: 0 0 0 auto;
+  width: 34%;
+  z-index: 0;
+  opacity: 0.3;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 70%);
+  mask-image: linear-gradient(to right, transparent, #000 70%);
+}
+.szcat-banner-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ---- the six group cards, three across in two rows ---- */
+.szcat-cols {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.7rem;
+  padding: 0.8rem;
+}
+.szcat-col {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  border: 1px solid var(--szc-line);
+  border-radius: var(--szc-r-lg);
+  overflow: hidden;
+  background: var(--szc-surface);
+  transition: border-color 0.25s ease, box-shadow 0.3s var(--szc-ease);
+}
+.szcat-col:hover {
+  border-color: var(--szcat-deep2);
+  box-shadow: var(--szc-shadow-sm);
+}
+
+/* -- card header: dark gradient, white text in both themes -- */
+.szcat-col-head {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.5rem 0.7rem;
+  background: linear-gradient(
+    100deg,
+    var(--szcat-deep) 0%,
+    var(--szcat-deep2) 100%
+  );
+}
+.szcat-col-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--szcat-deep);
+  font-size: 0.8rem;
+}
+.szcat-col-titles {
+  display: block;
+  min-width: 0;
+}
+.szcat-col-name {
+  display: block;
+  font-family: var(--szc-display);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+  line-height: 1.15;
+}
+.szcat-col-sub {
+  display: block;
+  font-size: 0.6rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.92);
+  line-height: 1.3;
+}
+
+/* -- card body -- */
+.szcat-col-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 0.5rem 0.7rem 0.55rem;
+}
+.szcat-col-body ul {
+  list-style: none;
+  margin: 0 0 0.45rem;
+  padding: 0;
+  flex: 1;
+}
+.szcat-col-body li {
+  margin: 0;
+}
+.szcat-col-body a {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.28;
+  color: var(--szc-ink-soft);
+  padding: 0.055rem 0;
+  transition: color 0.2s ease;
+}
+.szcat-dot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--szcat-tint);
+  color: var(--szcat-c);
+  font-size: 0.5rem;
+}
+.szcat-col-body a:hover {
+  color: var(--szcat-c);
+}
+
+/* the pill sits bottom-right of its card, like the reference */
+.szcat-all {
+  align-self: flex-end;
+  display: inline-flex !important;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 99px;
+  background: var(--szcat-deep2);
+  font-size: 0.62rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #fff !important;
+  transition: filter 0.25s ease;
+}
+.szcat-all svg {
+  font-size: 0.56rem;
+  transition: transform 0.2s ease;
+}
+.szcat-all:hover {
+  filter: brightness(1.15);
+}
+.szcat-all:hover svg {
+  transform: translateX(3px);
+}
+
+/* ------------------------------------------------- responsive --- */
+
+/* On a touch screen there is no hover, so the card's colour — the top rule,
+   the filled pill, the tinted background — never appeared and the three
+   families read as plain white rectangles. Everything the pointer would have
+   revealed is simply on by default here. */
+@media (hover: none), (max-width: 992px) {
+  .szcat-card {
+    background: var(--szcat-tint);
+    border-color: var(--szcat-c);
+  }
+  .szcat-card::before {
+    transform: scaleX(1);
+  }
+  .szcat-cta {
+    background: var(--szcat-c);
+    border-color: var(--szcat-c);
+    color: var(--szc-c-on);
+  }
+  .szcat-name {
+    border-bottom-width: 3px;
+  }
+}
+
+/* One card per row from here down. The photo was shrunk to 34% and left at
+   half opacity, which on a full-width card reads as a smudge rather than a
+   product — so it gets more room, more of itself, and the copy is held back
+   so the two never overlap. */
+@media (max-width: 992px) {
+  .szcat-grid {
+    grid-template-columns: 1fr;
+  }
+  .szcat-media {
+    width: 42%;
+    opacity: 0.9;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 45%);
+    mask-image: linear-gradient(to right, transparent, #000 45%);
+  }
+  .szcat-copy {
+    max-width: 56%;
+  }
+}
+
+/* The banner's tagline block is the first thing to go when the strip runs out
+   of room — the name, the trust words and the guide link all matter more. */
+@media (max-width: 900px) {
+  .szcat-banner-copy {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .szcat-cols {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.7rem;
+    padding: 0.8rem;
+  }
+  .szcat-banner {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  .szcat-banner-id {
+    border-right: 0;
+    padding-right: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  /* This used to hide the photo outright to save room, which is why the cards
+     looked like plain boxes on a phone. It stays, just narrower, and the
+     blurb is capped to two lines so the card height does not run away. */
+  .szcat-media {
+    width: 38%;
+    opacity: 0.9;
+  }
+  .szcat-copy {
+    max-width: 60%;
+  }
+  .szcat-blurb {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .szcat-cols {
+    grid-template-columns: 1fr;
+  }
+  .szcat-banner-link {
+    margin-left: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .szcat-card,
+  .szcat-media img,
+  .szcat-icon,
+  .szcat-cta,
+  .szcat-col,
+  .szcat-col-body a {
+    transition: none;
+  }
+}

@@ -7,8 +7,26 @@ from SpikeZoneApiApp.renderers import UserRenderer
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAuthenticatedOrReadOnly
-from SpikeZoneApiApp.serializers import UserLoginSerializer, EmailSerializer, OTPVerifySerializer, BlogSerializer, GallerySerializer, ContactSerializer, UserProfileSerializer, UserRegistrationSerializer, ProductSerializer, ProductListSerializer, CategorySerializer, OrderItemSerializer, OrderSerializer, AddressSerializer, ReviewSerializer, WishlistSerializer
+from SpikeZoneApiApp.permissions import (
+    IsAdminOrReadOnly,
+    IsAdminUser,
+    IsSelfOrAdmin,
+    CreateOnlyOrAdmin,
+    _is_admin,
+)
+from SpikeZoneApiApp.serializers import AdminUserListSerializer, UserLoginSerializer, EmailSerializer, OTPVerifySerializer, BlogSerializer, GallerySerializer, ContactSerializer, UserProfileSerializer, UserRegistrationSerializer, ProductSerializer, ProductListSerializer, CategorySerializer, OrderItemSerializer, OrderSerializer, AddressSerializer, ReviewSerializer, WishlistSerializer
 from SpikeZoneApiApp.models import Products, Review, EmailOTP, Blog, Gallery, Contact, Category, OrderItem, Address, Order, User, Wishlist
+# auth_views defers its own imports of this module to call time, so this
+# one-way import at module scope does not close a cycle.
+from SpikeZoneApiApp.auth_views import (
+    OTPTargetThrottle,
+    OTPTargetVerifyThrottle,
+    _consume_email_otp,
+    send_otp_email,
+)
+from rest_framework.pagination import PageNumberPagination
+from django.db.models import Count, Max, Q
+import re
 import razorpay
 import random
 from django.core.mail import send_mail
@@ -21,6 +39,7 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 import os
 from django.core.files.storage import default_storage
+from django.utils.text import slugify
 from rest_framework.viewsets import ModelViewSet
 from django.contrib.auth import get_user_model
 
@@ -56,10 +75,18 @@ class UserLoginView(APIView):
         password = serializer.data.get('password')
         user = authenticate(email=email, password=password)
         if user is not None:
-            token = get_token_for_user(user)
-            return Response({'token': token, 'msg': 'Login Success'}, status=status.HTTP_200_OK)
+            # `user` is included because the storefront reads data.user.id off
+            # this response to seed its zustand store. It used to only get
+            # {token, msg}, so LoginForm threw on data.user.id after having
+            # already written the token to localStorage - the user ended up
+            # authenticated but stranded on the login page with no redirect.
+            from SpikeZoneApiApp.auth_views import _auth_payload
+            return Response(_auth_payload(user), status=status.HTTP_200_OK)
         else:
-            return Response({'errors': 'Email/Password is Invalid', 'email': email, 'pass': password}, status=status.HTTP_404_NOT_FOUND)
+            # Never echo the submitted password back: it lands in the
+            # browser, in any proxy log and in the network tab.
+            return Response({'errors': 'Email/Password is Invalid'},
+                            status=status.HTTP_401_UNAUTHORIZED)
 
 
 
@@ -89,6 +116,7 @@ class UserProfileView(APIView):
 
 
 class CategoryView(APIView):
+    permission_classes = [IsAdminOrReadOnly]
     serializer_class = CategorySerializer
 
     def get(self, request):
@@ -105,6 +133,7 @@ class CategoryView(APIView):
 
 
 class ProductView(viewsets.ModelViewSet):
+    permission_classes = [IsAdminOrReadOnly]
     parser_classes = (MultiPartParser, FormParser)
     queryset = Products.objects.all()
     serializer_class = ProductSerializer
@@ -307,14 +336,30 @@ class OrderViewSet(viewsets.ModelViewSet):
     
     
 class AddressViewSet(viewsets.ModelViewSet):
-    queryset = Address.objects.all()  # Explicitly define the queryset
+    """Delivery addresses.
+
+    This was open: no permission class, and get_queryset trusted a user_id
+    taken straight from the URL. Anyone could list, edit or delete any
+    customer's address by walking the ids. The queryset is now scoped to the
+    caller, so the user_id in the path can only ever select their own rows.
+    """
+
+    permission_classes = [IsAuthenticated]
+    queryset = Address.objects.all()
     serializer_class = AddressSerializer
 
     def get_queryset(self):
-        user_id = self.kwargs.get('user_id')
+        user = self.request.user
+        base = Address.objects.all() if getattr(user, "is_admin", False) \
+            else Address.objects.filter(user=user)
+        user_id = self.kwargs.get("user_id")
         if user_id is not None:
-            return Address.objects.filter(user_id=user_id)
-        return self.queryset
+            return base.filter(user_id=user_id)
+        return base
+
+    def perform_create(self, serializer):
+        # the client posts `user`; ignore it and bind to the authenticated one
+        serializer.save(user=self.request.user)
 
     def destroy(self, request, *args, **kwargs):
         try:
@@ -331,6 +376,7 @@ class AddressViewSet(viewsets.ModelViewSet):
             )
 
 class ProductUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAdminOrReadOnly]
     queryset = Products.objects.all()
     serializer_class = ProductSerializer
 
@@ -340,6 +386,7 @@ class ProductUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
         return Response({"message": "Product deleted successfully"}, status=status.HTTP_200_OK)
 
 class CategoryUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAdminOrReadOnly]
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
@@ -349,14 +396,75 @@ class CategoryUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
         return Response({"message": "Category deleted successfully"}, status=status.HTTP_200_OK)
 
 class UserProfileUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsSelfOrAdmin]
     queryset = User.objects.all()
     serializer_class = UserProfileSerializer
+
+
+class AdminUserPagination(PageNumberPagination):
+    page_size = 25
+    page_size_query_param = 'page_size'
+    max_page_size = 200
+
+
+class AdminUserListView(generics.ListAPIView):
+    """
+    Registered customers, for the admin panel's Users screen.
+
+    IsAdminUser, not IsAdminOrReadOnly: this returns the entire customer base
+    with phone numbers and delivery addresses, so even reading it is an admin
+    action. Read-only and paginated - a shop with a few thousand customers
+    should not ship them all in one response.
+    """
+
+    permission_classes = [IsAdminUser]
+    serializer_class = AdminUserListSerializer
+    pagination_class = AdminUserPagination
+
+    # Whitelisted so a caller cannot order by an arbitrary column, and so a
+    # typo falls back to something sensible instead of 500ing.
+    ORDERING_FIELDS = {
+        'created_at', '-created_at',
+        'name', '-name',
+        'orders_count', '-orders_count',
+        'last_order_date', '-last_order_date',
+    }
+
+    def get_queryset(self):
+        # Annotated rather than computed per row: a property would fire two
+        # extra queries for every customer in the page.
+        qs = User.objects.annotate(
+            orders_count=Count('order', distinct=True),
+            last_order_date=Max('order__order_date'),
+        )
+
+        search = (self.request.query_params.get('search') or '').strip()
+        if search:
+            # Phone numbers are stored E.164 but get typed every which way, so
+            # a digits-only variant is matched as well as the raw string.
+            digits = re.sub(r'\D', '', search)
+            condition = (
+                Q(name__icontains=search)
+                | Q(email__icontains=search)
+                | Q(phone__icontains=search)
+                | Q(contact__icontains=search)
+                | Q(city__icontains=search)
+            )
+            if digits:
+                condition |= Q(phone__icontains=digits) | Q(contact__icontains=digits)
+            qs = qs.filter(condition)
+
+        ordering = self.request.query_params.get('ordering') or '-created_at'
+        if ordering not in self.ORDERING_FIELDS:
+            ordering = '-created_at'
+
+        return qs.order_by(ordering)
 
 
 class ContactViewSet(viewsets.ModelViewSet):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [CreateOnlyOrAdmin]
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -433,22 +541,79 @@ def update_seo_json(request):
     return JsonResponse({'error': 'Only POST allowed'}, status=405)
 
 class BlogImageUploadView(APIView):
+    """Image upload for the blog editor.
+
+    Previously anonymous and unvalidated: anyone could put a file of any type
+    and any size on the server, under a filename they chose.
+    """
+
+    permission_classes = [IsAdminUser]
     parser_classes = [MultiPartParser]
 
+    ALLOWED = {"image/jpeg", "image/png", "image/webp", "image/gif"}
+    MAX_BYTES = 5 * 1024 * 1024
+
     def post(self, request, *args, **kwargs):
-        file = request.FILES['image']
-        filename = default_storage.save(file.name, file)
-        image_url = request.build_absolute_uri(default_storage.url(filename))
-        return Response({'image_url': image_url})
+        file = request.FILES.get("image")
+        if not file:
+            return Response({"error": "No image supplied."},
+                            status=status.HTTP_400_BAD_REQUEST)
+        if file.content_type not in self.ALLOWED:
+            return Response({"error": f"Unsupported type {file.content_type}."},
+                            status=status.HTTP_400_BAD_REQUEST)
+        if file.size > self.MAX_BYTES:
+            return Response({"error": "Image must be 5 MB or smaller."},
+                            status=status.HTTP_400_BAD_REQUEST)
+
+        # never trust the client's filename - it can carry paths or a second
+        # extension; keep only a slug of the stem plus the type's own extension
+        ext = {"image/jpeg": ".jpg", "image/png": ".png",
+               "image/webp": ".webp", "image/gif": ".gif"}[file.content_type]
+        stem = slugify(os.path.splitext(os.path.basename(file.name))[0])[:60] or "upload"
+        filename = default_storage.save(f"blog/{stem}{ext}", file)
+        return Response({"image_url": request.build_absolute_uri(
+            default_storage.url(filename))})
+
+def _visible_blogs(request):
+    """Drafts are for the admin panel only.
+
+    Both blog views are readable anonymously, so without this an unfinished
+    post is served to anyone who guesses the slug - and, because the storefront
+    lists what the API returns, shown on the public blog index as well.
+    """
+    qs = Blog.objects.all()
+    if _is_admin(getattr(request, "user", None)):
+        return qs
+    return qs.filter(status=Blog.PUBLISHED)
+
 
 class BlogDetailBySlugView(generics.RetrieveAPIView):
-    queryset = Blog.objects.all()
     serializer_class = BlogSerializer
     lookup_field = 'slug'
 
+    def get_queryset(self):
+        return _visible_blogs(self.request)
+
+
 class BlogViewSet(ModelViewSet):
-    queryset = Blog.objects.all()
+    permission_classes = [IsAdminOrReadOnly]
     serializer_class = BlogSerializer
+
+    def get_queryset(self):
+        qs = _visible_blogs(self.request)
+        # The storefront's detail page requests blogs/?slug=<slug> and takes
+        # the first row back. Nothing here honoured that filter, so it got the
+        # whole list and rendered whichever post happened to sort first -
+        # every /blogs/<slug> URL showed the same post. Only unnoticed so far
+        # because the blog is empty.
+        slug = self.request.query_params.get("slug")
+        if slug:
+            qs = qs.filter(slug=slug)
+        return qs
+
+    def perform_create(self, serializer):
+        # author is read-only in the serializer, so it can only be set here
+        serializer.save(author=self.request.user)
 
 def generate_otp():
     return str(random.randint(100000, 999999))
@@ -487,36 +652,30 @@ class AdminAddReviewView(APIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     
 class SendOTPView(APIView):
+    """Signup email verification. The passwordless-login codes are a separate
+    purpose and a separate endpoint - see auth_views.EmailOTPLoginRequestView."""
+
+    throttle_classes = [OTPTargetThrottle]
+
     def post(self, request):
         serializer = EmailSerializer(data=request.data)
         if serializer.is_valid():
-            email = serializer.validated_data['email']
+            email = serializer.validated_data['email'].strip().lower()
             otp = generate_otp()
 
-            EmailOTP.objects.create(email=email, otp=otp)
-
-            send_mail(
-                subject='One Time Password (OTP) for Email Verification',
-                message=f'Your OTP code is {otp}',
-                from_email=None,
-                recipient_list=[email],
-                html_message=f'''
-        <div style="font-family: Arial, sans-serif; padding: 20px; background-color: #f9f9f9;">
-            <h2 style="color: #333;">🔐 Email Verification</h2>
-            <p style="font-size: 16px; color: #555;">
-                Hello, <br><br>
-                Your One-Time Password (OTP) is:
-            </p>
-            <div style="font-size: 28px; font-weight: bold; color: #0b5ed7; padding: 10px 0;">
-                {otp}
-            </div>
-            <p style="font-size: 14px; color: #888;">
-                This OTP is valid for 5 minutes. Please do not share it with anyone.<br><br>
-                Regards,<br>
-                <strong>SpikeZone Team</strong>
-            </p>
-        </div>'''
+            EmailOTP.objects.create(
+                email=email, otp=otp, purpose=EmailOTP.PURPOSE_VERIFY
             )
+
+            try:
+                send_otp_email(email, otp, purpose=EmailOTP.PURPOSE_VERIFY)
+            except Exception:
+                # Reporting success while SMTP is down sends the user off to
+                # wait for a mail that will never arrive.
+                return Response(
+                    {'errors': 'Could not send the code right now. Please try again.'},
+                    status=status.HTTP_502_BAD_GATEWAY,
+                )
 
             return Response({'message': 'OTP sent successfully'}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -530,21 +689,32 @@ class UserReviewsView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)    
 
 class VerifyOTPView(APIView):
+    """Confirm a signup verification code.
+
+    The lookup used to be filter(email, otp).latest(...), which had two holes:
+    a correct code stayed valid for the rest of its five-minute window and
+    could be replayed, and because the wrong code simply missed the filter
+    there was nothing counting failed guesses - six digits with unlimited
+    tries. _consume_email_otp closes both by locking the newest row, counting
+    the attempt and burning the code on success.
+    """
+
+    throttle_classes = [OTPTargetVerifyThrottle]
+
     def post(self, request):
         serializer = OTPVerifySerializer(data=request.data)
         if serializer.is_valid():
-            email = serializer.validated_data['email']
+            email = serializer.validated_data['email'].strip().lower()
             otp = serializer.validated_data['otp']
 
-            try:
-                otp_obj = EmailOTP.objects.filter(email=email, otp=otp).latest('created_at')
-                if otp_obj.is_expired():
-                    return Response({'error': 'OTP expired'}, status=status.HTTP_400_BAD_REQUEST)
-                return Response({'message': 'OTP verified successfully'}, status=status.HTTP_200_OK)
-            except EmailOTP.DoesNotExist:
-                return Response({'error': 'Invalid OTP'}, status=status.HTTP_400_BAD_REQUEST)
+            error = _consume_email_otp(email, otp, EmailOTP.PURPOSE_VERIFY)
+            if error:
+                # Kept under the 'error' key: SignUp.js reads data.error here.
+                return Response({'error': error}, status=status.HTTP_400_BAD_REQUEST)
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
+            return Response({'message': 'OTP verified successfully'}, status=status.HTTP_200_OK)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class WishlistViewSet(viewsets.ModelViewSet):
     serializer_class = WishlistSerializer

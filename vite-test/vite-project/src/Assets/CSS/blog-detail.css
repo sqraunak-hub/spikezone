@@ -7,7 +7,7 @@
   font-family: "Helvetica Neue", sans-serif;
   font-size: 1rem;
   line-height: 1.6;
-  color: #222;
+  color: var(--szc-ink);
   overflow-wrap: break-word;
 }
 
@@ -34,7 +34,7 @@
 }
 
 .recent-posts-sidebar {
-  background: #fff;
+  background: var(--szc-surface);
   padding: 15px;
   border-radius: 8px;
 }
@@ -72,12 +72,12 @@
   font-size: 15px;
   font-weight: 500;
   margin: 0 0 6px 0;
-  color: #333;
+  color: var(--szc-ink-soft);
 }
 
 .recent-date {
   font-size: 13px;
-  color: #888;
+  color: var(--szc-muted);
   margin: 0;
 }
 
@@ -88,7 +88,7 @@
 }
 .main-blog-section {
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: var(--szc-surface-2);
   border-radius: 8px;
 }
 @media (max-width: 768px) {
@@ -119,4 +119,37 @@
     display: block;
     margin: 0 auto;
   }
+}
+
+/* Featured image at the top of a post. Fixed aspect so a portrait upload
+   cannot push the article text off the first screen. */
+.blog-featured-image {
+  width: 100%;
+  max-height: 420px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin: 0 0 1.4rem 0;
+  display: block;
+}
+
+/* A slug that matches no post. Previously this state was indistinguishable
+   from still-loading, so a wrong link looked like a broken site. */
+.blog-missing {
+  max-width: 620px;
+  margin: 4rem auto;
+  padding: 0 1.2rem;
+  text-align: center;
+}
+.blog-missing h1 {
+  font-size: 1.5rem;
+  margin-bottom: 0.6rem;
+}
+.blog-missing p {
+  color: #6b7b85;
+  margin-bottom: 1.4rem;
+}
+.blog-loading {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #6b7b85;
 }

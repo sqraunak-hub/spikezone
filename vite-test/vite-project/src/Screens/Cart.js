@@ -52,7 +52,7 @@ export default function Cart() {
     <>
       <SEOHelmet />
       <ToastContainer position="top-center" autoClose={5000} theme="light" />
-      <PageTitle title={"Your Selections"} />
+      <PageTitle as="h2" title={"Your Selections"} />
       <Container className="cart-container mt-5">
         <Table hover className="table-container">
           <thead className="cart-table-head">
@@ -124,7 +124,7 @@ export default function Cart() {
             <div className="cart-summary mt-3">
               <div className="cart-subtotal">
                 <p style={{ fontSize: "18px", fontWeight: 500 }}>Subtotal</p>
-                <p style={{ fontSize: "18px", fontWeight: 500, color: "red" }}>
+                <p style={{ fontSize: "18px", fontWeight: 500, color: "var(--szc-danger)" }}>
                   Rs.{totalAmount}/-
                 </p>
               </div>
@@ -171,7 +171,7 @@ export default function Cart() {
                 ))}
               <div className="cart-total mt-5">
                 <span>Total Payable</span>
-                <span style={{ color: "red" }}>
+                <span style={{ color: "var(--szc-danger)" }}>
                   Rs.{totalAmount + shipCost}/-
                 </span>
               </div>

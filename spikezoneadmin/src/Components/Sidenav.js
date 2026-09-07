@@ -15,6 +15,7 @@ import {
   FaTags,
 } from "react-icons/fa";
 import { HiClipboardList } from "react-icons/hi";
+import { FaUsers } from "react-icons/fa";
 import { MdCategory } from "react-icons/md";
 import {
   AiFillMessage,
@@ -127,6 +128,17 @@ export default function Sidenav({ maincontent }) {
             component={<Link to="/metatags" />}
           >
             SEO / Meta Tags
+          </MenuItem>
+        </Menu>
+
+        <Menu>
+          {!collapsed && <h5 className="sidebar-menu-head">Customers</h5>}
+          <MenuItem
+            active={isActive("/users")}
+            icon={<FaUsers />}
+            component={<Link to="/users" />}
+          >
+            Users
           </MenuItem>
         </Menu>
 

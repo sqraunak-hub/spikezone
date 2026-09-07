@@ -18,5 +18,8 @@ export default {
   get: axios.get,
   post: axios.post,
   put: axios.put,
+  // Profile completion after an OTP signup sends only the fields it has, so
+  // it needs PATCH - a PUT would blank every field it left out.
+  patch: axios.patch,
   delete: axios.delete,
 };

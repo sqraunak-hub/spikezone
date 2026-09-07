@@ -28,3 +28,30 @@ npm-debug.log*
 
 # handoff file with credentials — never commit
 CLAUDE.md
+
+# Handoff/runbook files with credentials in them. CLAUDE.md was already listed;
+# INSTRUCTIONS.md is the same file renamed and carries the SSH password and the
+# production DB password in plain text. It must never reach a remote.
+INSTRUCTIONS.md
+
+# Any .env except the two production ones, which hold only public host names
+# (the storefront and admin builds need them and they contain no secrets).
+.env.*
+!.env.example
+!.env.production
+# The API's production template. Every secret in it is the literal string
+# FILL-IN; it exists so the server-side .env can be filled in from a checklist
+# instead of from memory.
+!.env.production.template
+
+# Archives and scratch files that have no business in the history
+*.zip
+*.tar.gz
+amzn.html
+amzn_extract.json
+
+# Local deploy artefact
+site.tar.gz
+
+# Local dev HTTPS certs (self-signed, regenerate as needed)
+.certs/

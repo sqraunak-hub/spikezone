@@ -1,7 +1,16 @@
 import React from "react";
 import "../Assets/CSS/legal-pages.css"; // or wherever your CSS is
+import useSeo from "../Utils/useSeo";
+import { SITE_URL } from "../Utils/appConstant";
 
 export default function TermsAndCondition() {
+  useSeo({
+    title: "Terms & Conditions | SpikeZone",
+    description:
+      "The terms that apply when you buy bird control products from SpikeZone.",
+    canonical: `${SITE_URL}/terms`,
+  });
+
   return (
     <div className="legal-page">
       <h2 className="mb-4">Terms and Conditions</h2>

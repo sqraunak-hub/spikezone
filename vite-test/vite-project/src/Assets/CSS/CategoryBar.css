@@ -1,4 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap");
 
 .items-center {
   /* align-items: center; */
@@ -8,40 +7,312 @@ ul {
   list-style: none;
 }
 
+/* ---------------------------------------------- guide dropdowns --- */
+/* Solutions has 27 pages and Locations 15; a flat list would be unusable, so
+   these open as multi-column panels instead. */
+.szmm {
+  position: relative;
+  display: inline-block;
+}
+.szmm-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+}
+.szmm-caret {
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid currentColor;
+  opacity: 0.75;
+  transition: transform 0.2s ease;
+}
+.szmm-open .szmm-caret {
+  transform: rotate(180deg);
+}
+
+.szmm-panel {
+  position: absolute;
+  top: calc(100% + 14px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-6px);
+  background: var(--szc-surface);
+  border: 1px solid var(--szc-line);
+  border-top: 3px solid var(--szc-brass);
+  border-radius: 4px;
+  box-shadow: 0 24px 60px -20px rgba(6, 34, 46, 0.35);
+  padding: 1.1rem 1.2rem 0.9rem;
+  /* Six columns want ~1150px. Ask for that, but never exceed the viewport —
+     the columns are minmax(0, 1fr) so they compress rather than overflow. */
+  width: 1150px;
+  max-width: calc(100vw - 2rem);
+  overflow-x: auto;
+  z-index: 300;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
+  font-family: var(--szc-sans);
+  text-align: left;
+}
+.szmm-open .szmm-panel {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+/* keeps the pointer from falling through the gap to the panel */
+.szmm-panel::before {
+  content: "";
+  position: absolute;
+  top: -17px;
+  left: 0;
+  right: 0;
+  height: 17px;
+}
+
+/* All six groups on one row.
+
+   They were three across in two rows, which made the panel ~750px tall — so
+   it had to scroll, and the second row (Location / Types / FAQs) sat below
+   the fold where nobody found it. One row is shorter than any laptop
+   viewport, so every section is visible the moment the menu opens. */
+.szmm-cols {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0.6rem;
+}
+.szmm-col {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  border: 1px solid var(--szc-line);
+  border-radius: var(--szc-r-lg);
+  overflow: hidden;
+  background: var(--szc-surface);
+}
+
+/* -- column header: tinted band with icon, title and strapline -- */
+.szmm-colhead {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.6rem 0.75rem;
+  background: var(--szc-accent-tint);
+  border-bottom: 1px solid var(--szc-line);
+}
+.szmm-colicon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--szc-accent);
+  color: var(--szc-on-accent);
+  font-size: 0.75rem;
+}
+.szmm-coltitles {
+  display: block;
+  min-width: 0;
+}
+.szmm-heading {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--szc-ink);
+  margin: 0;
+  line-height: 1.2;
+}
+.szmm-subheading {
+  display: block;
+  font-size: 0.62rem;
+  font-weight: 400;
+  color: var(--szc-ink-soft);
+  line-height: 1.25;
+}
+
+.szmm-col ul {
+  list-style: none;
+  margin: 0;
+  padding: 0.4rem 0.45rem 0.5rem;
+  flex: 1;
+}
+.szmm-col li {
+  margin-bottom: 0;
+}
+.szmm-col a {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.42rem;
+  padding: 0.26rem 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--szc-ink);
+  border-radius: var(--szc-r);
+  transition: color 0.18s ease, background 0.18s ease;
+}
+.szmm-dot {
+  margin-top: 1px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  border-radius: 5px;
+  background: var(--szc-accent-tint);
+  color: var(--szc-accent-text);
+  font-size: 0.55rem;
+}
+.szmm-label {
+  flex: 1;
+  min-width: 0;
+}
+.szmm-chev {
+  margin-top: 4px;
+  flex-shrink: 0;
+  font-size: 0.56rem;
+  color: var(--szc-muted);
+  transition: transform 0.18s ease, color 0.18s ease;
+}
+.szmm-col a:hover {
+  color: var(--szc-accent-text);
+  background: var(--szc-surface-2);
+}
+
+/* per-column "All solutions →" etc., pinned to the foot of its card */
+.szmm-colall {
+  display: flex !important;
+  align-items: center;
+  gap: 0.35rem;
+  /* `auto` on the top edge pins this to the foot of a flex column, so the
+     pills line up across cards of different heights. It has to live in the
+     shorthand — a separate margin-top above it gets overwritten by this. */
+  margin: auto 0.45rem 0.5rem;
+  padding: 0.35rem 0.5rem !important;
+  border-top: 1px solid var(--szc-line);
+  border-radius: 0 !important;
+  font-size: 0.7rem !important;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--szc-accent-text) !important;
+}
+.szmm-colall svg {
+  font-size: 0.6rem;
+  transition: transform 0.2s ease;
+}
+.szmm-colall:hover {
+  background: transparent !important;
+}
+.szmm-colall:hover svg {
+  transform: translateX(3px);
+}
+.szmm-col a:hover .szmm-chev {
+  transform: translateX(2px);
+  color: var(--szc-accent-text);
+}
+
+.szmm-all {
+  display: inline-block;
+  margin-top: 1rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--szc-line);
+  width: 100%;
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--szc-ink);
+  transition: color 0.2s ease;
+}
+.szmm-all:hover {
+  color: var(--szc-accent-text);
+}
+
+/* The bar is desktop-only (mobile uses the offcanvas sidebar), but if it is
+   ever shown narrow, drop the panel to a normal block so nothing is clipped. */
+@media (max-width: 992px) {
+  .szmm-panel {
+    position: static;
+    transform: none;
+    box-shadow: none;
+    padding: 0.75rem 0;
+  }
+  .szmm-open .szmm-panel {
+    transform: none;
+  }
+  /* .szmm-cols is a grid now, so flex-direction did nothing here */
+  .szmm-cols {
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+  }
+}
+
+/* Tightened when the guide sections (Bird Control / Solutions / Applications /
+   Locations) were added to the bar: at the old 1.15em / 1.9em gap the ten
+   items ran past the viewport on a 1280px screen. flex-wrap is the safety net
+   for narrower desktops. */
+/* The links now carry their own padding, so the gap between them is small.
+   flex-wrap stays as the safety net for narrow desktops. */
 .nav-wrapper {
-  gap: 1.9em;
+  gap: 0.1em;
+  align-items: center;
   font-weight: 500;
-  font-size: 1.15em;
+  font-size: 0.87em;
+  flex-wrap: wrap;
+  white-space: nowrap;
 }
 .item-container {
-  padding-left: 5em;
-  padding-right: 5em;
+  padding-left: 1.25em;
+  padding-right: 1.25em;
 }
 .cat-and-drop {
-  gap: 10em;
-  justify-content: space-between;
+  gap: 1.1em;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
 }
 body {
   align-items: center;
 }
+/* min-height, not height: the nav items grew when they picked up icons and
+   hover pills, and a fixed 60px made the row overflow its own bar. */
 .cat-bar-full {
-  height: 60px;
+  min-height: 60px;
   align-items: center;
   display: flex;
-  background: #1e9dcd;
-  color: white;
+  background: var(--szc-surface);
+  border-bottom: 1px solid var(--szc-line);
+  color: var(--szc-ink);
   text-align: center;
   align-content: center;
-  padding-top: 1em;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 
 .drop-btn {
-  background: white;
-  border: none;
+  background: var(--szc-surface-2);
+  color: var(--szc-ink);
+  border: 1px solid var(--szc-line);
   padding: 10px 25px 10px 25px;
-  font-size: 18px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: var(--szc-r);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+}
+.drop-btn:hover {
+  border-color: var(--szc-green);
+  color: var(--szc-accent-text);
 }
 .dropdown-menu {
   display: none;
@@ -86,15 +357,65 @@ body {
   border-radius: 3px;
 }
 .seller-btn:hover {
-  background-color: white;
-  color: black;
+  background-color: var(--szc-surface);
+  color: var(--szc-ink);
   border: 1px solid black;
 }
+/* Nav items carry a small icon and sit on a pill that fills on hover, so the
+   active item reads without relying on colour alone. */
 .cat-bar-link {
-  color: white;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.38rem;
+  padding: 0.45rem 0.5rem;
+  border-radius: var(--szc-r);
+  color: var(--szc-ink);
   text-decoration: none;
-  transition: 0.2s;
+  white-space: nowrap;
+  transition: color 0.2s ease, background 0.2s ease;
 }
-.cat-bar-link:hover {
-  opacity: 0.5;
+.cat-bar-link:hover,
+.szmm-open > .cat-bar-link {
+  color: var(--szc-accent-text);
+  background: var(--szc-accent-tint);
+}
+.cat-bar-ico {
+  display: inline-flex;
+  font-size: 0.88em;
+  color: var(--szc-accent-text);
+}
+
+/* --- "Get Free Quote" --- */
+.cat-bar-quote {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-shrink: 0;
+  padding: 0.62rem 1.25rem;
+  border-radius: 99px;
+  /* a fixed navy pill: this is the one always-solid control in the bar, and
+     white on it has to hold in both themes */
+  background: linear-gradient(100deg, #0d3557 0%, #0a7699 100%);
+  color: #fff;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  box-shadow: 0 6px 16px -8px rgba(13, 53, 87, 0.7);
+  transition: filter 0.2s ease, transform 0.2s ease;
+}
+.cat-bar-quote:hover {
+  filter: brightness(1.12);
+  transform: translateY(-1px);
+  color: #fff;
+}
+.cat-bar-quote svg {
+  font-size: 0.85em;
+}
+
+@media (max-width: 1200px) {
+  .cat-bar-quote {
+    padding: 0.55rem 0.95rem;
+    font-size: 0.76rem;
+  }
 }

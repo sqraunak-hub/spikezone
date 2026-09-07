@@ -12,7 +12,7 @@
 }
 
 .header p {
-  color: #666;
+  color: var(--szc-muted);
   margin-bottom: 15px;
 }
 
@@ -55,7 +55,7 @@
 }
 
 .review-card {
-  background: #f8ffff;
+  background: var(--szc-surface-2);
   border: 1px solid #e2e8f0;
   border-radius: 8px;
   padding: 16px;
@@ -72,7 +72,7 @@
   align-items: center;
   margin: 5px 0;
   font-size: 14px;
-  color: #666;
+  color: var(--szc-muted);
 }
 
 .stars {
@@ -106,27 +106,27 @@
   font-weight: bold;
 }
 .badge.published {
-  background: #d4f8d4;
-  color: #1a7a1a;
+  background: var(--szc-ok-tint);
+  color: var(--szc-accent-text);
 }
 .badge.pending {
-  background: #fff3cd;
-  color: #856404;
+  background: rgba(201, 162, 39, 0.14);
+  color: #e0b243;
 }
 .badge.draft {
-  background: #e2e3e5;
-  color: #383d41;
+  background: var(--szc-surface-2);
+  color: var(--szc-ink-soft);
 }
 
 .review-content {
   font-size: 15px;
   line-height: 1.5;
-  color: #333;
+  color: var(--szc-ink-soft);
 }
 
 .empty {
   text-align: center;
-  color: #888;
+  color: var(--szc-muted);
   padding: 20px;
   border: 1px solid #eee;
   border-radius: 6px;

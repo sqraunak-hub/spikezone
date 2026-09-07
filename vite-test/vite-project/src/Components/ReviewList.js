@@ -40,7 +40,7 @@ const ReviewList = ({ reviews }) => {
       {reviews.map((review) => (
         <div
           key={review.id}
-          className="border rounded p-3 mb-3 shadow-sm bg-white"
+          className="border rounded p-3 mb-3 shadow-sm sz-review-card"
         >
           <div className="d-flex justify-content-between align-items-center mb-2">
             <div>

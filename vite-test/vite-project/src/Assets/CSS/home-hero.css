@@ -1,0 +1,242 @@
+/* Home hero.
+   The supplied artwork already contains the headline, sub-heading and badges,
+   so it is shown at full fidelity — no dimming veil and nothing layered over
+   it. The CTAs and the stats panel sit below it on the dark page. */
+
+.szh-hero {
+  position: relative;
+  background: var(--szc-bg);
+  font-family: var(--szc-sans);
+  padding-bottom: 3rem;
+}
+
+/* A soft wash in the palette hues so the band under the banner does not end on
+   flat white. Tints only, so it reads in both themes and never fights the
+   text sitting on it. */
+.szh-hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 60%;
+  background: radial-gradient(
+      ellipse 60% 100% at 8% 100%,
+      var(--szc-c1-tint),
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 55% 100% at 92% 100%,
+      var(--szc-c4-tint),
+      transparent 70%
+    );
+  pointer-events: none;
+}
+.szh-hero > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------------------------------------------------- banner --- */
+.szh-banner {
+  width: 100%;
+  line-height: 0;
+}
+.szh-banner picture,
+.szh-banner img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ------------------------------------------------------ copy --- */
+/* Desktop: the artwork carries these words, so keep them for crawlers and
+   screen readers only. Phones get the crop without text, so show them. */
+.szh-copy {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ------------------------------------------------- below band --- */
+.szh-below {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2.5rem;
+  padding-top: 2.5rem;
+}
+
+.szh-hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.1rem;
+}
+.szh-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: var(--szc-ink);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding-bottom: 3px;
+  border-bottom: 1px solid var(--szc-line-strong);
+  transition: color 0.25s ease, border-color 0.25s ease;
+}
+.szh-ghost:hover {
+  color: var(--szc-accent-soft);
+  border-color: var(--szc-accent-soft);
+}
+
+/* ---------------------------------------------- stats panel ---
+   Four tinted cards rather than one white strip with dividers. Each takes a
+   hue from the shared palette in theme-premium.css: the card carries the
+   tint, the chip is filled with the solid hue, and the number takes it too.
+   The palette flips with the theme, so this stays legible in both. */
+.szh-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+.szh-stat {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.9rem 1.05rem;
+  border-radius: var(--szc-r-lg);
+  background: var(--szh-tint);
+  border: 1px solid transparent;
+  transition: transform 0.35s var(--szc-ease), box-shadow 0.35s var(--szc-ease);
+}
+.szh-stat:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--szc-shadow-sm);
+}
+.szh-stat:nth-child(1) {
+  --szh-c: var(--szc-c1);
+  --szh-tint: var(--szc-c1-tint);
+}
+.szh-stat:nth-child(2) {
+  --szh-c: var(--szc-c2);
+  --szh-tint: var(--szc-c2-tint);
+}
+.szh-stat:nth-child(3) {
+  --szh-c: var(--szc-c4);
+  --szh-tint: var(--szc-c4-tint);
+}
+.szh-stat:nth-child(4) {
+  --szh-c: var(--szc-c3);
+  --szh-tint: var(--szc-c3-tint);
+}
+.szh-stat-icon {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--szh-c);
+  color: var(--szc-c-on);
+  font-size: 1rem;
+  transition: transform 0.35s var(--szc-ease);
+}
+.szh-stat:hover .szh-stat-icon {
+  transform: scale(1.08) rotate(-4deg);
+}
+.szh-stat strong {
+  display: block;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--szh-c);
+  line-height: 1.1;
+  white-space: nowrap;
+  letter-spacing: -0.02em;
+}
+/* the chip is a <span> too, so this has to name the label's wrapper - a bare
+   `.szh-stat span` outranks .szh-stat-icon and repaints the glyph */
+.szh-stat > div span {
+  font-size: 0.74rem;
+  font-weight: 500;
+  color: var(--szc-ink-soft);
+  white-space: nowrap;
+}
+
+/* ---------------------------------------------- responsive --- */
+@media (max-width: 1200px) {
+  .szh-below {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.75rem;
+  }
+  .szh-hero-cta {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .szh-hero {
+    padding-bottom: 2.25rem;
+  }
+
+  /* the phone crop has no text on it, so the real heading takes over */
+  .szh-copy {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: 1.75rem 0 0;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+    text-align: center;
+  }
+  .szh-copy h1 {
+    font-size: clamp(1.9rem, 8vw, 2.6rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--szc-ink);
+    margin: 0 0 0.7rem;
+  }
+  .szh-copy p {
+    color: var(--szc-ink-soft);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    font-weight: 300;
+    margin: 0;
+  }
+
+  .szh-below {
+    padding-top: 1.75rem;
+  }
+  .szh-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.6rem;
+  }
+  .szh-stat {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.55rem;
+    padding: 0.85rem 0.9rem;
+  }
+  .szh-stat-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    font-size: 0.85rem;
+  }
+  .szh-stat strong {
+    font-size: 1.2rem;
+  }
+  .szh-hero-cta .szc-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

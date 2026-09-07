@@ -2,30 +2,111 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <!-- Favicons. This was still Vite's default logo, and /favicon.ico - which
+         browsers and Google request by convention whether it is declared or
+         not - fell through the SPA rewrite and answered with index.html.
+         There is a real file at that path now. Built from the logo mark only;
+         the wordmark is illegible below 32px. -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-      rel="stylesheet"
-    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap"
     />
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    <!--
+      Static SEO baseline. This is a client-rendered SPA: without these, the
+      only thing a crawler gets before running JS is the title below and an
+      empty <body>, which is why search results showed the bare URL.
+
+      Deliberately no <link rel="canonical"> here — index.html is served for
+      every route by the .htaccess rewrite, so a hardcoded canonical would
+      tell a non-rendering crawler that all 157 URLs are the home page.
+      useSeo sets the canonical per route instead.
+    -->
+    <title>Bird Spikes &amp; Anti Bird Net Manufacturer | SpikeZone</title>
+    <meta
+      name="description"
+      content="Humane bird control since 2015 — bird spikes, pigeon spikes, monkey spikes and anti bird nets for balconies, ledges and rooftops. Pan-India delivery."
     />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+    <meta name="theme-color" content="#0a7699" />
+
+    <!-- Google Search Console. useSeo never touches this tag, and index.html is
+         served for every route, so it stays present site-wide. -->
+    <meta
+      name="google-site-verification"
+      content="2bzxPru-Mc7RsxQQzx9kGHAFxh3P2MZbNsZ1mm5KgdQ"
     />
-    <title>SpikeZone Shop</title>
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="SpikeZone" />
+    <meta
+      property="og:title"
+      content="Bird Spikes &amp; Anti Bird Net Manufacturer | SpikeZone"
+    />
+    <meta
+      property="og:description"
+      content="Humane bird control since 2015 — bird spikes, pigeon spikes, monkey spikes and anti bird nets. Free sizing advice, pan-India delivery."
+    />
+    <meta property="og:url" content="https://spikezone.in/" />
+    <meta property="og:image" content="https://spikezone.in/og-cover.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Bird Spikes &amp; Anti Bird Net Manufacturer | SpikeZone"
+    />
+    <meta
+      name="twitter:description"
+      content="Humane bird control since 2015 — bird spikes, pigeon spikes, monkey spikes and anti bird nets. Free sizing advice, pan-India delivery."
+    />
+    <meta name="twitter:image" content="https://spikezone.in/og-cover.jpg" />
+    <!-- Google Analytics 4 (gtag.js).
+         This is a client-routed SPA, so only the first load is a real document
+         load. GA4's enhanced measurement tracks History API changes by
+         default, which is what covers the route changes — if page_view counts
+         ever look wrong, that setting in the GA4 admin is the thing to check. -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-QJ3FJERF2H"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-QJ3FJERF2H");
+    </script>
+
+    <!-- Ahrefs Web Analytics -->
+    <script
+      src="https://analytics.ahrefs.com/analytics.js"
+      data-key="8tDwqC4KWL1lrnJ7wUat5A"
+      async
+    ></script>
+
+    <!-- Apply the saved theme before first paint. Without this a dark-mode
+         visitor sees a white flash while the bundle boots. Light is the
+         default: only an explicit "dark" choice is honoured. -->
+    <script>
+      try {
+        if (localStorage.getItem("sz-theme") === "dark") {
+          document.documentElement.dataset.theme = "dark";
+        }
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <!-- <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> -->
   </body>
 </html>

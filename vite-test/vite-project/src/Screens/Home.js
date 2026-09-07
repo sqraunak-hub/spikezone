@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from "react";
-import HomeSlider from "../Components/HomeSlider";
-import BestSellers from "../Components/BestSellers";
+import React, { useState, useEffect, lazy, Suspense } from "react";
+import HomeHero from "../Components/HomeHero";
+import HomeCategories from "../Components/HomeCategories";
 import CategoryPanel from "../Components/CategoryPanel";
-import ProductShowcase from "../Components/ProductShowcase";
+const BestSellers = lazy(() => import("../Components/BestSellers"));
+import HomeUseCases from "../Components/HomeUseCases";
 import WhyUs from "../Components/WhyUs";
+import ProductShowcase from "../Components/ProductShowcase";
 import HomeCta from "../Components/HomeCta";
-import Clients from "../Components/Clients";
-import FaqComp from "../Components/FaqComp";
+const Clients = lazy(() => import("../Components/Clients"));
+const FaqComp = lazy(() => import("../Components/FaqComp"));
 import Loader from "../Components/Loader";
 import SEOHelmet from "../Components/SEOHelmet";
 
@@ -25,14 +27,22 @@ function Home() {
         <Loader />
       ) : (
         <div>
-          <HomeSlider />
+          <HomeHero />
+          <HomeCategories />
           <CategoryPanel />
-          <BestSellers />
+          <Suspense fallback={null}>
+            <BestSellers />
+          </Suspense>
+          <HomeUseCases />
           <WhyUs />
           <ProductShowcase />
-          <Clients />
+          <Suspense fallback={null}>
+            <Clients />
+          </Suspense>
           <HomeCta />
-          <FaqComp />
+          <Suspense fallback={null}>
+            <FaqComp />
+          </Suspense>
         </div>
       )}
     </>

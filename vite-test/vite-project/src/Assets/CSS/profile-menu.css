@@ -1,0 +1,210 @@
+/* Account dropdown in the header.
+   Built on the --szc-* tokens so it follows the light/dark toggle without a
+   second palette, and so it reads as part of the same site as the rest of the
+   chrome rather than Bootstrap's defaults. */
+
+.szpm {
+  display: inline-flex;
+}
+
+/* ---------- trigger ---------- */
+
+.szpm-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--szc-accent);
+  line-height: 0;
+  cursor: pointer;
+}
+
+.szpm-trigger:focus-visible {
+  outline: 2px solid var(--szc-accent);
+  outline-offset: 3px;
+  border-radius: 999px;
+}
+
+/* Bootstrap draws a caret on every toggle; the avatar is the affordance. */
+.szpm .dropdown-toggle::after {
+  display: none;
+}
+
+/* ---------- avatar ---------- */
+
+.szpm-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--szc-accent), var(--szc-accent-dark));
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  line-height: 1;
+  user-select: none;
+}
+
+.szpm-avatar-sm {
+  width: 34px;
+  height: 34px;
+  flex-basis: 34px;
+  font-size: 0.78rem;
+  box-shadow: 0 0 0 2px var(--szc-surface), 0 0 0 3px var(--szc-accent-tint);
+  transition: box-shadow 0.2s var(--szc-ease), transform 0.2s var(--szc-ease);
+}
+
+.szpm-trigger:hover .szpm-avatar-sm {
+  transform: translateY(-1px);
+  box-shadow: 0 0 0 2px var(--szc-surface), 0 0 0 4px var(--szc-accent);
+}
+
+/* ---------- menu shell ---------- */
+
+.szpm-menu.dropdown-menu {
+  --szpm-pad: 0.55rem;
+  min-width: 268px;
+  margin-top: 0.6rem;
+  padding: var(--szpm-pad);
+  border: 1px solid var(--szc-line);
+  border-radius: var(--szc-r-lg);
+  background: var(--szc-surface);
+  box-shadow: var(--szc-shadow);
+}
+
+/* ---------- identity block ---------- */
+
+.szpm-head {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.55rem 0.6rem 0.75rem;
+  border-bottom: 1px solid var(--szc-line);
+  margin-bottom: 0.45rem;
+}
+
+.szpm-id {
+  min-width: 0; /* lets the ellipsis below actually kick in */
+}
+
+.szpm-name,
+.szpm-sub {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.szpm-name {
+  color: var(--szc-ink);
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.szpm-sub {
+  margin-top: 2px;
+  color: var(--szc-muted);
+  font-size: 0.78rem;
+}
+
+.szpm-badge-row {
+  padding: 0 0.6rem 0.5rem;
+}
+
+.szpm-badge {
+  display: inline-block;
+  padding: 0.16rem 0.5rem;
+  border-radius: 999px;
+  background: var(--szc-ok-tint);
+  color: var(--szc-ok);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* ---------- items ---------- */
+
+.szpm-items {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.szpm-item.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  width: 100%;
+  padding: 0.55rem 0.6rem;
+  border: none;
+  border-radius: var(--szc-r);
+  background: transparent;
+  color: var(--szc-ink);
+  font-size: 0.9rem;
+  text-align: left;
+  text-decoration: none;
+  transition: background 0.15s var(--szc-ease), color 0.15s var(--szc-ease);
+}
+
+.szpm-item.dropdown-item:hover,
+.szpm-item.dropdown-item:focus {
+  background: var(--szc-surface-2);
+  color: var(--szc-ink);
+}
+
+.szpm-item.dropdown-item:active {
+  background: var(--szc-accent-tint);
+  color: var(--szc-ink);
+}
+
+.szpm-item-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  flex: 0 0 26px;
+  border-radius: 8px;
+  background: var(--szc-accent-tint);
+  color: var(--szc-accent-text);
+  font-size: 0.78rem;
+}
+
+.szpm-divider.dropdown-divider {
+  margin: 0.45rem 0.2rem;
+  border-top-color: var(--szc-line);
+  opacity: 1;
+}
+
+.szpm-signout.dropdown-item {
+  color: var(--szc-danger);
+  font-weight: 600;
+}
+
+.szpm-signout .szpm-item-icon {
+  background: rgba(194, 69, 60, 0.12);
+  color: var(--szc-danger);
+}
+
+.szpm-signout.dropdown-item:hover,
+.szpm-signout.dropdown-item:focus {
+  background: rgba(194, 69, 60, 0.1);
+  color: var(--szc-danger);
+}
+
+/* On a phone the menu is anchored to an icon near the right edge, so cap it to
+   the viewport instead of letting it push the page sideways. */
+@media (max-width: 480px) {
+  .szpm-menu.dropdown-menu {
+    min-width: 0;
+    width: min(280px, calc(100vw - 24px));
+  }
+}

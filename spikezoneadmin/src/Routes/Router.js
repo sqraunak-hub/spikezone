@@ -9,6 +9,7 @@ import Login from "../Screens/Login";
 import PendingOrders from "../Screens/PendingOrders";
 import CompletedOrders from "../Screens/CompletedOrder";
 import Messages from "../Screens/Messages";
+import Users from "../Screens/Users";
 import Gallery from "../Screens/Gallery";
 import Reviews from "../Screens/Reviews";
 import MetaTags from "../Screens/MetaTags";
@@ -45,6 +46,7 @@ export default function Router() {
 
   const handleLogout = () => {
     localStorage.removeItem("token"); // Clear token from localStorage
+    localStorage.removeItem("refreshToken");
     localStorage.removeItem("user"); // Clear user data from localStorage
     setIsLoggedIn(false); // Update login state
   };
@@ -175,6 +177,16 @@ export default function Router() {
             <ProtectedRoute>
               <div style={{ display: "" }}>
                 <Sidenav maincontent={<Categories />} />
+              </div>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/users"
+          element={
+            <ProtectedRoute>
+              <div style={{ display: "" }}>
+                <Sidenav maincontent={<Users />} />
               </div>
             </ProtectedRoute>
           }

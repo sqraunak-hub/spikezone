@@ -68,6 +68,11 @@ export default function Login({ setIsLoggedIn }) {
         if (userProfile.is_admin) {
           toast.success("Login successful!");
           localStorage.setItem("token", token);
+          // Kept so the session can renew itself: the access token expires
+          // after 60 minutes and every save after that used to 401.
+          if (data.token.refresh) {
+            localStorage.setItem("refreshToken", data.token.refresh);
+          }
           localStorage.setItem("user", JSON.stringify(userProfile));
           setApiLoad(false);
           if (setIsLoggedIn) setIsLoggedIn(true); // update Router state so Header shows without a refresh

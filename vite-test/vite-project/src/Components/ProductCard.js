@@ -3,6 +3,8 @@ import "../Assets/CSS/Card.css";
 import { Link } from "react-router-dom";
 import { Rating } from "@mui/material";
 import { FaArrowRight } from "react-icons/fa";
+import { productPath } from "../Utils/appConstant";
+import { slugify } from "../Utils/slugify";
 
 export default function ProductCard(props) {
   const { product } = props;
@@ -15,7 +17,10 @@ export default function ProductCard(props) {
   const rating = parseFloat(product.average_rating);
 
   return (
-    <Link to={`/products/${product.slug}`} className="sz-pcard">
+    <Link
+      to={productPath(slugify(product.category_name), product.slug)}
+      className="sz-pcard"
+    >
       <div className="sz-pcard-imgwrap">
         {hasDiscount && <span className="sz-pcard-badge">-{discount}%</span>}
         {product.isBest && <span className="sz-pcard-best">Bestseller</span>}

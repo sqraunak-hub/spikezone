@@ -98,7 +98,7 @@ export default function Cart(props) {
         pauseOnHover
         theme="light"
       />
-      <PageTitle title={"Your Shopping Cart"} />
+      <PageTitle as="h2" title={"Your Shopping Cart"} />
       <Container className="cart-container mt-5">
         <Table hover className="table-container">
           <thead className="cart-table-head">
@@ -172,7 +172,7 @@ export default function Cart(props) {
             <div className="cart-summary mt-3">
               <div className="cart-subtotal">
                 <p style={{ fontSize: "18px", fontWeight: 500 }}>Subtotal</p>
-                <p style={{ fontSize: "18px", fontWeight: 500, color: "red" }}>
+                <p style={{ fontSize: "18px", fontWeight: 500, color: "var(--szc-danger)" }}>
                   Rs.{totalAmount}/-
                 </p>
               </div>
@@ -219,7 +219,7 @@ export default function Cart(props) {
                 ))}
               <div className="cart-total mt-5">
                 <span>Total Payable</span>
-                <span style={{ color: "red" }}>
+                <span style={{ color: "var(--szc-danger)" }}>
                   Rs.{totalAmount + shipCost}/-
                 </span>
               </div>

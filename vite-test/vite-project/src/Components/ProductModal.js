@@ -12,7 +12,7 @@ export default function ProductModal(props) {
   return (
     <>
       <Modal fullscreen show={props.show} onHide={props.hide}>
-        <Modal.Header closeButton style={{ color: "#ffffff" }}>
+        <Modal.Header closeButton style={{ color: "var(--szc-ink)" }}>
           <Modal.Title id="contained-modal-title-lg">
             {props.modalTitle}
           </Modal.Title>

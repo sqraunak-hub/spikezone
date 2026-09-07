@@ -21,7 +21,7 @@
   height: 380px;
   left: -100px;
   top: -60px;
-  background: radial-gradient(circle, #1e9dcd 0%, transparent 70%);
+  background: radial-gradient(circle, var(--szc-brass) 0%, transparent 70%);
   opacity: 0.45;
 }
 .auth-blob.two {
@@ -29,7 +29,7 @@
   height: 340px;
   right: -90px;
   bottom: -80px;
-  background: radial-gradient(circle, #ff8a00 0%, transparent 70%);
+  background: radial-gradient(circle, var(--szc-brass-soft) 0%, transparent 70%);
   opacity: 0.3;
 }
 
@@ -46,7 +46,7 @@
 .auth-page .back {
   width: 100% !important;
   margin: 0 !important;
-  background: #ffffff !important;
+  background: var(--szc-surface) !important;
   border: none !important;
   border-radius: 20px !important;
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
@@ -68,7 +68,7 @@
   text-align: center;
   font-size: 1.35rem;
   font-weight: 700;
-  color: #043141;
+  color: var(--szc-ink);
   margin-top: 0.8rem;
 }
 
@@ -95,16 +95,16 @@
   padding: 0.9rem 1rem 0.55rem 1rem !important;
   font-size: 0.95rem !important;
   font-weight: 500 !important;
-  color: #043141 !important;
-  background: #f8fbfd !important;
+  color: var(--szc-ink) !important;
+  background: var(--szc-surface-2) !important;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 .email-login-input:focus,
 .password-login-input:focus {
   outline: none !important;
-  border-color: #1e9dcd !important;
+  border-color: var(--szc-brass) !important;
   box-shadow: 0 0 0 3px rgba(30, 157, 205, 0.15) !important;
-  background: #ffffff !important;
+  background: var(--szc-surface) !important;
 }
 .password-login-span {
   position: absolute;
@@ -122,8 +122,8 @@
 .login-input input:valid + .password-login-span {
   top: 0;
   transform: translateY(-50%) scale(0.8);
-  background: #ffffff;
-  color: #1e9dcd;
+  background: var(--szc-surface);
+  color: var(--szc-accent-text);
   font-weight: 600;
   border-radius: 4px;
 }
@@ -132,14 +132,14 @@
 .auth-page .back .form-control {
   border: 1.5px solid #dbe7ee;
   border-radius: 12px;
-  background: #f8fbfd;
+  background: var(--szc-surface-2);
   font-weight: 500;
-  color: #043141;
+  color: var(--szc-ink);
 }
 .auth-page .back .form-control:focus {
-  border-color: #1e9dcd;
+  border-color: var(--szc-brass);
   box-shadow: 0 0 0 3px rgba(30, 157, 205, 0.15);
-  background: #ffffff;
+  background: var(--szc-surface);
 }
 .auth-page .back .form-floating > label {
   color: #8aa0ac;
@@ -151,7 +151,7 @@
   width: 100%;
   border: none;
   border-radius: 12px;
-  background: linear-gradient(120deg, #1e9dcd, #157ba3);
+  background: linear-gradient(120deg, var(--szc-brass), var(--szc-brass-dark));
   color: #ffffff;
   font-weight: 600;
   font-size: 1rem;
@@ -189,18 +189,18 @@
 }
 .forgot-pass-btn,
 .register-btn {
-  color: #5b6b73 !important;
+  color: var(--szc-muted) !important;
   text-decoration: none !important;
 }
 .forgot-pass-btn:hover {
-  color: #043141 !important;
+  color: var(--szc-ink) !important;
 }
 .register-btn {
-  color: #1e9dcd !important;
+  color: var(--szc-accent-text) !important;
   font-weight: 600;
 }
 .register-btn:hover {
-  color: #157ba3 !important;
+  color: var(--szc-brass-dark) !important;
   text-decoration: underline !important;
 }
 
@@ -218,7 +218,7 @@
 }
 .otp-box {
   position: relative;
-  background: #ffffff;
+  background: var(--szc-surface);
   border-radius: 18px;
   padding: 2rem 1.6rem;
   width: 100%;
@@ -229,16 +229,16 @@
 }
 .otp-box h4 {
   font-weight: 700;
-  color: #043141;
+  color: var(--szc-ink);
 }
 .otp-box p {
   font-size: 0.85rem;
-  color: #5b6b73;
+  color: var(--szc-muted);
 }
 .otp-verify-btn {
   width: 100%;
   border-radius: 12px !important;
-  background: #1e9dcd !important;
+  background: var(--szc-brass) !important;
   border: none !important;
   font-weight: 600 !important;
   padding: 0.7rem !important;

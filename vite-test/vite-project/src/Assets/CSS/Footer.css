@@ -2,8 +2,8 @@
 .sz-footer {
   position: relative;
   overflow: hidden;
-  color: #43555f;
-  background: linear-gradient(160deg, #f2fafd 0%, #ddf0fa 55%, #c9e7f6 100%);
+  color: var(--szc-ink-soft);
+  background: linear-gradient(160deg, rgba(75, 179, 232, 0.12) 0%, rgba(75, 179, 232, 0.12) 55%, rgba(75, 179, 232, 0.12) 100%);
   font-family: "Poppins", sans-serif;
 }
 
@@ -23,6 +23,11 @@
   inset: 0;
   pointer-events: none;
   z-index: 0;
+  /* The blobs are positioned with negative offsets (left: -90px, right: -60px)
+     so they bleed off the edges. Without clipping here they widen the document
+     itself, which on a phone means the whole page scrolls sideways. They are
+     blurred to nothing at the edges anyway, so nothing visible is lost. */
+  overflow: hidden;
 }
 
 /* soft blobs */
@@ -37,7 +42,7 @@
   height: 340px;
   left: -90px;
   top: 30%;
-  background: radial-gradient(circle, #043141 0%, transparent 70%);
+  background: radial-gradient(circle, var(--szc-deep) 0%, transparent 70%);
   animation: sz-float 9s ease-in-out infinite;
 }
 .sz-blob-2 {
@@ -45,7 +50,7 @@
   height: 300px;
   right: -60px;
   top: 10%;
-  background: radial-gradient(circle, #ff8a00 0%, transparent 70%);
+  background: radial-gradient(circle, var(--szc-brass-soft) 0%, transparent 70%);
   opacity: 0.2;
   animation: sz-float 12s ease-in-out infinite reverse;
 }
@@ -54,7 +59,7 @@
   height: 260px;
   left: 42%;
   bottom: -80px;
-  background: radial-gradient(circle, #1e9dcd 0%, transparent 70%);
+  background: radial-gradient(circle, var(--szc-brass) 0%, transparent 70%);
   opacity: 0.25;
   animation: sz-float 10s 2s ease-in-out infinite;
 }
@@ -98,7 +103,7 @@
 .sz-dot-2 {
   right: 28%;
   top: 30%;
-  background: #ff8a00;
+  background: var(--szc-brass-soft);
   box-shadow: 0 0 12px 2px rgba(255, 138, 0, 0.45);
   animation-delay: 1.2s;
 }
@@ -225,7 +230,7 @@
 
 .footer-logo {
   display: block;
-  background: #ffffff;
+  background: var(--szc-surface);
   border-radius: 12px;
   max-width: 150px;
   height: auto;
@@ -234,7 +239,7 @@
 }
 
 .sz-footer-head {
-  color: #043141;
+  color: var(--szc-ink);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1.5px;
@@ -252,13 +257,13 @@
   width: 34px;
   height: 3px;
   border-radius: 3px;
-  background: linear-gradient(90deg, #ff8a00, #1e9dcd);
+  background: linear-gradient(90deg, var(--szc-brass-soft), var(--szc-brass));
 }
 
 .sz-footer-about {
   font-size: 0.85rem;
   line-height: 1.7;
-  color: #5b6b73;
+  color: var(--szc-muted);
   max-width: 340px;
 }
 
@@ -275,16 +280,16 @@
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background: #ffffff;
+  background: var(--szc-surface);
   border: 1px solid rgba(4, 49, 65, 0.12);
-  color: #043141;
+  color: var(--szc-ink);
   font-size: 0.9rem;
   box-shadow: 0 3px 10px rgba(4, 49, 65, 0.08);
   transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease,
     color 0.25s ease;
 }
 .sz-social-btn:hover {
-  background: #ff8a00;
+  background: var(--szc-brass-soft);
   color: #ffffff;
   transform: translateY(-4px) scale(1.06);
   box-shadow: 0 8px 18px rgba(255, 138, 0, 0.4);
@@ -301,7 +306,7 @@
   margin-bottom: 0.65rem;
 }
 .sz-footer-links a {
-  color: #5b6b73;
+  color: var(--szc-muted);
   text-decoration: none;
   font-size: 0.88rem;
   position: relative;
@@ -313,10 +318,10 @@
   left: -2px;
   opacity: 0;
   transition: opacity 0.2s ease;
-  color: #ff8a00;
+  color: var(--szc-accent-on-dark);
 }
 .sz-footer-links a:hover {
-  color: #043141;
+  color: var(--szc-ink);
   padding-left: 14px;
 }
 .sz-footer-links a:hover::before {
@@ -324,7 +329,8 @@
 }
 .sz-footer-more {
   font-weight: 600;
-  color: #157ba3 !important;
+  /* the footer is dark in both themes, so this takes the pale cyan */
+  color: var(--szc-accent-on-dark) !important;
 }
 
 /* contact list */
@@ -334,19 +340,19 @@
   gap: 12px;
   margin-bottom: 0.8rem;
   font-size: 0.88rem;
-  color: #5b6b73;
+  color: var(--szc-muted);
 }
 .sz-footer-contact svg {
   margin-top: 3px;
-  color: #ff8a00;
+  color: var(--szc-accent-on-dark);
   flex-shrink: 0;
 }
 .sz-footer-contact a {
-  color: #5b6b73;
+  color: var(--szc-muted);
   text-decoration: none;
 }
 .sz-footer-contact a:hover {
-  color: #043141;
+  color: var(--szc-ink);
 }
 
 /* bottom bar */
@@ -366,15 +372,15 @@
 }
 .sz-copy {
   font-size: 0.85rem;
-  color: #5b6b73;
+  color: var(--szc-muted);
 }
 .sz-copy a {
-  color: #043141;
+  color: var(--szc-ink);
   font-weight: 600;
   text-decoration: none;
 }
 .sz-copy a:hover {
-  color: #ff8a00;
+  color: var(--szc-accent-on-dark);
 }
 
 @media (max-width: 576px) {

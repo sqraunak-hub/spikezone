@@ -1,0 +1,127 @@
+/* Admin > Users. Deliberately plain and dense: this is a directory the shop
+   owner scans, so readability at a glance beats decoration. */
+
+.adm-users-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.adm-users-sub {
+  margin: 0.15rem 0 0;
+  color: #6c757d;
+  font-size: 0.85rem;
+}
+
+.adm-users-tools {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.adm-users-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.adm-users-search svg {
+  position: absolute;
+  left: 10px;
+  color: #6c757d;
+  pointer-events: none;
+}
+
+.adm-users-search input {
+  padding-left: 34px;
+  min-width: 260px;
+}
+
+.adm-users-sort {
+  width: auto;
+  min-width: 165px;
+}
+
+.adm-users-table {
+  font-size: 0.9rem;
+  vertical-align: middle;
+}
+
+.adm-users-table th {
+  white-space: nowrap;
+}
+
+.adm-users-verified {
+  font-size: 0.62rem;
+  vertical-align: middle;
+}
+
+.adm-users-muted {
+  color: #9aa5ad;
+}
+
+.adm-users-loading,
+.adm-users-empty {
+  padding: 2.5rem 0;
+  text-align: center;
+  color: #6c757d;
+}
+
+.adm-users-pager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 0.5rem 0 1.25rem;
+  color: #6c757d;
+  font-size: 0.86rem;
+}
+
+.adm-users-pager-btns {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.adm-users-pageno {
+  white-space: nowrap;
+}
+
+/* Definition list in the details modal: label column fixed so the values line
+   up regardless of how long the labels are. */
+.adm-users-dl {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 0.5rem 1rem;
+  margin: 0;
+}
+
+.adm-users-dl dt {
+  color: #6c757d;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.adm-users-dl dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 575px) {
+  .adm-users-search input {
+    min-width: 0;
+  }
+
+  .adm-users-dl {
+    grid-template-columns: 1fr;
+    gap: 0.1rem 0;
+  }
+
+  .adm-users-dl dd {
+    margin-bottom: 0.6rem;
+  }
+}

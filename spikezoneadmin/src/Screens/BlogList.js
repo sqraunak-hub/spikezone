@@ -142,11 +142,21 @@ export default function BlogList() {
                   <td>{idx + 1}</td>
                   <td>
                     <strong>{blog.title}</strong>
+                    {blog.status === "draft" && (
+                      <span className="blog-draft-badge">Draft</span>
+                    )}
                     <div className="blog-slug-small">/blogs/{blog.slug}</div>
                   </td>
                   <td className="blog-content-preview">
-                    {stripHtml(blog.content).slice(0, 90)}
-                    {stripHtml(blog.content).length > 90 ? "…" : ""}
+                    {/* display_excerpt is the author's summary when there is
+                        one and the start of the post when there is not, so
+                        this column matches what the website shows */}
+                    {blog.display_excerpt
+                      ? blog.display_excerpt.slice(0, 90)
+                      : stripHtml(blog.content).slice(0, 90)}
+                    {(blog.display_excerpt || stripHtml(blog.content)).length > 90
+                      ? "…"
+                      : ""}
                   </td>
                   <td>
                     {blog.created_at
@@ -176,15 +186,19 @@ export default function BlogList() {
                     >
                       <FaTrash />
                     </Button>
-                    <a
-                      href={`${SITE_URL}/blogs/${blog.slug}`}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="btn btn-light btn-sm adm-action-btn"
-                      title="View on website"
-                    >
-                      <FaExternalLinkAlt size={12} />
-                    </a>
+                    {/* a draft is not on the website, so this link would
+                        only lead to an empty page */}
+                    {blog.status !== "draft" && (
+                      <a
+                        href={`${SITE_URL}/blogs/${blog.slug}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="btn btn-light btn-sm adm-action-btn"
+                        title="View on website"
+                      >
+                        <FaExternalLinkAlt size={12} />
+                      </a>
+                    )}
                   </td>
                 </tr>
               ))}

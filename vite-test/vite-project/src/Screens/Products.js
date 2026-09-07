@@ -152,11 +152,13 @@ export default function Products() {
   return (
     <>
       <SEOHelmet />
+      {/* This is the page's h1, so it names what is actually sold rather than
+          saying "Discover Our Range", which matches nothing anyone searches. */}
       <PageTitle
         title={
           searchQuery
             ? `Search Results for "${searchQuery}"`
-            : "Discover Our Range"
+            : "Bird Spikes, Pigeon Spikes & Bird Control Products"
         }
       />
       {loading ? (
@@ -180,7 +182,7 @@ export default function Products() {
             <Col lg={3} className="d-none d-lg-block">
               <div
                 className="p-3 shadow-sm rounded"
-                style={{ backgroundColor: "#f9f9f9" }}
+                style={{ backgroundColor: "var(--szc-surface)" }}
               >
                 <h5 className="fw-bold mb-3">Filters</h5>
 
@@ -325,7 +327,7 @@ export default function Products() {
                   left: 0,
                   width: "80%",
                   height: "100%",
-                  backgroundColor: "#fff",
+                  backgroundColor: "var(--szc-surface)",
                   padding: "1rem",
                   zIndex: 9999,
                   overflowY: "auto",
@@ -335,7 +337,7 @@ export default function Products() {
                 <h5 className="fw-bold mb-3">Filters</h5>
                 <div
                   className="p-3 shadow-sm rounded"
-                  style={{ backgroundColor: "#f9f9f9" }}
+                  style={{ backgroundColor: "var(--szc-surface)" }}
                 >
                   <div className="mb-3">
                     <h6>Price</h6>

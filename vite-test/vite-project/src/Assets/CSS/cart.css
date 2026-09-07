@@ -25,14 +25,16 @@
   font-weight: bolder;
   color: gray;
 }
+/* plain `red` is only 4.0:1 on white; --szc-danger is the tuned pair and
+   lightens on the dark theme */
 .cart-danger {
-  background-color: #fff;
-  color: red;
-  border: 1px solid red;
+  background-color: var(--szc-surface);
+  color: var(--szc-danger);
+  border: 1px solid var(--szc-danger);
 }
 .cart-danger:hover,
 .cart-danger:focus {
-  background-color: red;
+  background-color: var(--szc-danger);
   color: #fff;
   box-shadow: none;
 }
@@ -41,14 +43,14 @@
   background-color: transparent !important;
   backdrop-filter: blur(4px) saturate(200%);
   -webkit-backdrop-filter: blur(4px) saturate(200%);
-  /* background-color: rgba(255, 255, 255, 0.35); */
+  /* background-color: rgba(255, 255, 255, 0.10); */
   border-radius: 12px;
   padding: 20px 20px 20px 20px;
 }
 .rc-head {
   font-size: 1.6em;
   font-weight: 600;
-  color: darkslategray;
+  color: var(--szc-ink-soft);
   font-family: "Alkatra", cursive;
   letter-spacing: 2px;
 }
@@ -65,14 +67,14 @@
 .checkout-btn {
   font-size: 1.2em;
   background-color: transparent;
-  border: 1.5px solid #1e9dcd;
-  color: #1e9dcd;
+  border: 1.5px solid var(--szc-brass);
+  color: var(--szc-accent-text);
   border-radius: 25px;
   font-weight: 500;
 }
 .checkout-btn:hover,
 .checkout-btn:focus {
-  background-color: #1e9dcd;
+  background-color: var(--szc-brass);
   color: #fff;
 }
 .cart-title {
@@ -95,7 +97,7 @@
   overflow-x: auto !important;
   font-size: 16px;
   font-weight: 700;
-  color: #6f6f6f;
+  color: var(--szc-muted);
   text-align: center;
   vertical-align: middle;
   border: 1px solid #ededed;
@@ -104,10 +106,10 @@
   font-size: 1em;
   background: transparent;
   border: none;
-  color: #6f6f6f;
+  color: var(--szc-muted);
 }
 .delete-btn:hover {
-  color: red;
+  color: var(--szc-danger);
   background: transparent;
   border: none;
 }
@@ -123,8 +125,8 @@
   font-weight: 700;
 }
 .cart-table-head {
-  color: black;
-  background: #ebebeb;
+  color: var(--szc-ink);
+  background: var(--szc-surface-2);
   /* font-family: "Poppins", sans-serif; */
   font-size: 13px;
 }

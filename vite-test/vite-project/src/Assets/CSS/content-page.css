@@ -1,0 +1,792 @@
+/* Content pages — premium treatment.
+   Loaded after content-body.css and deliberately overrides it: that sheet is
+   a plain editorial baseline, this turns each structure the fragments use
+   (.at-a-glance, .callout, tables, .card, .link-grid, .btn) into something
+   that looks like the rest of the storefront. */
+
+/* App.css sets `.App { text-align: center }` for the whole app. Long-form prose
+   inherits it and reads as scattered, so the content pages opt out and only the
+   closing CTA opts back in. */
+.szcp {
+  text-align: left;
+}
+
+/* content-body.css is generated from the authored stylesheet and carries its
+   own light palette on .sz-content (--sz-bg: #FFFFFF and friends). This sheet
+   loads after it, so retune those variables for the dark theme rather than
+   editing the generated file. */
+.sz-content {
+  --sz-ink: var(--szc-ink);
+  --sz-body: var(--szc-ink-soft);
+  --sz-muted: var(--szc-muted);
+  --sz-line: var(--szc-line);
+  --sz-bg: transparent;
+  --sz-bg-soft: var(--szc-surface);
+  --sz-cyan: var(--szc-green);
+  --sz-blue: var(--szc-green);
+  --sz-blue-dark: var(--szc-green-dark);
+  --sz-blue-deep: var(--szc-green-soft);
+  --sz-blue-tint: var(--szc-accent-tint);
+  --sz-blue-mid: rgba(0, 160, 208, 0.3);
+  --sz-grey: var(--szc-muted);
+  --sz-alert: var(--szc-danger);
+  --sz-alert-tint: rgba(194, 69, 60, 0.12);
+  --sz-shadow: var(--szc-shadow);
+  --sz-shadow-sm: var(--szc-shadow-sm);
+}
+
+/* content-body.css also ships a dark block, at `:root[data-theme="dark"]
+   .sz-content` - one specificity step above the rule above, so it would win
+   in dark mode and pin the tokens to its own hardcoded values. Repeating the
+   mapping at equal specificity here reclaims them: this sheet loads later.
+   The storefront tokens already flip with the theme, so one mapping serves
+   both. */
+:root[data-theme="dark"] .sz-content {
+  --sz-ink: var(--szc-ink);
+  --sz-body: var(--szc-ink-soft);
+  --sz-muted: var(--szc-muted);
+  --sz-line: var(--szc-line);
+  --sz-bg: transparent;
+  --sz-bg-soft: var(--szc-surface);
+  --sz-blue-tint: var(--szc-accent-tint);
+  --sz-alert-tint: rgba(226, 87, 76, 0.16);
+  --sz-shadow: var(--szc-shadow);
+  --sz-shadow-sm: var(--szc-shadow-sm);
+}
+
+/* The home page links straight at these headings, so leave a little air above
+   one that has just been scrolled to. */
+.szcp-body h2[id],
+.szcp-body h3[id] {
+  scroll-margin-top: 1.5rem;
+}
+
+/* =========================================================== hero === */
+.szcp-hero {
+  background:
+    radial-gradient(circle at 88% 12%, var(--szc-accent-tint), transparent 42%),
+    linear-gradient(165deg, var(--szc-cream) 0%, var(--szc-surface) 68%);
+  border-bottom: 1px solid var(--szc-line);
+  padding: 1.5rem 0 3.25rem;
+  font-family: var(--szc-sans);
+}
+
+.szcp-crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  color: var(--szc-ink-soft);
+  margin-bottom: 2.5rem;
+}
+.szcp-crumbs a {
+  color: var(--szc-ink-soft);
+  transition: color 0.25s ease;
+}
+.szcp-crumbs a:hover {
+  color: var(--szc-accent-text);
+}
+.szcp-sep {
+  color: #c3d2d8;
+}
+.szcp-current {
+  color: var(--szc-ink);
+  font-weight: 500;
+}
+
+.szcp-hero-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 3.5rem;
+  align-items: center;
+}
+
+/* the fragment's own hero markup, unwrapped from the article column */
+.szcp-hero-copy.sz-content {
+  max-width: none;
+  padding: 0;
+  background: none;
+}
+.szcp-hero-copy h1 {
+  font-family: var(--szc-display);
+  font-size: clamp(2.1rem, 4.4vw, 3.4rem);
+  font-weight: 600;
+  letter-spacing: -0.022em;
+  line-height: 1.08;
+  color: var(--szc-ink);
+  margin: 0 0 1.1rem;
+}
+.szcp-hero-copy .hero-sub {
+  font-size: 1.05rem;
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--szc-ink-soft);
+  max-width: 46ch;
+  margin: 0 0 1.9rem;
+}
+.szcp-hero-copy .hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  margin-bottom: 1.9rem;
+}
+.szcp-hero-copy .trust-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.szcp-hero-copy .trust-strip li {
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--szc-ink);
+  background: var(--szc-surface);
+  border: 1px solid var(--szc-line);
+  border-radius: 999px;
+  padding: 0.42rem 0.95rem;
+}
+.szcp-hero-copy .trust-strip li::before {
+  content: none;
+}
+
+.szcp-hero-media {
+  position: relative;
+  padding: 1.1rem 1.1rem 0 0;
+}
+.szcp-hero-media::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 2.2rem 2.2rem;
+  border: 1px solid var(--szc-brass-soft);
+  border-radius: 4px;
+  opacity: 0.5;
+}
+.szcp-hero-frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  box-shadow: 0 26px 60px -24px rgba(6, 34, 46, 0.42);
+}
+.szcp-hero-frame img {
+  width: 100%;
+  height: clamp(260px, 30vw, 380px);
+  object-fit: cover;
+  display: block;
+  transition: transform 1.1s var(--szc-ease);
+}
+.szcp-hero-media:hover .szcp-hero-frame img {
+  transform: scale(1.05);
+}
+.szcp-hero-badge {
+  position: absolute;
+  left: -1.2rem;
+  bottom: 1.2rem;
+  background: var(--szc-surface);
+  border-left: 3px solid var(--szc-brass);
+  border-radius: 4px;
+  padding: 0.9rem 1.3rem;
+  box-shadow: 0 16px 40px -14px rgba(6, 34, 46, 0.3);
+}
+.szcp-hero-badge strong {
+  display: block;
+  font-family: var(--szc-display);
+  font-size: 1.55rem;
+  line-height: 1;
+  color: var(--szc-ink);
+}
+.szcp-hero-badge span {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--szc-ink-soft);
+}
+
+.szcp-trust {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.75rem;
+  margin-top: 2.5rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--szc-line);
+}
+.szcp-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--szc-ink);
+}
+.szcp-chip svg {
+  color: var(--szc-accent-text);
+}
+
+/* ====================================================== Shop Now === */
+.szcp-shop {
+  padding-top: 3.5rem;
+  font-family: var(--szc-sans);
+}
+.szcp-shop-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 2.25rem;
+}
+.szcp-cat {
+  margin-bottom: 2.75rem;
+}
+.szcp-cat-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.75rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid var(--szc-line);
+}
+.szcp-cat-head h3 {
+  font-family: var(--szc-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--szc-ink);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.szcp-cat-tag {
+  font-family: var(--szc-sans);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--szc-deep);
+  background: var(--szc-brass);
+  border-radius: 2px;
+  padding: 3px 8px;
+}
+.szcp-cat-head a {
+  white-space: nowrap;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--szc-ink-soft);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: color 0.25s ease, gap 0.25s ease;
+}
+.szcp-cat-head a:hover {
+  color: var(--szc-accent-text);
+  gap: 0.8rem;
+}
+.szcp-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+/* ================================================ article body === */
+.szcp-body.sz-content {
+  padding-top: 3.5rem;
+  font-family: var(--szc-sans);
+  font-size: 1.02rem;
+  line-height: 1.85;
+}
+
+/* headings get a brass rule so long pages have visible rhythm */
+.szcp-body h2 {
+  font-family: var(--szc-display);
+  font-size: clamp(1.5rem, 2.7vw, 2rem);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--szc-ink);
+  margin: 3.25rem 0 1.1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--szc-line);
+  position: relative;
+}
+.szcp-body h2::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 3rem;
+  height: 2px;
+  background: var(--szc-brass);
+}
+.szcp-body h3 {
+  font-family: var(--szc-display);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--szc-ink);
+  margin: 2rem 0 0.75rem;
+}
+
+.szcp-body ul,
+.szcp-body ol {
+  padding-left: 0;
+  margin: 0 0 1.4rem;
+}
+.szcp-body ul li {
+  list-style: none;
+  position: relative;
+  padding-left: 1.6rem;
+  margin-bottom: 0.6rem;
+}
+.szcp-body ul li::before {
+  content: "";
+  position: absolute;
+  left: 0.25rem;
+  top: 0.72em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--szc-brass);
+}
+.szcp-body ol {
+  padding-left: 1.3rem;
+}
+.szcp-body ol li {
+  margin-bottom: 0.6rem;
+  padding-left: 0.35rem;
+}
+.szcp-body ol li::marker {
+  color: var(--szc-accent-text);
+  font-weight: 600;
+}
+
+/* ---- At a Glance ---- */
+.szcp-body .at-a-glance {
+  background: linear-gradient(160deg, var(--szc-cream), var(--szc-surface));
+  border: 1px solid var(--szc-line);
+  border-left: 3px solid var(--szc-brass);
+  border-radius: 4px;
+  padding: 1.9rem 2rem 1.6rem;
+  margin: 0 0 3rem;
+  box-shadow: 0 12px 34px -22px rgba(6, 34, 46, 0.35);
+}
+.szcp-body .at-a-glance .callout-title {
+  font-family: var(--szc-sans);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--szc-accent-text);
+  margin: 0 0 1rem;
+}
+.szcp-body .at-a-glance ul {
+  margin: 0;
+}
+
+/* ---- Callouts ---- */
+.szcp-body .callout {
+  background: var(--szc-cream);
+  border: 1px solid var(--szc-line);
+  border-left: 3px solid var(--szc-ink);
+  border-radius: 4px;
+  padding: 1.5rem 1.75rem;
+  margin: 2rem 0;
+}
+.szcp-body .callout .callout-title,
+.szcp-body .callout-warn .callout-title,
+.szcp-body .callout-info .callout-title {
+  font-family: var(--szc-sans);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin: 0 0 0.7rem;
+  color: var(--szc-ink);
+}
+.szcp-body .callout p:last-child,
+.szcp-body .callout-warn p:last-child,
+.szcp-body .callout-info p:last-child {
+  margin-bottom: 0;
+}
+.szcp-body .callout-info {
+  background: var(--szc-accent-tint);
+  border: 1px solid var(--szc-line);
+  border-left: 3px solid var(--szc-accent);
+  border-radius: 4px;
+  padding: 1.5rem 1.75rem;
+  margin: 2rem 0;
+}
+.szcp-body .callout-info .callout-title {
+  color: var(--szc-accent-text);
+}
+.szcp-body .callout-warn {
+  background: rgba(201, 162, 39, 0.14);
+  border: 1px solid var(--szc-line);
+  border-left: 3px solid var(--szc-gold);
+  border-radius: 4px;
+  padding: 1.5rem 1.75rem;
+  margin: 2rem 0;
+}
+.szcp-body .callout-warn .callout-title {
+  color: var(--szc-warn-text);
+}
+
+/* ---- Tables ---- */
+.szcp-body .table-wrap {
+  overflow-x: auto;
+  margin: 2rem 0;
+  border: 1px solid var(--szc-line);
+  border-radius: 4px;
+  box-shadow: 0 10px 30px -22px rgba(6, 34, 46, 0.4);
+}
+.szcp-body table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+  min-width: 30rem;
+}
+.szcp-body thead th {
+  background: var(--szc-deep);
+  color: #fff;
+  font-family: var(--szc-sans);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-align: left;
+  padding: 0.9rem 1.1rem;
+  white-space: nowrap;
+}
+.szcp-body tbody td {
+  padding: 0.85rem 1.1rem;
+  border-top: 1px solid var(--szc-line);
+  color: var(--szc-ink-soft);
+  vertical-align: top;
+}
+.szcp-body tbody tr:nth-child(even) {
+  background: var(--szc-surface-2);
+}
+.szcp-body tbody tr:hover {
+  background: var(--szc-cream);
+}
+.szcp-body tbody td strong {
+  color: var(--szc-ink);
+}
+
+/* ---- Cards and grids ---- */
+.szcp-body .grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin: 2rem 0;
+}
+.szcp-body .card {
+  background: var(--szc-surface);
+  border: 1px solid var(--szc-line);
+  border-radius: 4px;
+  padding: 1.6rem 1.5rem;
+  transition: transform 0.35s var(--szc-ease), box-shadow 0.35s var(--szc-ease),
+    border-color 0.3s ease;
+}
+.szcp-body .card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px -24px rgba(6, 34, 46, 0.42);
+  border-color: var(--szc-accent-on-dark);
+}
+.szcp-body .card h3,
+.szcp-body .card h4 {
+  margin-top: 0;
+  font-size: 1.02rem;
+}
+.szcp-body .card p:last-child {
+  margin-bottom: 0;
+}
+
+.szcp-body .link-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  list-style: none;
+  padding: 0;
+  margin: 1.75rem 0 2.5rem;
+}
+.szcp-body .link-grid li {
+  padding: 0;
+  margin: 0;
+}
+.szcp-body .link-grid li::before {
+  content: none;
+}
+.szcp-body .link-grid a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  background: var(--szc-surface);
+  border: 1px solid var(--szc-line);
+  border-radius: 4px;
+  padding: 0.9rem 1.1rem;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--szc-ink);
+  transition: border-color 0.25s ease, color 0.25s ease,
+    background 0.25s ease, transform 0.25s ease;
+}
+.szcp-body .link-grid a::after {
+  content: "\2192";
+  color: var(--szc-accent-text);
+  transition: transform 0.25s ease;
+}
+.szcp-body .link-grid a:hover {
+  border-color: var(--szc-brass);
+  background: var(--szc-cream);
+  color: var(--szc-ink);
+  transform: translateY(-2px);
+}
+.szcp-body .link-grid a:hover::after {
+  transform: translateX(4px);
+}
+
+/* product-card blocks written into the prose */
+.szcp-body .product-card {
+  background: var(--szc-cream);
+  border: 1px solid var(--szc-line);
+  border-radius: 4px;
+  padding: 1.4rem 1.5rem;
+  margin-bottom: 1rem;
+}
+
+/* ---- Stats ---- */
+.szcp-body .stat-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+}
+.szcp-body .stat {
+  background: var(--szc-deep);
+  color: #fff;
+  border-radius: 4px;
+  padding: 1.4rem 1.25rem;
+  text-align: center;
+}
+.szcp-body .stat strong {
+  display: block;
+  font-family: var(--szc-display);
+  font-size: 1.8rem;
+  color: #fff;
+  line-height: 1.1;
+}
+
+/* ---- Buttons ---- */
+.szcp .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--szc-sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 0.85rem 1.7rem;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  transition: background 0.28s ease, color 0.28s ease, border-color 0.28s ease,
+    transform 0.28s ease;
+}
+.szcp .btn-primary {
+  background: var(--szc-brass);
+  border-color: var(--szc-brass);
+  color: var(--szc-deep);
+}
+.szcp .btn-primary:hover {
+  background: var(--szc-brass-soft);
+  border-color: var(--szc-accent-on-dark);
+  color: var(--szc-deep);
+  transform: translateY(-2px);
+}
+.szcp .btn-secondary {
+  background: transparent;
+  border-color: var(--szc-line-strong);
+  color: var(--szc-ink);
+}
+.szcp .btn-secondary:hover {
+  background: var(--szc-deep);
+  color: #fff;
+  transform: translateY(-2px);
+}
+/* buttons are anchors: kill the content sheet's underline treatment */
+.szcp a.btn {
+  border-bottom-style: solid;
+}
+
+/* ============================================== closing CTA === */
+.szcp-cta {
+  background: var(--szc-deep);
+  color: #fff;
+  text-align: center;
+  padding: 4.5rem 0;
+  margin-top: 4.5rem;
+  font-family: var(--szc-sans);
+  position: relative;
+  overflow: hidden;
+}
+.szcp-cta::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 18% 0%,
+    rgba(185, 139, 46, 0.18),
+    transparent 55%
+  );
+  pointer-events: none;
+}
+.szcp-cta > * {
+  position: relative;
+  z-index: 1;
+}
+.szcp-cta h2 {
+  font-family: var(--szc-display);
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 600;
+  color: #fff;
+  margin: 0 auto 1rem;
+  max-width: 24ch;
+  border: none;
+  padding: 0;
+}
+.szcp-cta h2::before {
+  content: none;
+}
+.szcp-cta p {
+  color: #a9c2cc;
+  max-width: 40rem;
+  margin: 0 auto 2rem;
+  font-weight: 300;
+  line-height: 1.8;
+}
+.szcp-cta-body.sz-content {
+  max-width: 46rem;
+  margin: 0 auto 2rem;
+  padding: 0;
+  background: none;
+  color: #a9c2cc;
+}
+.szcp-cta-body h2,
+.szcp-cta-body h3 {
+  color: #fff;
+  border: none;
+  padding: 0;
+}
+.szcp-cta-body h2::before,
+.szcp-cta-body h3::before {
+  content: none;
+}
+.szcp-cta-body a {
+  color: var(--szc-accent-on-dark);
+  border-bottom-color: rgba(79, 217, 247, 0.4);
+}
+/* the fragment's own CTA buttons, on the dark band */
+.szcp-cta-body .hero-cta,
+.szcp-cta-body p:has(> .btn) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  justify-content: center;
+  margin-top: 1.75rem;
+}
+.szcp-cta-body .btn-secondary {
+  border-color: rgba(255, 255, 255, 0.45);
+  color: #fff;
+}
+.szcp-cta-body .btn-secondary:hover {
+  background: var(--szc-surface);
+  color: var(--szc-ink);
+  border-color: #fff;
+}
+
+/* ================================================ responsive === */
+@media (max-width: 1200px) {
+  .szcp-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .szcp-body .link-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 992px) {
+  .szcp-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  .szcp-hero-media {
+    order: -1;
+    padding: 0;
+    max-width: 34rem;
+  }
+  .szcp-hero-media::before {
+    display: none;
+  }
+  .szcp-hero-badge {
+    left: 1rem;
+  }
+  .szcp-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .szcp-body .grid-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 768px) {
+  .szcp-hero {
+    padding: 1.25rem 0 2.25rem;
+  }
+  .szcp-crumbs {
+    margin-bottom: 1.5rem;
+  }
+  .szcp-shop-head,
+  .szcp-cat-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  .szcp-trust {
+    gap: 1rem 1.5rem;
+  }
+  .szcp-body.sz-content {
+    padding-top: 2.5rem;
+  }
+  .szcp-body h2 {
+    margin-top: 2.5rem;
+  }
+  .szcp-cta {
+    padding: 3rem 0;
+    margin-top: 3rem;
+  }
+}
+@media (max-width: 576px) {
+  .szcp-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.85rem;
+  }
+  .szcp-body .grid-3,
+  .szcp-body .link-grid {
+    grid-template-columns: 1fr;
+  }
+  .szcp-hero-copy .hero-cta .btn {
+    width: 100%;
+    justify-content: center;
+  }
+  .szcp-body .at-a-glance,
+  .szcp-body .callout,
+  .szcp-body .callout-info,
+  .szcp-body .callout-warn {
+    padding: 1.25rem 1.1rem;
+  }
+}

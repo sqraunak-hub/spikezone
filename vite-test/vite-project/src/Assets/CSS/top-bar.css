@@ -1,0 +1,95 @@
+/* Utility strip above the header — contact on the left, social on the right.
+   It is a dark navy band in BOTH themes (like the footer), so the colours
+   here are literals rather than theme tokens and white stays legible. */
+
+.sztb {
+  background: linear-gradient(100deg, #071c2c 0%, #0d3557 100%);
+  font-family: var(--szc-sans);
+  font-size: 0.78rem;
+}
+
+.sztb-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+  padding-top: 0.42rem;
+  padding-bottom: 0.42rem;
+}
+
+.sztb ul {
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sztb-contact li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(255, 255, 255, 0.94);
+  white-space: nowrap;
+}
+.sztb-contact a {
+  color: inherit;
+  transition: color 0.2s ease;
+}
+.sztb-contact a:hover {
+  color: #7fd8f5;
+}
+.sztb-icon {
+  display: inline-flex;
+  font-size: 0.72rem;
+  color: #7fd8f5;
+}
+
+/* --- social --- */
+.sztb-social {
+  gap: 0.9rem;
+}
+.sztb-social a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.94);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.sztb-social a:hover {
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+}
+.sztb-social a:focus-visible {
+  outline: 2px solid #7fd8f5;
+  outline-offset: 2px;
+}
+
+@media (max-width: 992px) {
+  .sztb {
+    font-size: 0.74rem;
+  }
+  .sztb-inner {
+    justify-content: center;
+    gap: 0.75rem 1.1rem;
+  }
+  .sztb ul {
+    gap: 1.1rem;
+  }
+  /* the address is the least useful of the three on a phone */
+  .sztb-contact li:last-child {
+    display: none;
+  }
+}
+
+@media (max-width: 576px) {
+  .sztb-contact li:nth-child(1) {
+    display: none;
+  }
+}

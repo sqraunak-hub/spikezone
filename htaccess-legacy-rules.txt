@@ -1,0 +1,52 @@
+# ---------------------------------------------------------------------------
+# Legacy URL rules for spikezone.in  (paste into ~/public_html/.htaccess)
+#
+# Put this block ABOVE the existing SPA rewrite. The SPA rule sends every
+# unknown path to index.html with a 200, which is why Google now sees dead
+# URLs as live pages: /portfolio.php and /products/M5-birds-spikes both answer
+# 200 with the app shell. They used to answer a real 404 - that is what the 14
+# "Not found (404)" and the 1 "Soft 404" in Search Console are.
+#
+# Do not remove anything else from the file. The HTTPS redirect and the SPA
+# rewrite already in there must stay exactly as they are.
+# ---------------------------------------------------------------------------
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Prerendered content pages. The build now writes a real index.html for each
+  # of the 137 guide URLs, and Apache serves it only if the SPA rewrite lets it
+  # through. This makes that certain: when the file exists on disk, stop
+  # rewriting and let DirectoryIndex hand it over. Without this the SPA rule
+  # would keep answering with the empty shell and the prerender would do
+  # nothing.
+  RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI}index.html -f
+  RewriteRule ^ - [L]
+
+  # The old PHP site's home page - send its link equity to the real home page.
+  RewriteRule ^index\.php$ / [R=301,L]
+
+  # Everything else from that site is gone for good. 410 rather than 404 tells
+  # Google to drop it without re-checking for months.
+  RewriteRule \.php$ - [G,L]
+
+  # Old category route. The app still handles /category/<name> client-side, but
+  # a server 301 is seen immediately instead of only after the bundle runs.
+  RewriteRule ^category/Bird(%20|\+)?Spikes/?$ /products/bird-spikes [R=301,L,NC]
+  RewriteRule ^category/PigeonSpikes/?$ /products/pigeon-spikes [R=301,L,NC]
+  RewriteRule ^category/MonkeySpikes/?$ /products/monkey-spikes [R=301,L,NC]
+
+  # Retired product slugs from the previous catalogue. Each goes to the
+  # category it belonged to - the nearest page that still answers the same
+  # need. Listed one by one on purpose: a wildcard under /products/ would
+  # break the 17 product pages that are live.
+  RewriteRule ^products/M5-birds-spikes/?$ /products/bird-spikes [R=301,L]
+  RewriteRule ^products/M6-birdspikes-window-ac/?$ /products/bird-spikes [R=301,L]
+  RewriteRule ^products/M3-steelness-steel-bird-spikes-split-ac-outdoor/?$ /products/bird-spikes [R=301,L]
+  RewriteRule ^products/black-bird-spikes/?$ /products/bird-spikes [R=301,L]
+  RewriteRule ^products/M7-monkey-spikes/?$ /products/monkey-spikes [R=301,L]
+
+  # Retired blog post. There is no replacement and /blogs is empty, so a
+  # redirect there would just be another thin page - let it go.
+  RewriteRule ^blogs/benefits-of-installing-bird-spikes-for-pigeon-control/?$ - [G,L]
+</IfModule>

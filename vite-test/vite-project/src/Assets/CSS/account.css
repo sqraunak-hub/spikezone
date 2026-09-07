@@ -1,58 +1,458 @@
-@import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
-.account-card {
-  border-radius: 6px;
-  background: #ffffff;
-  box-shadow: 20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff;
-  cursor: pointer;
-  transition: transform 0.2s;
+/* Account hub and personal-details screens.
+   Everything here is built on --szc-* tokens. The previous sheet baked
+   #d9d9d9 / #ffffff into its neumorphic box-shadows, which meant the cards
+   glowed white in dark mode; tokens keep both themes correct from one rule. */
+
+.szac {
+  max-width: 1040px;
+  padding-top: 2.5rem;
+  padding-bottom: 4rem;
+  /* `.App` sets text-align: center globally, which centres every label and
+     description in here. Account content is left-aligned reading matter, so
+     it opts back out at the root of the screen. */
+  text-align: left;
 }
-.account-card:hover {
-  transform: scale(1.1);
-}
-.account-card-row {
-  padding: 15px 15px 15px 15px;
-}
-.account-head {
-  font-family: "Pacifico", cursive;
-  overflow: hidden;
-  position: relative;
-  z-index: 10000;
-}
-.card-col {
-  z-index: 100 !important;
-}
-.account-card-link {
-  color: #000000;
-  text-decoration: none;
-}
-.manage-card-icon {
-  color: #1e9dcd;
-  font-size: 30px;
+
+/* ---------- hero ---------- */
+
+.szac-hero {
   display: flex;
   align-items: center;
+  gap: 1.25rem;
+  padding: 1.6rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--szc-line);
+  border-radius: var(--szc-r-lg);
+  background:
+    radial-gradient(120% 160% at 100% 0%, var(--szc-accent-tint) 0%, transparent 60%),
+    var(--szc-surface);
+  box-shadow: var(--szc-shadow-sm);
+}
+
+.szac-hero-avatar {
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
+  width: 68px;
+  height: 68px;
+  flex: 0 0 68px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--szc-accent), var(--szc-accent-dark));
+  color: #fff;
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
 }
-.address-add-chk-form {
-  width: 50%;
-  transition: 0.2s;
+
+.szac-hero-id {
+  flex: 1 1 auto;
+  min-width: 0;
 }
-.chk-form-edt .address-add-chk-form:hover,
-.chk-form-edt:hover {
-  opacity: 0.5;
+
+.szac-hero-eyebrow {
+  margin: 0 0 0.15rem;
+  color: var(--szc-muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
-.address-details-checkout {
-  text-align: start;
-  padding: 32px;
-  border-radius: 9px;
-  background: linear-gradient(145deg, #ffffff, #e6e6e6);
-  box-shadow: 20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff;
+
+.szac-hero-name {
+  margin: 0;
+  color: var(--szc-ink);
+  font-family: var(--szc-display);
+  font-size: clamp(1.35rem, 3.4vw, 1.85rem);
+  font-weight: 700;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
 }
-.chk-form-edt {
-  border: none;
+
+.szac-hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.65rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.szac-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  max-width: 100%;
+  padding: 0.28rem 0.7rem;
+  border: 1px solid var(--szc-line);
+  border-radius: 999px;
+  background: var(--szc-surface-2);
+  color: var(--szc-ink-soft);
+  font-size: 0.82rem;
+  overflow-wrap: anywhere;
+}
+
+.szac-verified {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--szc-ok);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.szac-hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex: 0 0 auto;
+  padding: 0.6rem 1.1rem;
+  border-radius: 999px;
+  background: var(--szc-accent);
+  color: #fff;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s var(--szc-ease), transform 0.2s var(--szc-ease);
+}
+
+.szac-hero-cta:hover {
+  background: var(--szc-accent-dark);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+/* ---------- completion nudge ---------- */
+
+.szac-nudge {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.9rem 1.1rem;
+  margin-bottom: 1.75rem;
+  border: 1px solid var(--szc-line);
+  border-left: 3px solid var(--szc-accent);
+  border-radius: var(--szc-r);
+  background: var(--szc-accent-tint);
+  color: var(--szc-ink);
+  font-size: 0.88rem;
+  line-height: 1.5;
+  text-decoration: none;
+}
+
+.szac-nudge:hover {
+  color: var(--szc-ink);
+  border-color: var(--szc-accent);
+}
+
+.szac-nudge-dot {
+  width: 8px;
+  height: 8px;
+  flex: 0 0 8px;
+  border-radius: 999px;
+  background: var(--szc-accent);
+}
+
+.szac-nudge-arrow {
+  margin-left: auto;
+  flex: 0 0 auto;
+  color: var(--szc-accent-text);
+}
+
+/* ---------- section grid ---------- */
+
+.szac-section-title {
+  margin: 0 0 0.9rem;
+  color: var(--szc-muted);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.szac-grid {
+  display: grid;
+  /* auto-fit + minmax rather than fixed column counts: the grid reflows on its
+     own at every width, so there is no breakpoint where a card is squeezed
+     into an unreadable column. */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 0.9rem;
+}
+
+.szac-card {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 1.05rem 1.1rem;
+  border: 1px solid var(--szc-line);
+  border-radius: var(--szc-r-lg);
+  background: var(--szc-surface);
+  color: var(--szc-ink);
+  text-decoration: none;
+  transition: border-color 0.2s var(--szc-ease), box-shadow 0.2s var(--szc-ease),
+    transform 0.2s var(--szc-ease);
+}
+
+.szac-card:hover {
+  /* The old card scaled 1.1 on hover, which overlapped its neighbours and
+     blurred the text. A lift plus a shadow reads as responsive without
+     disturbing the layout. */
+  transform: translateY(-2px);
+  border-color: var(--szc-line-strong);
+  box-shadow: var(--szc-shadow-sm);
+  color: var(--szc-ink);
+}
+
+.szac-card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  border-radius: 12px;
+  font-size: 1.05rem;
+}
+
+.szac-tone-c1 { background: var(--szc-c1-tint); color: var(--szc-c1); }
+.szac-tone-c2 { background: var(--szc-c2-tint); color: var(--szc-c2); }
+.szac-tone-c3 { background: var(--szc-c3-tint); color: var(--szc-c3); }
+.szac-tone-c4 { background: var(--szc-c4-tint); color: var(--szc-c4); }
+.szac-tone-c5 { background: var(--szc-c5-tint); color: var(--szc-c5); }
+
+.szac-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.szac-card-title {
+  color: var(--szc-ink);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.szac-card-desc {
+  color: var(--szc-muted);
+  font-size: 0.83rem;
+  line-height: 1.45;
+}
+
+.szac-card-arrow {
+  flex: 0 0 auto;
+  color: var(--szc-muted);
+  font-size: 0.8rem;
+  transition: transform 0.2s var(--szc-ease), color 0.2s var(--szc-ease);
+}
+
+.szac-card:hover .szac-card-arrow {
+  transform: translateX(3px);
+  color: var(--szc-accent-text);
+}
+
+/* ---------- personal details ---------- */
+
+.szac-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 1.1rem;
+  color: var(--szc-muted);
+  font-size: 0.86rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.szac-back:hover {
+  color: var(--szc-accent-text);
+}
+
+.szac-page-head {
+  margin-bottom: 1.4rem;
+}
+
+.szac-page-title {
+  margin: 0;
+  color: var(--szc-ink);
+  font-family: var(--szc-display);
+  font-size: clamp(1.4rem, 3.6vw, 1.9rem);
+  font-weight: 700;
+}
+
+.szac-page-sub {
+  margin: 0.3rem 0 0;
+  color: var(--szc-muted);
+  font-size: 0.9rem;
+}
+
+.szac-panel {
+  padding: 1.6rem;
+  border: 1px solid var(--szc-line);
+  border-radius: var(--szc-r-lg);
+  background: var(--szc-surface);
+  box-shadow: var(--szc-shadow-sm);
+}
+
+.szac-locked {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.9rem 1rem;
+  margin-bottom: 1.4rem;
+  border: 1px solid var(--szc-line);
+  border-radius: var(--szc-r);
+  background: var(--szc-surface-2);
+}
+
+.szac-locked-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  border-radius: 10px;
+  background: var(--szc-ok-tint);
+  color: var(--szc-ok);
+  font-size: 0.8rem;
+}
+
+.szac-locked-body {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.szac-locked-label {
+  color: var(--szc-muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.szac-locked-value {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  color: var(--szc-ink);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.szac-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+}
+
+.szac-field {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.szac-field-full {
+  grid-column: 1 / -1;
+}
+
+.szac-field-label {
+  margin-bottom: 0.35rem;
+  color: var(--szc-muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.szac-req {
+  color: var(--szc-danger);
+}
+
+.szac-field input {
+  width: 100%;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid var(--szc-line-strong);
+  border-radius: 10px;
+  background: var(--szc-surface-2);
+  color: var(--szc-ink);
+  font-size: 0.95rem;
+  transition: border-color 0.2s var(--szc-ease), background 0.2s var(--szc-ease);
+}
+
+.szac-field input:focus {
   outline: none;
-  text-decoration: underline;
-  color: #1e9dcd;
-  font-weight: bold;
-  background: transparent;
-  transition: 0.1s;
+  border-color: var(--szc-accent);
+  background: var(--szc-surface);
+}
+
+.szac-field-help {
+  margin-top: 0.3rem;
+  color: var(--szc-muted);
+  font-size: 0.76rem;
+  line-height: 1.4;
+}
+
+.szac-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+}
+
+.szac-save {
+  min-width: 160px;
+  padding: 0.7rem 1.4rem;
+  border: none;
+  border-radius: 999px;
+  background: var(--szc-accent);
+  color: #fff;
+  font-size: 0.92rem;
+  font-weight: 600;
+  transition: background 0.2s var(--szc-ease), transform 0.2s var(--szc-ease);
+}
+
+.szac-save:hover:not(:disabled) {
+  background: var(--szc-accent-dark);
+  transform: translateY(-1px);
+}
+
+.szac-save:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ---------- narrow screens ---------- */
+
+@media (max-width: 620px) {
+  .szac {
+    padding-top: 1.75rem;
+  }
+
+  /* Stack the hero so the name gets the full width instead of being squeezed
+     between the avatar and the button. */
+  .szac-hero {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.25rem;
+  }
+
+  .szac-hero-cta {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .szac-panel {
+    padding: 1.15rem;
+  }
+
+  .szac-actions {
+    justify-content: stretch;
+  }
+
+  .szac-save {
+    width: 100%;
+  }
 }

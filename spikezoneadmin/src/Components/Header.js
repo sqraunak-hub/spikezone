@@ -15,6 +15,7 @@ function Header({ onLogout }) {
       onLogout(); // clears storage AND updates Router state
     } else {
       localStorage.removeItem("token");
+      localStorage.removeItem("refreshToken");
       localStorage.removeItem("user");
     }
     navigate("/login");

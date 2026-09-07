@@ -17,7 +17,7 @@ export default function About() {
   return (
     <>
       <SEOHelmet />
-      <PageTitle title={"Learn More About Us"} />
+      <PageTitle as="h2" title={"Learn More About Us"} />
       {loading ? (
         <Loader />
       ) : (

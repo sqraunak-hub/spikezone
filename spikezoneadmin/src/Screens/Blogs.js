@@ -90,6 +90,7 @@ import axios from "axios";
 import { Link as RouterLink } from "react-router-dom";
 
 import { API_BASE_URL } from "../Utils/appConstant";
+import BlogMetaFields from "../Components/BlogMetaFields";
 
 function CustomUploadAdapterPlugin(editor) {
   const token = localStorage.getItem("token");
@@ -128,6 +129,10 @@ export default function Blogs() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [previewMode, setPreviewMode] = useState(false);
+  const [featuredImage, setFeaturedImage] = useState(null);
+  const [excerpt, setExcerpt] = useState("");
+  const [metaDescription, setMetaDescription] = useState("");
+  const [status, setStatus] = useState("published");
 
   useEffect(() => {
     setIsLayoutReady(true);
@@ -474,6 +479,18 @@ export default function Blogs() {
   }, [isLayoutReady]);
 
   const showApiErrors = (error) => {
+    // A dead session is the most common failure here and the API's own words
+    // for it ("Given token not valid for any token type") mean nothing to the
+    // person who just lost an hour of writing. Say what actually happened.
+    if (error?.response?.status === 401) {
+      toast.error(
+        "Aapki login session khatam ho gayi. Ye page band mat kijiye - " +
+          "nayi tab me admin.spikezone.in/login kholiye (seedha /login), "
+          + "login kijiye, phir yahan wapas aakar dobara Save dabaiye.",
+        { autoClose: false }
+      );
+      return;
+    }
     if (error?.response?.data) {
       const data = error.response.data;
       Object.keys(data).forEach((key) => {
@@ -503,22 +520,42 @@ export default function Blogs() {
     try {
       const slug = slugify(title, { lower: true, strict: true });
 
-      const payload = {
-        title: title,
-        slug: slug,
-        content: content,
+      const fields = {
+        title,
+        slug,
+        content,
+        excerpt,
+        meta_description: metaDescription,
+        status,
       };
 
-      await axios.post(`${API_BASE_URL}blogs/`, payload, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token") ?? ""}`,
-          "Content-Type": "application/json",
-        },
-      });
+      // A file cannot travel as JSON, so the whole post goes as form data
+      // whenever an image was picked. DRF parses both.
+      let payload = fields;
+      const headers = {
+        Authorization: `Bearer ${localStorage.getItem("token") ?? ""}`,
+        "Content-Type": "application/json",
+      };
+      if (featuredImage) {
+        payload = new FormData();
+        Object.entries(fields).forEach(([k, v]) => payload.append(k, v));
+        payload.append("featured_image", featuredImage);
+        delete headers["Content-Type"]; // let the browser set the boundary
+      }
 
-      toast.success("Blog published! It is now live on the website.");
+      await axios.post(`${API_BASE_URL}blogs/`, payload, { headers });
+
+      toast.success(
+        status === "draft"
+          ? "Saved as draft. It is not on the website yet."
+          : "Blog published! It is now live on the website."
+      );
       setTitle("");
       setContent("");
+      setFeaturedImage(null);
+      setExcerpt("");
+      setMetaDescription("");
+      setStatus("published");
       setPreviewMode(false);
     } catch (error) {
       console.error("Error publishing blog:", error);
@@ -615,7 +652,26 @@ export default function Blogs() {
         </div>
       )}
 
-      {/* step 3 — publish */}
+      {/* step 3 — image, summary, visibility */}
+      <div className="blog-step-label mb-2 mt-3">
+        <span className="blog-step-num">3</span> Image, summary &amp; visibility
+        <span className="blog-step-hint">— all optional</span>
+      </div>
+      <BlogMetaFields
+        title={title}
+        imageFile={featuredImage}
+        imageUrl={null}
+        onImageChange={setFeaturedImage}
+        excerpt={excerpt}
+        onExcerptChange={setExcerpt}
+        metaDescription={metaDescription}
+        onMetaDescriptionChange={setMetaDescription}
+        status={status}
+        onStatusChange={setStatus}
+        onError={(msg) => toast.warning(msg)}
+      />
+
+      {/* step 4 — publish */}
       <div className="editor-buttons">
         <button className="btn-preview" onClick={() => setPreviewMode((prev) => !prev)}>
           {previewMode ? (
@@ -629,7 +685,7 @@ export default function Blogs() {
           )}
         </button>
         <button className="btn-publish" onClick={handlePublish}>
-          <FaSave /> Publish Blog
+          <FaSave /> {status === "draft" ? "Save Draft" : "Publish Blog"}
         </button>
       </div>
     </div>

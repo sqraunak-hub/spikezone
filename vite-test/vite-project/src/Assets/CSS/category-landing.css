@@ -1,0 +1,414 @@
+/* Category landing pages — /products/:categorySlug
+   A more premium treatment than the rest of the storefront: deeper navy,
+   a brass accent, tighter display typography and generous whitespace.
+   Scoped under .szc-* so nothing here leaks into existing pages. */
+
+/* Tokens and shared primitives (.szc-eyebrow/.szc-h2/.szc-btn/…) come from
+   theme-premium.css, which App.css imports globally. */
+
+/* App.css sets `.App { text-align: center }` app-wide; prose inherits it and
+   reads as scattered. Opt these blocks out — the centred bands below and
+   .szc-head-center opt back in explicitly. */
+.szc-hero,
+.szc-intro,
+.szc-section,
+.szc-guide {
+  text-align: left;
+}
+.szc-head-center,
+.szc-cta {
+  text-align: center;
+}
+
+/* ============ Hero ============ */
+.szc-hero {
+  background: linear-gradient(160deg, var(--szc-cream) 0%, var(--szc-surface) 70%);
+  padding: 1.75rem 0 4.5rem;
+  font-family: "Poppins", sans-serif;
+  border-bottom: 1px solid var(--szc-line);
+}
+
+.szc-crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.03em;
+  color: var(--szc-ink-soft);
+  margin-bottom: 3rem;
+}
+.szc-crumbs a {
+  color: var(--szc-ink-soft);
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+.szc-crumbs a:hover {
+  color: var(--szc-accent-text);
+}
+.szc-crumb-sep {
+  color: #c3d2d8;
+}
+.szc-crumb-current {
+  color: var(--szc-ink);
+  font-weight: 500;
+}
+
+.szc-hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.szc-h1 {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(2.4rem, 5vw, 3.9rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  color: var(--szc-ink);
+  margin: 0 0 1.3rem;
+}
+
+.szc-tagline {
+  color: var(--szc-ink-soft);
+  font-size: 1.06rem;
+  font-weight: 300;
+  line-height: 1.8;
+  max-width: 30rem;
+  margin: 0;
+}
+
+.szc-trust {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.75rem;
+  margin-top: 2.25rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--szc-line);
+}
+.szc-trust-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: var(--szc-ink);
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+.szc-trust-chip svg {
+  color: var(--szc-accent-text);
+  font-size: 0.95rem;
+}
+
+/* -- hero image with an offset brass frame -- */
+.szc-hero-media {
+  position: relative;
+  padding: 1.25rem 1.25rem 0 0;
+}
+.szc-hero-media::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 2.5rem 2.5rem;
+  border: 1px solid var(--szc-brass-soft);
+  border-radius: var(--szc-r);
+  opacity: 0.55;
+}
+.szc-hero-frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--szc-r);
+  box-shadow: 0 26px 60px -22px rgba(6, 34, 46, 0.4);
+}
+.szc-hero-frame img {
+  width: 100%;
+  height: clamp(300px, 34vw, 430px);
+  object-fit: cover;
+  display: block;
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.szc-hero-media:hover .szc-hero-frame img {
+  transform: scale(1.05);
+}
+
+.szc-hero-badge {
+  position: absolute;
+  left: -1.5rem;
+  bottom: 1.5rem;
+  background: var(--szc-surface);
+  border-radius: var(--szc-r);
+  padding: 1.1rem 1.5rem;
+  box-shadow: 0 16px 40px -12px rgba(6, 34, 46, 0.28);
+  border-left: 3px solid var(--szc-brass);
+  text-align: left;
+}
+.szc-hero-badge strong {
+  display: block;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.9rem;
+  line-height: 1;
+  color: var(--szc-ink);
+}
+.szc-hero-badge span {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--szc-ink-soft);
+}
+
+/* ============ Intro ============ */
+.szc-intro {
+  padding: 5rem 0 0;
+  font-family: "Poppins", sans-serif;
+}
+.szc-intro-rule {
+  width: 3rem;
+  height: 2px;
+  background: var(--szc-brass);
+  margin-bottom: 2rem;
+}
+.szc-intro-body {
+  column-gap: 3.5rem;
+  max-width: 62rem;
+}
+.szc-intro-body p {
+  color: var(--szc-ink-soft);
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.95;
+  margin-bottom: 1.4rem;
+}
+.szc-lead {
+  font-size: 1.2rem !important;
+  line-height: 1.8 !important;
+  color: var(--szc-ink) !important;
+  font-weight: 400 !important;
+}
+
+/* ============ Product grid ============ */
+.szc-prod-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+@media (max-width: 1200px) {
+  .szc-prod-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 992px) {
+  .szc-prod-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 576px) {
+  .szc-prod-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.85rem;
+  }
+}
+
+/* ============ Empty state ============ */
+.szc-empty {
+  text-align: center;
+  padding: 4rem 1rem;
+  background: var(--szc-cream);
+  border-radius: var(--szc-r);
+  border: 1px solid var(--szc-line);
+}
+.szc-empty p {
+  color: var(--szc-ink-soft);
+  margin-bottom: 1.5rem;
+  font-weight: 300;
+}
+
+/* ============ Buying guide ============ */
+.szc-guide {
+  background: var(--szc-deep);
+  padding: 6rem 0;
+  margin-top: 6rem;
+  font-family: "Poppins", sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+.szc-guide::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 15% 0%,
+    rgba(185, 139, 46, 0.16),
+    transparent 55%
+  );
+  pointer-events: none;
+}
+.szc-guide > * {
+  position: relative;
+  z-index: 1;
+}
+.szc-guide-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--szc-r);
+  overflow: hidden;
+}
+.szc-guide-card {
+  background: var(--szc-deep);
+  padding: 2.5rem 1.75rem;
+  transition: background 0.35s ease;
+}
+.szc-guide-card:hover {
+  background: #0a2f3e;
+}
+.szc-guide-num {
+  display: block;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.6rem;
+  color: var(--szc-accent-on-dark);
+  margin-bottom: 1.35rem;
+  letter-spacing: 0.02em;
+}
+.szc-guide-card h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 0.8rem;
+  line-height: 1.4;
+}
+.szc-guide-card p {
+  font-size: 0.89rem;
+  line-height: 1.85;
+  color: #9fb8c2;
+  font-weight: 300;
+  margin: 0;
+}
+
+/* ============ FAQ ============ */
+.szc-faq .accordion-item {
+  border: none;
+  border-bottom: 1px solid var(--szc-line);
+  border-radius: 0 !important;
+  background: transparent;
+}
+.szc-faq .accordion-button {
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--szc-ink);
+  background: transparent;
+  box-shadow: none;
+  padding: 1.5rem 0;
+}
+.szc-faq .accordion-button:not(.collapsed) {
+  background: transparent;
+  color: var(--szc-accent-text);
+}
+.szc-faq .accordion-button:focus {
+  box-shadow: none;
+}
+.szc-faq .accordion-button::after {
+  filter: grayscale(1);
+}
+.szc-faq .accordion-body {
+  color: var(--szc-ink-soft);
+  font-size: 0.95rem;
+  font-weight: 300;
+  line-height: 1.9;
+  padding: 0 0 1.75rem;
+  max-width: 52rem;
+}
+
+/* ============ CTA ============ */
+.szc-cta {
+  background: var(--szc-cream);
+  padding: 6rem 0;
+  margin-top: 6rem;
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+  border-top: 1px solid var(--szc-line);
+}
+.szc-cta .szc-eyebrow {
+  color: var(--szc-accent-text);
+  padding-left: 0;
+}
+.szc-cta .szc-eyebrow::before {
+  display: none;
+}
+.szc-cta h2 {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(1.6rem, 3.2vw, 2.5rem);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--szc-ink);
+  margin-bottom: 1rem;
+}
+.szc-cta p {
+  color: var(--szc-ink-soft);
+  max-width: 33rem;
+  margin: 0 auto 2.25rem;
+  line-height: 1.85;
+  font-weight: 300;
+}
+
+/* ============ Responsive ============ */
+@media (max-width: 1200px) {
+  .szc-guide-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 992px) {
+  .szc-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  .szc-hero-media {
+    order: -1;
+    padding: 0;
+    max-width: 34rem;
+  }
+  .szc-hero-media::before {
+    display: none;
+  }
+  .szc-hero-badge {
+    left: 1rem;
+  }
+  .szc-intro-body {
+    columns: 1;
+  }
+}
+@media (max-width: 768px) {
+  .szc-section,
+  .szc-intro {
+    padding-top: 3.5rem;
+  }
+  .szc-guide,
+  .szc-cta {
+    padding: 3.5rem 0;
+    margin-top: 3.5rem;
+  }
+  .szc-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+  .szc-crumbs {
+    margin-bottom: 1.75rem;
+  }
+  .szc-trust {
+    gap: 1rem 1.5rem;
+  }
+}
+@media (max-width: 576px) {
+  .szc-guide-grid {
+    grid-template-columns: 1fr;
+  }
+  .szc-hero-frame img {
+    height: 260px;
+  }
+}

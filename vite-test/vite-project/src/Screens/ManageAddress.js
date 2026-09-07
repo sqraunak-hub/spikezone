@@ -81,7 +81,7 @@ export default function ManageAddress() {
 
   return (
     <>
-      <PageTitle title="Manage Addresses" />
+      <PageTitle as="h2" title="Manage Addresses" />
       <Container className="py-4">
         <div className="d-flex justify-content-end mb-4">
           <button

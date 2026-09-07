@@ -1,8 +1,15 @@
 import React from "react";
 import notfound from "../Assets/IMG/notfound.png";
 import { Container } from "react-bootstrap";
+import useSeo from "../Utils/useSeo";
 
 const NotFound = () => {
+  // Apache answers every unmatched path with index.html and a 200, so a dead
+  // URL is indistinguishable from a real page to a crawler — Google had
+  // indexed /category/Combos&Kits, a route that no longer exists. `follow`
+  // keeps the links on the page useful while the page itself stays out.
+  useSeo({ title: "Page Not Found | SpikeZone", robots: "noindex, follow" });
+
   return (
     <div
       className="flex flex-col items-center justify-center h-screen text-center container-fluid"

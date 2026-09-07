@@ -88,6 +88,7 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { API_BASE_URL } from "../Utils/appConstant";
+import BlogMetaFields from "../Components/BlogMetaFields";
 
 function CustomUploadAdapterPlugin(editor) {
   const token = localStorage.getItem("token");
@@ -128,8 +129,26 @@ export default function EditBlog() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(true);
+  const [featuredImage, setFeaturedImage] = useState(null);   // newly picked file
+  const [existingImageUrl, setExistingImageUrl] = useState(null);
+  const [imageCleared, setImageCleared] = useState(false);
+  const [excerpt, setExcerpt] = useState("");
+  const [metaDescription, setMetaDescription] = useState("");
+  const [status, setStatus] = useState("published");
 
   const showApiErrors = (error) => {
+    // A dead session is the most common failure here and the API's own words
+    // for it ("Given token not valid for any token type") mean nothing to the
+    // person who just lost an hour of writing. Say what actually happened.
+    if (error?.response?.status === 401) {
+      toast.error(
+        "Aapki login session khatam ho gayi. Ye page band mat kijiye - " +
+          "nayi tab me admin.spikezone.in/login kholiye (seedha /login), "
+          + "login kijiye, phir yahan wapas aakar dobara Save dabaiye.",
+        { autoClose: false }
+      );
+      return;
+    }
     if (error?.response?.data) {
       const data = error.response.data;
       Object.keys(data).forEach((key) => {
@@ -165,6 +184,13 @@ export default function EditBlog() {
         );
         setTitle(response.data.title);
         setContent(response.data.content);
+        setExistingImageUrl(response.data.featured_image || null);
+        // the raw values, not the display_* fallbacks - the editor has to show
+        // what was actually typed, otherwise saving would turn a derived
+        // excerpt into a stored one
+        setExcerpt(response.data.excerpt || "");
+        setMetaDescription(response.data.meta_description || "");
+        setStatus(response.data.status || "published");
       } catch (error) {
         showApiErrors(error);
         console.error(error);
@@ -515,24 +541,47 @@ export default function EditBlog() {
   const handleSave = async () => {
     try {
       const slug = slugify(title, { lower: true, strict: true });
-      const payload = {
-        title: title,
-        slug: slug,
-        content: content,
+      const fields = {
+        title,
+        slug,
+        content,
+        excerpt,
+        meta_description: metaDescription,
+        status,
       };
 
       const token = localStorage.getItem("token");
-      await axios.put(`${API_BASE_URL}blogs/${id}/`, payload, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-      alert("Blog updated successfully!");
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      };
+
+      // PATCH rather than PUT: a partial update leaves the existing image
+      // alone when none was picked, instead of needing every field resent.
+      let payload;
+      if (featuredImage) {
+        payload = new FormData();
+        Object.entries(fields).forEach(([k, v]) => payload.append(k, v));
+        payload.append("featured_image", featuredImage);
+        delete headers["Content-Type"];
+      } else if (imageCleared) {
+        payload = { ...fields, featured_image: null };
+      } else {
+        payload = fields;
+      }
+
+      await axios.patch(`${API_BASE_URL}blogs/${id}/`, payload, { headers });
+      alert(
+        status === "draft"
+          ? "Saved as draft — this post is no longer on the website."
+          : "Blog updated successfully!"
+      );
       navigate("/blogList");
     } catch (error) {
-      alert("Failed to update blog.");
+      // was a bare "Failed to update blog." for every cause, including an
+      // expired session - which told the person nothing about what to do
       console.error(error);
+      showApiErrors(error);
     }
   };
 
@@ -553,6 +602,7 @@ export default function EditBlog() {
         ref={editorContainerRef}
       >
         <div className="editor-container__editor" ref={editorRef}>
+          {editorConfig && (
           <CKEditor
             editor={ClassicEditor}
             config={editorConfig}
@@ -571,12 +621,36 @@ export default function EditBlog() {
               setContent(data);
             }}
           />
+          )}
         </div>
         <div
           className="editor_container__word-count"
           ref={editorWordCountRef}
         ></div>
       </div>
+      <BlogMetaFields
+        title={title}
+        imageFile={featuredImage}
+        imageUrl={existingImageUrl}
+        onImageChange={(file) => {
+          setFeaturedImage(file);
+          if (!file) {
+            // clearing the picker also means "remove what is on the server"
+            setExistingImageUrl(null);
+            setImageCleared(true);
+          } else {
+            setImageCleared(false);
+          }
+        }}
+        excerpt={excerpt}
+        onExcerptChange={setExcerpt}
+        metaDescription={metaDescription}
+        onMetaDescriptionChange={setMetaDescription}
+        status={status}
+        onStatusChange={setStatus}
+        onError={(msg) => alert(msg)}
+      />
+
       <div className="editor-buttons">
         <button onClick={handleSave}>
           <FaSave /> Save Changes

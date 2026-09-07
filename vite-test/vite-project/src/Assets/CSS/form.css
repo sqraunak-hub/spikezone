@@ -10,7 +10,7 @@
   gap: 1rem;
 }
 .contact-info-card {
-  background: #ffffff;
+  background: var(--szc-surface);
   border: 1px solid #e7eef2;
   border-radius: 14px;
   padding: 1.1rem 1.2rem;
@@ -24,8 +24,8 @@
   width: 40px;
   height: 40px;
   border-radius: 10px;
-  background: #e9f6fb;
-  color: #1e9dcd;
+  background: rgba(75, 179, 232, 0.12);
+  color: var(--szc-accent-text);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -34,14 +34,14 @@
 }
 .contact-info-card h6 {
   font-weight: 700;
-  color: #043141;
+  color: var(--szc-ink);
   font-size: 0.9rem;
   margin-bottom: 0.35rem;
 }
 .contact-info-card p {
   margin: 0;
   font-size: 0.78rem;
-  color: #5b6b73;
+  color: var(--szc-muted);
   line-height: 1.5;
   word-break: break-word;
 }
@@ -72,7 +72,7 @@
 
 /* form card */
 .contact-form-card {
-  background: #ffffff;
+  background: var(--szc-surface);
   border: 1px solid #e7eef2;
   border-radius: 16px;
   padding: 1.6rem;
@@ -81,13 +81,13 @@
 }
 .contact-form-card h5 {
   font-weight: 700;
-  color: #043141;
+  color: var(--szc-ink);
   margin-bottom: 1.1rem;
 }
 .contact-form-card .form-label {
   font-size: 0.82rem;
   font-weight: 600;
-  color: #2e3f48;
+  color: var(--szc-ink-soft);
   margin-bottom: 4px;
 }
 .contact-form-card .form-control {
@@ -97,7 +97,7 @@
   padding: 0.65rem 0.9rem;
 }
 .contact-form-card .form-control:focus {
-  border-color: #1e9dcd;
+  border-color: var(--szc-brass);
   box-shadow: 0 0 0 3px rgba(30, 157, 205, 0.15);
 }
 .contact-submit {
@@ -105,7 +105,7 @@
   width: 100%;
   border: none;
   border-radius: 12px;
-  background: linear-gradient(120deg, #1e9dcd, #22b8e8);
+  background: linear-gradient(120deg, var(--szc-brass), #22b8e8);
   color: #fff;
   font-weight: 600;
   font-size: 0.95rem;

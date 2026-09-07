@@ -26,31 +26,31 @@
 .custom-order-card .order-title {
   font-size: 1rem;
   font-weight: 600;
-  color: #111827;
+  color: var(--szc-ink);
   margin-bottom: 0.25rem;
 }
 
 .custom-order-card .order-id {
   font-size: 0.85rem;
-  color: #6b7280;
+  color: var(--szc-muted);
 }
 
 .custom-order-card .order-price {
   font-size: 1rem;
   font-weight: bold;
-  color: #111827;
+  color: var(--szc-ink);
   text-align: right;
 }
 
 .custom-order-card .order-qty {
   font-size: 0.85rem;
-  color: #6b7280;
+  color: var(--szc-muted);
   text-align: right;
 }
 
 .custom-order-card .order-date {
   font-size: 0.875rem;
-  color: #4b5563;
+  color: var(--szc-ink-soft);
   display: flex;
   align-items: center;
   gap: 0.25rem;
@@ -70,20 +70,20 @@
 }
 
 .status-pending {
-  background-color: #fff7ed;
-  color: #c2410c;
+  background-color: rgba(201, 162, 39, 0.14);
+  color: #e0b243;
   border-color: #fcd34d;
 }
 
 .status-delivered {
-  background-color: #ecfdf5;
-  color: #065f46;
+  background-color: var(--szc-ok-tint);
+  color: var(--szc-accent-text);
   border-color: #a7f3d0;
 }
 
 .status-payment-pending {
-  background-color: #fef2f2;
-  color: #991b1b;
+  background-color: rgba(226, 87, 76, 0.14);
+  color: #ef6b62;
   border-color: #fecaca;
 }
 

@@ -1,0 +1,73 @@
+{
+  "/bird-control/": {
+    "h1": "Bird Control Products",
+    "title": "Bird Control Products — Spikes, Nets & Monkey Spikes | SpikeZone",
+    "description": "Bird spikes, pigeon spikes, anti bird nets and monkey spikes direct from the manufacturer. Which product suits which surface, how they compare, and what to send for a quote."
+  },
+  "/bird-control/bird-spikes/": {
+    "h1": "Bird Spikes",
+    "title": "Bird Spikes — Anti Bird Spikes Manufacturer in India | SpikeZone",
+    "description": "Humane bird spikes for ledges, balconies, rooftops and AC units. Stainless steel and polycarbonate anti bird spikes direct from the manufacturer. From ₹179, pan-India delivery."
+  },
+  "/bird-control/pigeon-spikes/": {
+    "h1": "Pigeon Spikes",
+    "title": "Pigeon Spikes for Balcony, Window & AC Unit | SpikeZone India",
+    "description": "Humane pigeon spikes for balcony railings, window sills, chajjas and AC units. Full-balcony kits from ₹999, direct from the manufacturer. Pan-India delivery."
+  },
+  "/bird-control/anti-bird-net/": {
+    "h1": "Anti Bird Net",
+    "title": "Anti Bird Net — Balcony, Shaft & Warehouse Netting | SpikeZone",
+    "description": "Anti bird netting for balconies, shafts, trusses and vents. Mesh sized to the bird, tensioned and fixed properly. Made to measure, quoted per site, supplied across India."
+  },
+  "/bird-control/monkey-spikes/": {
+    "h1": "Monkey Spikes",
+    "title": "Monkey Spikes for Parapets & Boundary Walls | SpikeZone India",
+    "description": "Heavy-gauge monkey spikes for parapets, boundary walls, pipe routes and ledges. Humane and non-electric, mechanically fixed. Quoted on your access route."
+  },
+
+  "/applications/": {
+    "h1": "Bird Control by Application",
+    "title": "Bird Control by Application — Balcony to Warehouse | SpikeZone",
+    "description": "Balcony, rooftop, warehouse, factory, solar and AC unit bird control. How each job is measured, quantified and fitted, and which product suits it."
+  },
+  "/applications/balcony/": {
+    "h1": "Balcony Bird Control",
+    "title": "Balcony Bird Control — Measuring, Cost & DIY Fitting | SpikeZone",
+    "description": "How a balcony bird job is measured and priced, with a worked example. Treat the railing, chajja and AC unit together — kits from ₹799, fitted in about an hour."
+  },
+  "/applications/rooftop/": {
+    "h1": "Rooftop Bird Control",
+    "title": "Rooftop & Parapet Bird Control — Takeoff and Cost | SpikeZone",
+    "description": "Rooftop bird control is a perimeter job. How to measure the parapet loop, why coping width doubles the quantity, and which material survives the exposure."
+  },
+  "/applications/warehouse/": {
+    "h1": "Warehouse Bird Control",
+    "title": "Warehouse Bird Control — Spike the Steel or Net the Bay | SpikeZone",
+    "description": "Warehouse bird control for purlins, trusses, cable trays and bay openings. How the takeoff is built, why entry points matter, and planning around one shutdown window."
+  },
+  "/applications/solar-panels/": {
+    "h1": "Solar Panel Bird Control",
+    "title": "Solar Panel Bird Control — Stop Nesting Under Panels | SpikeZone",
+    "description": "Birds nest in the gap under solar arrays. Edge mesh and perimeter spikes close the access without touching the panel face — no shading, no warranty risk."
+  },
+  "/applications/window/": {
+    "h1": "Window Sill Bird Control",
+    "title": "Window Sill Bird Control — Narrow Spikes, Whole Flat | SpikeZone",
+    "description": "Bird spikes for window sills and chajjas. Narrow-base strips that do not overhang, transparent options, and how to measure every sill in a flat. From ₹179."
+  },
+  "/applications/ac-outdoor-unit/": {
+    "h1": "AC Outdoor Unit Bird Control",
+    "title": "AC Outdoor Unit Bird Control — Stop Pigeon Nesting | SpikeZone",
+    "description": "Spikes for split AC outdoor units — under a metre per unit, adhesive only, vents kept clear. Best fitted during a routine service. From ₹149."
+  },
+  "/applications/factory/": {
+    "h1": "Factory Bird Control",
+    "title": "Factory Bird Control — Zone Takeoff and Shutdown Planning | SpikeZone",
+    "description": "Factory bird control quantified zone by zone: members, services and openings. Material by environment, audit-ready in food and pharma, despatched before the shutdown."
+  },
+  "/applications/cable-tray/": {
+    "h1": "Cable Tray Bird Control",
+    "title": "Cable Tray Bird Control — Rail Spikes & Takeoff | SpikeZone",
+    "description": "Cable trays are a continuous perch above the working floor. How the run is quantified (both rails), clip-on fixing without drilling, and getting it into someone's scope."
+  }
+}

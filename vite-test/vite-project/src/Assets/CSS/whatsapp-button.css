@@ -1,0 +1,69 @@
+/* Floating WhatsApp contact button. */
+
+.sz-wa {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 900;
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  height: 56px;
+  padding: 0 16px;
+  border-radius: 999px;
+  background: #25d366;
+  color: #05300f;
+  font-family: var(--szc-sans);
+  font-size: 0.88rem;
+  font-weight: 700;
+  box-shadow: 0 10px 28px -8px rgba(0, 0, 0, 0.6);
+  transition: gap 0.28s var(--szc-ease), padding 0.28s var(--szc-ease),
+    transform 0.28s var(--szc-ease), background 0.25s ease;
+}
+.sz-wa svg {
+  font-size: 1.75rem;
+  flex-shrink: 0;
+}
+/* label stays collapsed until hover so it does not cover the page on mobile */
+.sz-wa-label {
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  opacity: 0;
+  transition: max-width 0.28s var(--szc-ease), opacity 0.2s ease;
+}
+.sz-wa:hover,
+.sz-wa:focus-visible {
+  background: #1fbe5a;
+  color: #05300f;
+  gap: 10px;
+  transform: translateY(-2px);
+}
+.sz-wa:hover .sz-wa-label,
+.sz-wa:focus-visible .sz-wa-label {
+  max-width: 10rem;
+  opacity: 1;
+}
+
+@media (max-width: 576px) {
+  .sz-wa {
+    right: 14px;
+    bottom: 14px;
+    height: 50px;
+    padding: 0 12px;
+  }
+  .sz-wa svg {
+    font-size: 1.5rem;
+  }
+  /* no hover on touch: keep it a plain circular button */
+  .sz-wa-label {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sz-wa,
+  .sz-wa-label {
+    transition: none;
+  }
+}

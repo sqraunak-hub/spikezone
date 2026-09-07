@@ -5,14 +5,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #e0ffff;
-  color: black;
+  background-color: var(--szc-surface-2);
+  color: var(--szc-ink);
   font-weight: 500;
 }
 
 .title-main {
   font-size: 35px;
   font-family: "Fira Sans", sans-serif;
+  /* this element became an h1/h2; without the reset the browser's default
+     heading margin would move the band it sits in */
+  margin: 0;
 }
 
 @media (max-width: 768px) {

@@ -85,16 +85,27 @@ WSGI_APPLICATION = 'SpikeZoneApi.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.environ.get('DB_NAME', 'spikezoneapi'),
-        'USER': os.environ.get('DB_USER', 'root'),
-        'PASSWORD': os.environ.get('DB_PASSWORD', ''),
-        'HOST': os.environ.get('DB_HOST', 'localhost'),
-        'PORT': os.environ.get('DB_PORT', '3306'),
+# MySQL everywhere that matters. DB_ENGINE=sqlite is a local-development
+# escape hatch for working on the app without a MySQL server to hand - it is
+# never set in production, where leaving the variable out gives MySQL.
+if os.environ.get('DB_ENGINE', 'mysql').lower() == 'sqlite':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': os.environ.get('DB_NAME', 'spikezoneapi'),
+            'USER': os.environ.get('DB_USER', 'root'),
+            'PASSWORD': os.environ.get('DB_PASSWORD', ''),
+            'HOST': os.environ.get('DB_HOST', 'localhost'),
+            'PORT': os.environ.get('DB_PORT', '3306'),
+        }
+    }
 
 RAZORPAY_KEY_ID = os.environ.get('RAZORPAY_KEY_ID', '')
 RAZORPAY_KEY_SECRET = os.environ.get('RAZORPAY_KEY_SECRET', '')
@@ -149,8 +160,38 @@ REST_FRAMEWORK = {
 
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+    ),
 
+    # Only the OTP endpoints opt into throttling, via the scopes below.
+    'DEFAULT_THROTTLE_RATES': {
+        # Per recipient (phone number / email address), not per IP - see
+        # SpikeZoneApiApp.auth_views.OTPTargetThrottle. Every phone OTP is a
+        # billable SMS, so this rate is the ceiling on what a single number
+        # can cost us in an hour.
+        'otp_target': '5/hour',
+        # Verifying costs nothing and legitimate users do fumble a code, so
+        # the check is looser. Brute force is bounded by EmailOTP.MAX_ATTEMPTS
+        # per issued code rather than by this rate.
+        'otp_target_verify': '20/hour',
+    },
+
+}
+
+# Which OTP provider the phone-login endpoints use. 'firebase' is the only one
+# registered today; the indirection exists so a move to a direct Indian SMS
+# gateway (worth it somewhere north of ~15k OTPs/month, once DLT registration
+# has paid for itself) is a config change rather than a code change.
+OTP_PROVIDER = os.environ.get('OTP_PROVIDER', 'firebase')
+
+# Throttle counters live in the cache. LocMemCache is per-process, so with N
+# Passenger workers the effective ceiling is N x the configured rate - still
+# bounded, but if the SMS bill ever needs a hard limit, point this at Redis or
+# Django's DatabaseCache (which is shared across workers).
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'spikezone-default',
+    }
 }
 
 SIMPLE_JWT = {
@@ -175,7 +216,17 @@ CORS_ALLOWED_ORIGINS = [
     "http://192.168.1.35:3000",
 ]
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# SMTP everywhere real. Local development can set EMAIL_BACKEND to
+# django.core.mail.backends.console.EmailBackend to print OTP mails to the
+# runserver console instead of needing live mail credentials.
+# `or` rather than a default argument: a key that is present but empty
+# (EMAIL_BACKEND= in .env, which is how the production template ships it)
+# would otherwise be used verbatim as the import path and blow up with
+# "doesn't look like a module path" the first time anything sends mail.
+EMAIL_BACKEND = (
+    os.environ.get('EMAIL_BACKEND', '').strip()
+    or 'django.core.mail.backends.smtp.EmailBackend'
+)
 EMAIL_HOST = os.environ.get('EMAIL_HOST', '')
 EMAIL_PORT = int(os.environ.get('EMAIL_PORT', '465'))
 EMAIL_USE_SSL = os.environ.get('EMAIL_USE_SSL', 'True').lower() in ('true', '1', 'yes')
@@ -204,6 +255,38 @@ CSRF_TRUSTED_ORIGINS = [
     for o in os.environ.get('DJANGO_CSRF_TRUSTED_ORIGINS', '').split(',')
     if o.strip()
 ]
+
+
+# ---------------------------------------------------------------------------
+# Production hardening
+#
+# All of this is gated on DEBUG so local development over plain http keeps
+# working - switching these on locally would redirect http://127.0.0.1:8001 to
+# https and drop the session cookie.
+# ---------------------------------------------------------------------------
+if not DEBUG:
+    # Apache/Passenger terminates TLS and forwards the original scheme in this
+    # header. Without it Django thinks every request arrived over http and
+    # SECURE_SSL_REDIRECT below turns into an infinite redirect loop.
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+    # Set DJANGO_SECURE_SSL_REDIRECT=False if the host already redirects to
+    # https itself - doing it in both places is what causes redirect loops.
+    SECURE_SSL_REDIRECT = os.environ.get(
+        'DJANGO_SECURE_SSL_REDIRECT', 'True'
+    ).lower() in ('true', '1', 'yes')
+
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+
+    # HSTS tells browsers to refuse plain http for this domain, and they cache
+    # that for max-age - so a mistake here is not quickly undone. Left off by
+    # default; once https is confirmed working on every subdomain, ramp it up
+    # (start around 3600, then a week, then a year).
+    SECURE_HSTS_SECONDS = int(os.environ.get('DJANGO_HSTS_SECONDS', '0'))
+    if SECURE_HSTS_SECONDS:
+        SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+        SECURE_HSTS_PRELOAD = False
 
 
 # STATIC_ROOT = BASE_DIR / "staticfiles"

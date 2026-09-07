@@ -6,10 +6,16 @@ import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
 import { Button, Spinner } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { loginUser, registerUser } from "../Services/authService";
+import {
+  applyAuthSession,
+  clearAuthSession,
+  loginUser,
+  registerUser,
+} from "../Services/authService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "../Components/Loader";
+import OtpLogin from "../Components/OtpLogin";
 import { jwtDecode } from "jwt-decode";
 import logo from "../Assets/IMG/logo.png";
 import ReactCardFlip from "react-card-flip";
@@ -26,6 +32,9 @@ export default function SignUp() {
   const [conPass, setConPass] = useState("");
   const [showOtpModal, setShowOtpModal] = useState(false);
   const [otp, setOtp] = useState("");
+  // OTP is the default way in now. The email+password form is still here for
+  // everyone who already has a password, one click behind this flag.
+  const [usePassword, setUsePassword] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -140,40 +149,38 @@ export default function SignUp() {
     }
 
     try {
-      setTimeout(async () => {
-        try {
-          const { data, status } = await loginUser({
-            email: formData.emailLogin,
-            password: formData.passwordLogin,
-          });
+      const { data, status } = await loginUser({
+        email: formData.emailLogin,
+        password: formData.passwordLogin,
+      });
 
-          if (status === 200) {
-            const token = data.token.access;
-            toast.success(data.msg);
-            localStorage.setItem("token", token);
-            navigate("/");
+      if (status === 200) {
+        // applyAuthSession stores both tokens and seeds the user store, so
+        // the header shows the customer's name straight after login. This
+        // screen used to only write the access token, which is why a
+        // password login left the store empty until the next page load.
+        applyAuthSession(data);
+        toast.success(data.msg);
+        navigate("/");
 
-            const decoded = jwtDecode(token);
-            const exp = decoded.exp * 1000;
-            const now = Date.now();
+        const decoded = jwtDecode(data.token.access);
+        const exp = decoded.exp * 1000;
+        const now = Date.now();
 
-            if (exp < now) logout();
-            else setTimeout(logout, exp - now);
-          }
-        } catch (error) {
-          toast.error(error?.response?.data?.errors || "Login failed");
-        } finally {
-          setApiLoad(false);
-        }
-      }, 2000);
-    } catch (err) {
-      toast.error("Unexpected error during login");
+        if (exp < now) logout();
+        else setTimeout(logout, exp - now);
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.errors || "Login failed");
+    } finally {
       setApiLoad(false);
     }
   };
 
   const logout = () => {
-    localStorage.removeItem("token");
+    // Clears the refresh token and the zustand store too - dropping only the
+    // access token left the app still showing a logged-in header.
+    clearAuthSession();
     toast.info("Session expired. You have been logged out.");
     navigate("/signup");
   };
@@ -264,55 +271,70 @@ export default function SignUp() {
               </div>
               <div className="form-head">Login to Continue</div>
               <Container className="form-container-user mt-4 mb-1">
-                <Form onSubmit={handleLoginSubmit} autoComplete="off">
-                  <div className="login-body">
-                    <div className="login-input">
-                      <input
-                        type="text"
-                        name="emailLogin"
-                        autoComplete="username"
-                        className="email-login-input"
-                        required
-                        onChange={handleChange}
-                        value={formData.emailLogin}
-                      />
-                      <span className="password-login-span">Email Address</span>
+                {usePassword ? (
+                  <Form onSubmit={handleLoginSubmit} autoComplete="off">
+                    <div className="login-body">
+                      <div className="login-input">
+                        <input
+                          type="text"
+                          name="emailLogin"
+                          autoComplete="username"
+                          className="email-login-input"
+                          required
+                          onChange={handleChange}
+                          value={formData.emailLogin}
+                        />
+                        <span className="password-login-span">Email Address</span>
+                      </div>
+                      <div className="login-input">
+                        <input
+                          type="password"
+                          name="passwordLogin"
+                          autoComplete="current-password"
+                          className="password-login-input"
+                          required
+                          onChange={handleChange}
+                          value={formData.passwordLogin}
+                        />
+                        <span className="password-login-span">Password</span>
+                      </div>
                     </div>
-                    <div className="login-input">
-                      <input
-                        type="password"
-                        name="passwordLogin"
-                        autoComplete="current-password"
-                        className="password-login-input"
-                        required
-                        onChange={handleChange}
-                        value={formData.passwordLogin}
-                      />
-                      <span className="password-login-span">Password</span>
-                    </div>
-                  </div>
 
-                  <button
-                    type="submit"
-                    className="form-submit mt-4"
-                    disabled={apiLoad}
-                  >
-                    {apiLoad ? <Spinner animation="border" /> : "Login"}
-                  </button>
-
-                  <div className="register-btn-container mt-3">
-                    <a href="#" className="forgot-pass-btn">
-                      <h5>Forgot Password?</h5>
-                    </a>
-                    <a
-                      href="#"
-                      className="register-btn flipbutton"
-                      onClick={handleToggle}
+                    <button
+                      type="submit"
+                      className="form-submit mt-4"
+                      disabled={apiLoad}
                     >
-                      <h5>New? Create New Account Now</h5>
-                    </a>
-                  </div>
-                </Form>
+                      {apiLoad ? <Spinner animation="border" /> : "Login"}
+                    </button>
+
+                    {/* Forgot-password has no flow behind it yet, and OTP
+                        login makes one unnecessary - anyone locked out can
+                        get in with a code instead. */}
+                    <button
+                      type="button"
+                      className="otp-link"
+                      onClick={() => setUsePassword(false)}
+                    >
+                      Login with OTP instead
+                    </button>
+                  </Form>
+                ) : (
+                  <OtpLogin
+                    onSuccess={() => navigate("/")}
+                    onUsePassword={() => setUsePassword(true)}
+                  />
+                )}
+
+                <div className="register-btn-container mt-3">
+                  <a
+                    href="#"
+                    className="register-btn flipbutton"
+                    onClick={handleToggle}
+                  >
+                    <h5>New? Create New Account Now</h5>
+                  </a>
+                </div>
               </Container>
             </div>
 

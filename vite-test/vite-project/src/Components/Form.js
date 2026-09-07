@@ -25,7 +25,7 @@ const CONTACT_INFO = [
   {
     icon: <FaPhoneAlt />,
     title: "Call Us",
-    lines: ["+91 98731 99277", "+91 99909 55869"],
+    lines: ["+91 99909 55869"],
   },
   {
     icon: <FaEnvelope />,
@@ -80,7 +80,9 @@ export default function ContactForm() {
         <div className="sz-section-head">
           <div>
             <span className="sz-eyebrow">Get In Touch</span>
-            <h2 className="sz-title">Contact Us</h2>
+            {/* the contact page's main heading - it had no h1 at all, and it
+                is the page people search for by name */}
+            <h1 className="sz-title">Contact SpikeZone</h1>
             <p className="sz-sub">
               Questions about the right spike for your balcony? Bulk order for
               a project? Send us a message — we reply within 24 hours.
@@ -104,7 +106,7 @@ export default function ContactForm() {
             </div>
             <a
               className="contact-whatsapp"
-              href="https://wa.me/919873199277"
+              href="https://wa.me/919990955869"
               target="_blank"
               rel="noreferrer"
             >

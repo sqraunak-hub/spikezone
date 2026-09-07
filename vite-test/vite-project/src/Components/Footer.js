@@ -13,6 +13,8 @@ import {
   FaPrint,
 } from "react-icons/fa";
 import "../Assets/CSS/Footer.css";
+import { categoryPath } from "../Utils/appConstant";
+import { categorySlug } from "../Utils/slugify";
 import logo from "../Assets/IMG/logo.png";
 import rzpbadge from "../Assets/IMG/rzpbadge.png";
 
@@ -93,7 +95,7 @@ export default function Footer() {
               <h6 className="sz-footer-head">SpikeZone by S.K Enterprises</h6>
               <p className="sz-footer-about">
                 SpikeZone, originally owned by S.K Enterprises, was established
-                in 2010 with the motive of providing safety from bird nuisance —
+                in 2015 with the motive of providing safety from bird nuisance —
                 selling humane bird-control products online and offline, all
                 over the world.
               </p>
@@ -119,7 +121,7 @@ export default function Footer() {
             <ul className="sz-footer-links">
               {categories.slice(0, 3).map((category) => (
                 <li key={category.id}>
-                  <a href={`/category/${category.category_name}`}>
+                  <a href={categoryPath(categorySlug(category))}>
                     {category.category_name}
                   </a>
                 </li>
@@ -133,7 +135,16 @@ export default function Footer() {
           </Col>
 
           <Col lg={3} md={6} sm={6}>
-            <h6 className="sz-footer-head">Useful Links</h6>
+            <h6 className="sz-footer-head">Guides</h6>
+            <ul className="sz-footer-links">
+              <li><a href="/bird-control/">Bird Control Products</a></li>
+              <li><a href="/solutions/">Problems by Surface</a></li>
+              <li><a href="/applications/">Bird Control by Job</a></li>
+              <li><a href="/bird-care/">Bird Care &amp; Feeders</a></li>
+              <li><a href="/locations/">Cities We Supply</a></li>
+            </ul>
+
+            <h6 className="sz-footer-head mt-4">Useful Links</h6>
             <ul className="sz-footer-links">
               <li><a href="/blogs">Blogs</a></li>
               <li><a href="/gallery">Gallery</a></li>
@@ -155,7 +166,7 @@ export default function Footer() {
                 <a href="mailto:support@spikezone.in">support@spikezone.in</a>
               </li>
               <li>
-                <FaPhoneAlt /> <span>+91 98731 99277</span>
+                <FaPhoneAlt /> <span>+91 99909 55869</span>
               </li>
               <li>
                 <FaPrint /> <span>+91 9999492068</span>

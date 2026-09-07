@@ -8,7 +8,7 @@
     color: chartreuse;
 }
 .input[type="text"], .input-success{
-    border: 2px solid #1e9dcd!important;
+    border: 2px solid var(--szc-brass)!important;
 }
 .input-error{
     border: 2px solid red!important;
@@ -19,7 +19,7 @@
 	counter-reset: step;
 }
 #progressbar .step {
-	color: black;
+	color: var(--szc-ink);
 	text-transform: uppercase;
 	font-size: 12px;
 	float: left;
@@ -34,8 +34,8 @@
 	line-height: 20px;
 	display: block;
 	font-size: 15px;
-	color: #333;
-	background: white;
+	color: var(--szc-ink-soft);
+	background: var(--szc-surface);
 	border-radius: 3px;
 	margin: 0 auto 5px auto;
 }
@@ -53,7 +53,7 @@
 	content: none; 
 }
 #progressbar .step.active:before,  #progressbar .step.active:after{
-	background: #1e9dcd;
+	background: var(--szc-brass);
 	color: white;
 }
 #progressbar .step.completed:before,  #progressbar .step.completed:after{
@@ -80,7 +80,7 @@
     color: #fff;
 }
 .form-submit:focus{
-    background-color: #1e9dcd;
+    background-color: var(--szc-brass);
     color: #fff;
 }
 .info-head{
@@ -95,7 +95,7 @@
     background-color: transparent!important;
 backdrop-filter: blur(4px) saturate(200%);
 -webkit-backdrop-filter: blur(4px) saturate(200%);
-background-color: rgba(255, 255, 255, 0.35);
+background-color: rgba(255, 255, 255, 0.10);
 border-radius: 12px;
 border: 1px solid rgba(209, 213, 219, 0.3);
 }
@@ -105,7 +105,7 @@ border: 1px solid rgba(209, 213, 219, 0.3);
     background-color: transparent!important;
 backdrop-filter: blur(4px) saturate(200%);
 -webkit-backdrop-filter: blur(4px) saturate(200%);
-background-color: rgba(255, 255, 255, 0.35);
+background-color: rgba(255, 255, 255, 0.10);
 border-radius: 12px;
 border: 1px solid rgba(209, 213, 219, 0.3);
 }
@@ -114,7 +114,7 @@ border: 1px solid rgba(209, 213, 219, 0.3);
     background-color: transparent!important;
     backdrop-filter: blur(4px) saturate(200%);
     -webkit-backdrop-filter: blur(4px) saturate(200%);
-    background-color: rgba(255, 255, 255, 0.35);
+    background-color: rgba(255, 255, 255, 0.10);
     border-radius: 12px;
     border: 1px solid rgba(209, 213, 219, 0.3);
 }
@@ -164,19 +164,19 @@ border: 1px solid rgba(209, 213, 219, 0.3);
 }
 .checkout-input input:valid ~ span,
 .checkout-input input:focus ~ span {
-  color: #1e9dcd;
+  color: var(--szc-accent-text);
   transform: translateX(16px) translateY(-60px);
   font-size: 0.65rem;
   font-weight: 600;
   padding: 0 10px;
-  background: #fff;
+  background: var(--szc-surface);
   letter-spacing: 0.1rem;
 }
 
 .checkout-input input:valid,
 .checkout-input input:focus {
-  color: #1e9dcd;
-  border: 2px solid #1e9dcd;
+  color: var(--szc-accent-text);
+  border: 2px solid var(--szc-brass);
 }
 .os-pr-sec,
 .os-rt-sec {
@@ -190,4 +190,37 @@ border: 1px solid rgba(209, 213, 219, 0.3);
 }
 .os-pr-sec-item {
   margin-right: 20px;
+}
+
+/* Moved here from account.css, where these three had ended up by accident.
+   They style Components/CheckoutForm.js - currently imported by nothing, so
+   they are dormant, but they belong with the rest of the checkout styling
+   rather than on a screen that has no checkout on it. */
+.address-add-chk-form {
+  width: 50%;
+  transition: 0.2s;
+}
+
+.chk-form-edt .address-add-chk-form:hover,
+.chk-form-edt:hover {
+  opacity: 0.5;
+}
+
+.address-details-checkout {
+  text-align: start;
+  padding: 32px;
+  border-radius: 9px;
+  background: linear-gradient(145deg, var(--szc-surface), var(--szc-surface-2));
+  border: 1px solid var(--szc-line);
+  box-shadow: var(--szc-shadow-sm);
+}
+
+.chk-form-edt {
+  border: none;
+  outline: none;
+  text-decoration: underline;
+  color: var(--szc-accent-text);
+  font-weight: bold;
+  background: transparent;
+  transition: 0.1s;
 }

@@ -1,18 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "../Assets/CSS/CategoryBar.css";
-import { HiOutlineMenuAlt1 } from "react-icons/hi";
-import { AiOutlineRight } from "react-icons/ai";
+import {
+  FaHouse,
+  FaTag,
+  FaDove,
+  FaBorderAll,
+  FaCircleQuestion,
+  FaPaperPlane,
+} from "react-icons/fa6";
+import { GiMonkey } from "react-icons/gi";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import NavMegaMenu from "./NavMegaMenu";
+import { FAMILIES } from "../Utils/productFamilies";
 
+const FAMILY_ICONS = {
+  "bird-spikes": <FaDove />,
+  "monkey-spikes": <GiMonkey />,
+  "anti-bird-net": <FaBorderAll />,
+};
+
+/**
+ * The "All categories" dropdown that used to open this bar is gone: it cost
+ * 194px of a 1116px row and forced the nav onto a second line, and its three
+ * categories are already listed on /products and in the footer.
+ */
 export default function CategoryBar() {
-  const [categories, setCategories] = useState([]);
-
-  useEffect(() => {
-    axios.get("uploadCategory/").then((response) => {
-      setCategories(response.data);
-    });
-  }, []);
 
   return (
     <>
@@ -21,79 +33,58 @@ export default function CategoryBar() {
           <div className="w-100 h-100 item-container container">
             <div className="items-center d-flex justify-content-between">
               <div className=" d-flex cat-and-drop">
-                <div className="dropdown">
-                  <button
-                    className="drop-btn dropdown-toggle"
-                    type="button"
-                    id="dropdownMenuButton"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    <span>
-                      <HiOutlineMenuAlt1 />
-                    </span>
-                    {"               "}
-                    <span> All categories</span>
-                  </button>
-                  <ul
-                    className="dropdown-menu"
-                    aria-labelledby="dropdownMenuButton"
-                  >
-                    {categories.map((category) => (
-                      <li key={category.id} value={category.id}>
-                        <Link
-                          className="dropdown-item"
-                          to={`/category/${category.category_name.replace(
-                            /\s+/g,
-                            ""
-                          )}`}
-                        >
-                          {category.category_name}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
                 <div className="nav">
                   <ul className="d-flex nav-wrapper">
                     <li>
                       <Link to="/" className="cat-bar-link">
+                        <span className="cat-bar-ico" aria-hidden="true">
+                          <FaHouse />
+                        </span>
                         Home
                       </Link>
                     </li>
                     <li>
-                      {" "}
                       <Link to="/products" className="cat-bar-link">
+                        <span className="cat-bar-ico" aria-hidden="true">
+                          <FaTag />
+                        </span>
                         Products
                       </Link>
                     </li>
+                    {/* One item per product family; each dropdown carries the
+                        same four columns (Bird Control / Solution /
+                        Application / Location). */}
+                    {FAMILIES.map((f) => (
+                      <li key={f.id}>
+                        <NavMegaMenu family={f} icon={FAMILY_ICONS[f.id]} />
+                      </li>
+                    ))}
                     <li>
-                      {" "}
-                      <Link to="/gallery" className="cat-bar-link">
-                        Gallery
+                      <Link to="/about" className="cat-bar-link">
+                        <span className="cat-bar-ico" aria-hidden="true">
+                          <FaCircleQuestion />
+                        </span>
+                        FAQs
                       </Link>
                     </li>
                     <li>
-                      {" "}
                       <Link to="/blogs" className="cat-bar-link">
                         Blogs
                       </Link>
                     </li>
                     <li>
-                      {" "}
-                      <Link to="/about" className="cat-bar-link">
-                        About
-                      </Link>
-                    </li>
-                    <li>
-                      {" "}
-                      <Link to="/contact" className="cat-bar-link">
-                        Help
+                      <Link to="/gallery" className="cat-bar-link">
+                        Gallery
                       </Link>
                     </li>
                   </ul>
                 </div>
               </div>
+
+              <Link to="/contact" className="cat-bar-quote">
+                <FaPaperPlane />
+                Get Free Quote
+              </Link>
               {/* <div>
                 <button className="seller-btn">
                   Become a Seller <AiOutlineRight />{" "}

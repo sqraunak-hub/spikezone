@@ -6,13 +6,18 @@ import PageTitle from "../Components/PageTitle";
 import { FaCalendarAlt } from "react-icons/fa";
 import { Row, Col } from "react-bootstrap";
 
-import { API_BASE_URL } from "../Utils/appConstant";
+import { API_BASE_URL, SITE_URL } from "../Utils/appConstant";
+import useSeo from "../Utils/useSeo";
 
-const extractFirstImage = (html) => {
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(html, "text/html");
+// A post now carries its own featured image. Older posts do not, so the first
+// image in the body is still used, and only then the site's own cover art -
+// the previous fallback pointed at via.placeholder.com, a third-party service
+// the page had no reason to depend on and which renders as a broken image.
+const cardImage = (blog) => {
+  if (blog.featured_image) return blog.featured_image;
+  const doc = new DOMParser().parseFromString(blog.content || "", "text/html");
   const img = doc.querySelector("img");
-  return img ? img.src : "https://via.placeholder.com/600x300?text=No+Image";
+  return img ? img.src : "/og-cover.jpg";
 };
 
 const extractPlainText = (html, maxLength = 250) => {
@@ -34,6 +39,13 @@ const formatDate = (isoDate) => {
 export default function Blogs() {
   const [blogs, setBlogs] = useState([]);
 
+  useSeo({
+    title: "Bird Control Guides & Blog | SpikeZone",
+    description:
+      "Installation guides, buying advice and bird control tips from the SpikeZone team.",
+    canonical: `${SITE_URL}/blogs`,
+  });
+
   useEffect(() => {
     axios
       .get(`${API_BASE_URL}blogs/`)
@@ -53,9 +65,10 @@ export default function Blogs() {
                   <Link to={`/blogs/${blog.slug}`} className="blog-link">
                     <div className="blog-card-full">
                       <img
-                        src={extractFirstImage(blog.content)}
+                        src={cardImage(blog)}
                         alt={blog.title}
                         className="blog-card-image"
+                        loading="lazy"
                       />
 
                       <div className="blog-card-body">
@@ -67,7 +80,9 @@ export default function Blogs() {
                         </div>
 
                         <p className="blog-snippet">
-                          {extractPlainText(blog.content)}
+                          {/* the author's summary when they wrote one; the
+                              API falls back to the start of the post */}
+                          {blog.display_excerpt || extractPlainText(blog.content)}
                         </p>
 
                         <span className="read-full-btn">Read Full Article</span>
