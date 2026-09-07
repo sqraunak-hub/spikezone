@@ -4,6 +4,13 @@ import { ImCross } from "react-icons/im";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PageTitle from "../Components/PageTitle";
+// This screen renders .cart-shop-btn, .cart-table-head, .cart-summary and a
+// dozen more classes from cart.css but never imported it. The sheet only
+// reached the page when some other chunk that does import it (CartCard,
+// CartProducts) happened to have loaded first - so arriving from a product
+// page looked right, while opening /cart directly, or reloading on it, showed
+// an unstyled table with a default grey button.
+import "../Assets/CSS/cart.css";
 import useCartStore from "../store/cartStore";
 import { BsCheck } from "react-icons/bs";
 import axios from "axios";

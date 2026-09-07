@@ -6,7 +6,7 @@ import { Rating } from "@mui/material";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useUserStore from "../store/userStore";
-import "../Assets/CSS/AddReview.css";
+import "../Assets/CSS/addreview.css";
 import PageTitle from "../Components/PageTitle";
 import { CalendarIcon, Package2Icon, Star, IndianRupee } from "lucide-react";
 

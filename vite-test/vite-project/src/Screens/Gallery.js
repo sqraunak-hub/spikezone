@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
-import "../Assets/CSS/Gallery.css";
+import "../Assets/CSS/gallery.css";
 import PageTitle from "../Components/PageTitle";
 import SEOHelmet from "../Components/SEOHelmet";
 import { API_BASE_URL } from "../Utils/appConstant";
