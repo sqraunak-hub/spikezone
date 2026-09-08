@@ -209,17 +209,21 @@ a {
   text-decoration: none;
 }
 
-/* White on the brand blue is only ~3:1, so anything sitting ON the accent
-   takes the deep colour instead. */
+/* White on the bright brand blue is only 3.03:1, which is why these used to
+   take dark text instead - but dark-on-bright-blue reads as a disabled
+   control, not a call to action. Filled buttons now sit on --szc-accent-dark
+   (#0b7fa6), where white clears 4.56:1, so they get the light text they should
+   have had and stay legible. The bright accent is still the fill everywhere it
+   carries no text. */
 .btn-primary,
 .btn-success,
 .nav-pills .nav-link.active,
 .nav-tabs .nav-link.active,
 .badge.bg-primary,
 .badge.bg-success {
-  background-color: var(--szc-accent) !important;
-  border-color: var(--szc-accent) !important;
-  color: var(--szc-on-accent) !important;
+  background-color: var(--szc-accent-dark) !important;
+  border-color: var(--szc-accent-dark) !important;
+  color: #fff !important;
 }
 .btn-primary:hover,
 .btn-success:hover {
@@ -400,8 +404,10 @@ a {
   display: inline-flex;
   align-items: center;
   gap: 0.65rem;
-  background: var(--szc-accent);
-  color: var(--szc-on-accent);
+  /* accent-dark, not accent: white needs 4.5:1 and only clears it on the
+     darker blue. See the note on .btn-primary above. */
+  background: var(--szc-accent-dark);
+  color: #fff;
   font-family: var(--szc-sans);
   font-size: 0.85rem;
   font-weight: 700;
@@ -413,7 +419,9 @@ a {
   transition: background 0.3s ease, gap 0.3s ease, transform 0.3s ease;
 }
 .szc-btn:hover {
-  background: var(--szc-accent-dark);
+  /* Base is already accent-dark, so hover goes a step deeper rather than
+     landing on the same colour and looking inert. */
+  background: var(--szc-deep);
   color: #ffffff;
   gap: 1rem;
   transform: translateY(-2px);

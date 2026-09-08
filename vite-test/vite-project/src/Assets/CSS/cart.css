@@ -130,19 +130,25 @@
   /* font-family: "Poppins", sans-serif; */
   font-size: 13px;
 }
+/* Was a plain black slab with a grey border, which read as a browser default
+   sitting next to the brand-coloured checkout button. It is a secondary
+   action, so it takes the outline treatment rather than a second solid fill
+   competing with Checkout. */
 .cart-shop-btn {
-  border: 1px solid grey;
   font-family: "Poppins", sans-serif;
   padding: 10px;
   width: 100%;
-  font-size: 1.13em;
-  transition: color ease-in-out;
-  background-color: black;
-  color: #fff;
+  font-size: 1.05em;
+  font-weight: 600;
+  border: 1px solid var(--szc-accent-dark);
+  border-radius: var(--szc-r);
+  background-color: transparent;
+  color: var(--szc-accent-text);
+  transition: background-color 0.2s var(--szc-ease), color 0.2s var(--szc-ease);
 }
 .cart-shop-btn:hover {
-  background: transparent;
-  color: rgb(14, 14, 14);
+  background-color: var(--szc-accent-dark);
+  color: #fff;
 }
 .cart-summary {
   border: 1px solid #ededed;
@@ -232,5 +238,134 @@ input::-webkit-inner-spin-button {
   }
   .cart-image {
     width: 5em !important;
+  }
+}
+
+/* ---------- assurances beside the summary ----------
+   The column next to the cart summary was an empty spacer, so half the row
+   sat blank. These are the four things a shopper checks right before paying,
+   and they are the claims already made on the product pages - nothing new is
+   promised here. */
+.cart-assurances {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 0.9rem;
+  text-align: left;
+}
+
+.cart-assurances li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--szc-line);
+  border-radius: var(--szc-r-lg);
+  background: var(--szc-surface-2);
+}
+
+.cart-assurance-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+  border-radius: 999px;
+  background: var(--szc-ok-tint);
+  color: var(--szc-ok);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.cart-assurances li > span:last-child {
+  display: block;
+  color: var(--szc-muted);
+  font-size: 0.83rem;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.cart-assurances strong {
+  display: block;
+  margin-bottom: 0.15rem;
+  color: var(--szc-ink);
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.cart-assurances a {
+  color: var(--szc-accent-text);
+  font-weight: 600;
+}
+
+/* ---------- table polish ----------
+   The table sat flush against a bare border with no padding, which is what
+   made it read as raw HTML rather than a panel. */
+.table-container {
+  border-radius: var(--szc-r-lg);
+  border-color: var(--szc-line);
+  overflow: hidden !important;
+}
+
+.cart-table-head th {
+  padding: 0.9rem 0.75rem;
+  border-bottom: 1px solid var(--szc-line);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.cart-table-content td {
+  padding: 1rem 0.75rem;
+  vertical-align: middle;
+  color: var(--szc-ink);
+}
+
+.cart-image {
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.cart-summary {
+  border-radius: var(--szc-r-lg);
+  border-color: var(--szc-line);
+  background: var(--szc-surface);
+}
+
+/* The pincode field and its submit button are one control, so they share a
+   frame instead of the button floating as a black square. */
+.cart-pincode {
+  border: 1px solid var(--szc-line);
+  border-radius: var(--szc-r);
+  overflow: hidden;
+}
+
+.cart-summary-pincode {
+  border: none !important;
+  background: var(--szc-surface-2);
+  color: var(--szc-ink);
+}
+
+.cart-pincode button {
+  border: none;
+  padding: 0 0.9rem;
+  background: var(--szc-accent-dark) !important;
+  color: #fff !important;
+}
+
+.abled-checkout,
+.disabled-checkout {
+  border-radius: var(--szc-r);
+  background: var(--szc-accent-dark);
+  border-color: var(--szc-accent-dark);
+}
+
+@media (max-width: 767px) {
+  .cart-assurances {
+    grid-template-columns: 1fr;
+    margin-bottom: 1.25rem;
   }
 }

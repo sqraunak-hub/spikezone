@@ -1,0 +1,102 @@
+/* "You may also like" strip, shown under the cart and checkout.
+   Built on the --szc-* tokens so it follows the theme toggle. */
+
+.szsg {
+  /* .App sets text-align: center globally; this block is reading matter. */
+  text-align: left;
+  margin-top: 3.5rem;
+  margin-bottom: 3rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--szc-line);
+}
+
+.szsg-loading {
+  padding: 2rem 0;
+  text-align: center;
+  color: var(--szc-muted);
+}
+
+.szsg-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.szsg-eyebrow {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: var(--szc-accent-text);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.szsg-title {
+  margin: 0;
+  color: var(--szc-ink);
+  font-family: var(--szc-display);
+  font-size: clamp(1.25rem, 2.6vw, 1.7rem);
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.szsg-sub {
+  margin: 0.4rem 0 0;
+  max-width: 34rem;
+  color: var(--szc-muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.szsg-viewall {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex: 0 0 auto;
+  color: var(--szc-accent-text);
+  font-size: 0.86rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: gap 0.2s var(--szc-ease);
+}
+
+.szsg-viewall:hover {
+  gap: 0.7rem;
+  color: var(--szc-accent-dark);
+}
+
+/* auto-fit rather than a fixed column count: the row reflows on its own at
+   every width, so a card is never squeezed into an unreadable sliver. */
+.szsg-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.1rem;
+  align-items: stretch;
+}
+
+.szsg-grid > * {
+  height: 100%;
+}
+
+@media (max-width: 575px) {
+  .szsg {
+    margin-top: 2.5rem;
+    padding-top: 1.75rem;
+  }
+
+  .szsg-grid {
+    /* Two up on a phone rather than one - the cards stay glanceable and the
+       strip does not turn into an endless scroll. */
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  .szsg-head {
+    align-items: flex-start;
+  }
+}

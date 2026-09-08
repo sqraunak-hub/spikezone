@@ -10,6 +10,12 @@ import {
 } from "react-bootstrap";
 import PageTitle from "../Components/PageTitle";
 import OrderSummary from "../Components/OrderSummary";
+import ProductSuggestions from "../Components/ProductSuggestions";
+// .checkout-container, .address-form, .addresses-list and .order-summary
+// all live in this sheet. It only reached the page via OrderSummary, which
+// is fragile - the screen that uses the classes should import them.
+import "../Assets/CSS/checkout.css";
+import "../Assets/CSS/ManageAddress.css";
 import useCartStore from "../store/cartStore";
 import useUserStore from "../store/userStore";
 import useAddressStore from "../store/addressStore";
@@ -308,6 +314,11 @@ export default function Checkout() {
               </div>
             </Col>
           </Row>
+
+          <ProductSuggestions
+            title="Complete your setup"
+            subtitle="Shoppers who ordered these items usually needed one of these too."
+          />
         </Container>
       </div>
 

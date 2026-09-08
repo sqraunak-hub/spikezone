@@ -15,7 +15,6 @@ import {
   FaUser,
 } from "react-icons/fa6";
 import "../Assets/CSS/header.css";
-import "bootstrap/dist/css/bootstrap.min.css";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";

@@ -224,3 +224,224 @@ border: 1px solid rgba(209, 213, 219, 0.3);
   background: transparent;
   transition: 0.1s;
 }
+
+/* ===================================================================
+   Checkout page layout
+
+   .checkout-container, .address-form, .addresses-list and .order-summary
+   were on the markup from the start but defined in no stylesheet at all, so
+   the page rendered as unstyled stacked blocks: centred text inherited from
+   .App, a default grey "Add New Address" button, and address cards with no
+   selected state. Everything below is new.
+   =================================================================== */
+
+.checkout-container {
+  /* .App centres everything; checkout is a form, so it reads left. */
+  text-align: left;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding-bottom: 3rem;
+}
+
+.checkout-container .c-titles {
+  color: var(--szc-ink);
+  font-family: var(--szc-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.address-form,
+.order-summary {
+  padding: 1.5rem;
+  border: 1px solid var(--szc-line);
+  border-radius: var(--szc-r-lg);
+  background: var(--szc-surface);
+  box-shadow: var(--szc-shadow-sm);
+}
+
+.order-summary {
+  position: sticky;
+  /* Clears the sticky header so the summary never hides under it while the
+     address list scrolls. */
+  top: 1.5rem;
+}
+
+.address-form > p {
+  margin-bottom: 1.1rem;
+  color: var(--szc-muted);
+  font-size: 0.88rem;
+}
+
+/* .add-address-btn lives in ManageAddress.css - one definition, shared by
+   this page and the Manage Address screen. */
+
+/* ---------- address cards ---------- */
+
+.addresses-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 0.9rem;
+}
+
+.addresses-list .address-card {
+  /* Bootstrap's .p-3.mb-3.border.rounded is on these too; this overrides the
+     parts that matter and leaves the rest. */
+  margin-bottom: 0 !important;
+  padding: 1rem !important;
+  border: 1px solid var(--szc-line) !important;
+  border-radius: var(--szc-r-lg) !important;
+  background: var(--szc-surface-2);
+  cursor: pointer;
+  transition: border-color 0.2s var(--szc-ease), box-shadow 0.2s var(--szc-ease),
+    transform 0.2s var(--szc-ease);
+}
+
+.addresses-list .address-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--szc-line-strong) !important;
+  box-shadow: var(--szc-shadow-sm);
+}
+
+/* Selected. Bootstrap's .border-primary is what the component toggles, so the
+   selected look hangs off that rather than a class of our own. */
+.addresses-list .address-card.border-primary {
+  border-color: var(--szc-accent-dark) !important;
+  background: var(--szc-accent-tint);
+  box-shadow: 0 0 0 1px var(--szc-accent-dark);
+}
+
+.addresses-list .address-card p {
+  margin-bottom: 0.2rem !important;
+  color: var(--szc-ink-soft);
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.addresses-list .address-card p.fw-bold {
+  color: var(--szc-ink);
+  font-size: 0.98rem;
+}
+
+/* ---------- order summary rows ---------- */
+
+.order-summary .os-pr-sec {
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--szc-line);
+}
+
+.order-summary .os-pr-sec img {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 8px;
+  background: var(--szc-surface-2);
+}
+
+.order-summary .os-pr-sec-item {
+  margin-right: 0;
+}
+
+/* The title cell takes the slack so quantity and price stay on one line. */
+.order-summary .os-pr-sec-item:nth-child(2) {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.order-summary .os-pr-sec-item p {
+  margin: 0;
+  color: var(--szc-ink);
+  font-size: 0.88rem;
+  line-height: 1.4;
+}
+
+.order-summary .os-pr-sec-item:nth-child(3) {
+  color: var(--szc-muted);
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.order-summary .os-pr-sec-item:nth-child(4) {
+  color: var(--szc-ink);
+  font-size: 0.9rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.order-summary .os-rt-sec {
+  margin-top: 1.25rem !important;
+  padding-top: 1rem;
+  border-top: 1px solid var(--szc-line);
+}
+
+.order-summary .os-rt-sec p {
+  margin-bottom: 0.5rem;
+  color: var(--szc-ink-soft);
+  font-size: 0.9rem;
+}
+
+/* Last row is the amount actually being charged - it should read as the
+   conclusion, not as another line item. */
+.order-summary .os-rt-nm p:last-child,
+.order-summary .os-rt-vl p:last-child {
+  margin-top: 0.35rem;
+  padding-top: 0.55rem;
+  border-top: 1px solid var(--szc-line);
+  color: var(--szc-ink);
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.order-summary .os-rt-vl {
+  text-align: right;
+}
+
+/* ---------- pay button ----------
+   .abled-checkout / .disabled-checkout are declared in cart.css, which this
+   page does not load - so the button fell back to a browser default. Stated
+   in full here so checkout does not depend on the cart's stylesheet. */
+
+.order-summary .abled-checkout,
+.order-summary .disabled-checkout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  margin-top: 1.25rem;
+  padding: 0.85rem 1rem;
+  border: none;
+  border-radius: var(--szc-r);
+  background: var(--szc-accent-dark);
+  color: #fff;
+  font-size: 1.02rem;
+  font-weight: 600;
+  transition: background 0.2s var(--szc-ease), transform 0.2s var(--szc-ease);
+}
+
+.order-summary .abled-checkout:hover {
+  background: var(--szc-deep);
+  transform: translateY(-1px);
+}
+
+.order-summary .disabled-checkout {
+  /* Reads as "not yet", not as broken - the address still has to be picked. */
+  background: var(--szc-line-strong);
+  color: var(--szc-surface);
+  cursor: not-allowed;
+  filter: none;
+}
+
+@media (max-width: 767px) {
+  .order-summary {
+    position: static;
+    margin-top: 1.25rem;
+  }
+
+  .address-form,
+  .order-summary {
+    padding: 1.15rem;
+  }
+}

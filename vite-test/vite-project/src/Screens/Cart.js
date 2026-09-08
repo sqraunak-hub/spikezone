@@ -11,6 +11,7 @@ import PageTitle from "../Components/PageTitle";
 // page looked right, while opening /cart directly, or reloading on it, showed
 // an unstyled table with a default grey button.
 import "../Assets/CSS/cart.css";
+import ProductSuggestions from "../Components/ProductSuggestions";
 import useCartStore from "../store/cartStore";
 import { BsCheck } from "react-icons/bs";
 import axios from "axios";
@@ -94,8 +95,8 @@ export default function Cart() {
                       }
                     />
                   </td>
-                  <td>{cart.price}</td>
-                  <td>{cart.price * cart.quantity}</td>
+                  <td>Rs.{cart.price}/-</td>
+                  <td>Rs.{cart.price * cart.quantity}/-</td>
                   <td>
                     <Button
                       className="delete-btn"
@@ -119,7 +120,38 @@ export default function Cart() {
       <Container>
         <Row className="mt-3">
           <Col md={8} sm={7} xs={12}>
-            {" "}
+            {/* This column used to be an empty spacer, leaving half the row
+                blank next to the summary. */}
+            <ul className="cart-assurances">
+              <li>
+                <span className="cart-assurance-icon" aria-hidden="true">&#10003;</span>
+                <span>
+                  <strong>Humane by design</strong>
+                  Deters birds without harming them.
+                </span>
+              </li>
+              <li>
+                <span className="cart-assurance-icon" aria-hidden="true">&#10003;</span>
+                <span>
+                  <strong>Rust-free build</strong>
+                  Stainless steel and UV-stable polycarbonate.
+                </span>
+              </li>
+              <li>
+                <span className="cart-assurance-icon" aria-hidden="true">&#10003;</span>
+                <span>
+                  <strong>Easy installation</strong>
+                  Fits balconies, ledges, parapets and AC units.
+                </span>
+              </li>
+              <li>
+                <span className="cart-assurance-icon" aria-hidden="true">&#10003;</span>
+                <span>
+                  <strong>Need help choosing?</strong>
+                  <Link to="/contact">Get free sizing advice</Link> from our team.
+                </span>
+              </li>
+            </ul>
           </Col>
           <Col md={4} sm={5} xs={12}>
             {" "}
@@ -199,6 +231,8 @@ export default function Cart() {
             </div>
           </Col>
         </Row>
+
+        <ProductSuggestions />
       </Container>
     </>
   );

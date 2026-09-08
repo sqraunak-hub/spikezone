@@ -498,8 +498,14 @@
   flex-wrap: wrap;
   font-family: "Poppins", sans-serif;
 }
+/* The band is a dark gradient with color: #fff on it, but the theme's global
+   heading rule sets `color: var(--szc-ink)` on every h1-h6 - and that is more
+   specific than inheriting from the parent, so the heading came out near-black
+   on near-black. Both headings state their colour explicitly. */
+.sz-cta h2,
 .sz-cta h3 {
   margin: 0 0 0.3rem 0;
+  color: #fff;
   font-weight: 700;
   font-size: clamp(1.2rem, 2.5vw, 1.6rem);
 }
